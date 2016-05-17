@@ -73,57 +73,63 @@ public class ResourceLoader {
     }
 
     public void load() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                loading = true;
+                total.quantity = 0;
 
-        loading = true;
-        total.quantity = 0;
+                for (String k : resources.keySet()) {
 
-        for (String key : resources.keySet()) {
-            final List<String> val = resources.get(key);
-            for (String s : val) {
-                total.quantity++;
-            }
-        }
+                    groupState.quantity = 0;
 
-        for (String k : resources.keySet()) {
+                    final List<String> l = resources.get(k);
 
-            groupState.quantity = 0;
+                    update(percent, k, l.size(), groupState.quantity);
 
-            final List<String> l = resources.get(k);
+                    for (String s : l) {
+                        final FileHandle file = Gdx.files.internal(s);
+                        loadedResources.put(s, file);
 
-            update(percent, k, l.size(), groupState.quantity);
+                        if (k.equals("audio")) {
+                            loadedAudios.put(s, Gdx.audio.newSound(file));
+                        } else if (k.equals("sprites")) {
+                            loadedTextures.put(s, new Texture(file));
+                        }
+                        current.quantity++;
+                        total.quantity++;
+                    }
 
-            for (String s : l) {
-                final FileHandle file = Gdx.files.internal(s);
-                loadedResources.put(s, file);
+                    groupState.quantity++;
+                    int lPercent = ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
 
-                if (k.equals("audio")) {
-                    loadedAudios.put(s, Gdx.audio.newSound(file));
-                } else if (k.equals("sprites")) {
-                    loadedTextures.put(s, new Texture(file));
+                    if (lPercent != percent) {
+                        update(lPercent, k, l.size(), groupState.quantity);
+                        percent = lPercent;
+                    }
                 }
-                current.quantity++;
+
             }
 
-            groupState.quantity++;
-            int lPercent = ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+        };
 
-            if (lPercent != percent) {
-                update(lPercent, k, l.size(), groupState.quantity);
-                percent = lPercent;
-            }
-        }
-
-        int lPercent = total.quantity == 0 ? 100 : ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+        int lPercent = total.quantity == 0 ? 0 : ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
         update(lPercent, "Starting", 0, 0);
 
         loading = false;
         loaded = true;
 
+        t.start();
     }
 
-    private void update(int percent, String k, int groupQty, int groupState) {
+    private void update(final int percent, final String k, final int groupQty, final int groupState) {
         if (handler != null) {
-            handler.update(percent, k, groupQty, groupState);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    handler.update(percent, k, groupQty, groupState);
+                }
+            });
         }
     }
 
