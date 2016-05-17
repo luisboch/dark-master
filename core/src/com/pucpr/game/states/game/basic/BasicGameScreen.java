@@ -32,7 +32,7 @@ import com.pucpr.game.states.game.GameState;
 import com.pucpr.game.states.game.b2d.objects.B2Object;
 import com.pucpr.game.states.game.b2d.objects.Direction;
 import com.pucpr.game.states.game.b2d.objects.Player;
-import com.pupr.game.states.GameScreenState;
+import com.pucpr.game.states.GameScreenState;
 import java.util.ArrayList;
 import java.util.List;
 

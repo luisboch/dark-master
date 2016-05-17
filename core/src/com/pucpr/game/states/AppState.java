@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pupr.game.states;
+package com.pucpr.game.states;
 
 import com.pucpr.game.AppManager;
 

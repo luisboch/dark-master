@@ -7,7 +7,7 @@ package com.pucpr.game.states.game.basic;
 
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.GameState;
-import com.pupr.game.states.BasicAppState;
+import com.pucpr.game.states.BasicAppState;
 
 /**
  *

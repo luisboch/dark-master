@@ -6,8 +6,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.pucpr.game.resources.ResourceLoader;
 import com.pucpr.game.resources.SoundManager;
+import com.pucpr.game.states.AppState;
 import com.pucpr.game.states.startup.StartupState;
-import com.pupr.game.states.AppState;
 
 public class AppManager extends ApplicationAdapter {
 //	SpriteBatch batch;

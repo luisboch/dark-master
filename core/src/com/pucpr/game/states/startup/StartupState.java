@@ -11,11 +11,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.resources.ResourceLoader;
+import com.pucpr.game.states.AppState;
 import com.pucpr.game.states.menu.MenuState;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.pupr.game.states.AppState;
 import java.util.ArrayList;
 import java.util.List;
 

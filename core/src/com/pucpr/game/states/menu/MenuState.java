@@ -18,8 +18,8 @@ import com.pucpr.game.AppManager;
 import com.pucpr.game.states.game.GameState;
 import java.util.LinkedList;
 import java.util.List;
-import com.pupr.game.states.AppState;
-import com.pupr.game.states.AboutState;
+import com.pucpr.game.states.AboutState;
+import com.pucpr.game.states.AppState;
 
 public class MenuState implements AppState {
 

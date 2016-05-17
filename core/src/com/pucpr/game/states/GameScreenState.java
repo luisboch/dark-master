@@ -2,7 +2,7 @@
  * GameScreenState.class
  */
 
-package com.pupr.game.states;
+package com.pucpr.game.states;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
