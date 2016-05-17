@@ -12,14 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-<<<<<<< HEAD
-<<<<<<< HEAD:core/src/com/pupr/game/states/AboutState.java
-=======
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
->>>>>>> 2f5a1a8... changed path:core/src/com/pupr/game/states/AboutState.java
-=======
->>>>>>> c19b50f... basic conversation structure finished.
 import com.pucpr.game.AppManager;
 import com.pucpr.game.states.menu.MenuState;
 

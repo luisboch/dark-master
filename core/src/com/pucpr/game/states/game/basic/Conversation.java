@@ -5,10 +5,6 @@
  */
 package com.pucpr.game.states.game.basic;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c19b50f... basic conversation structure finished.
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,11 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-<<<<<<< HEAD
-=======
->>>>>>> 2f5a1a8... changed path
-=======
->>>>>>> c19b50f... basic conversation structure finished.
 import com.pucpr.game.states.game.b2d.objects.B2Object;
 import com.pucpr.game.states.game.b2d.objects.Player;
 import java.util.ArrayList;
@@ -36,10 +27,6 @@ import java.util.List;
  */
 public class Conversation {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c19b50f... basic conversation structure finished.
     private static final Conversation EMPTY = new Conversation(null, null);
 
     private final Player player;
@@ -63,7 +50,6 @@ public class Conversation {
      */
     private Long waitMessageWithoutMessage;
 
-<<<<<<< HEAD
     public Conversation(Player player, B2Object target) {
         this(player, target, null);
     }
@@ -218,175 +204,4 @@ public class Conversation {
         hideMessage();
         aborted = true;
     }
-=======
-    final Player player;
-    final B2Object target;
-    final List<Message> conversation = new ArrayList<Message>();
-    
-    final boolean aborted = false;
-    
-=======
->>>>>>> c19b50f... basic conversation structure finished.
-    public Conversation(Player player, B2Object target) {
-        this(player, target, null);
-    }
-
-    public Conversation(Player player, B2Object target, List<Message> messages) {
-        this(player, target, messages, 1000);
-    }
-
-    public Conversation(Player player, B2Object target, List<Message> messages, int timeBetweenMsg) {
-        this.player = player;
-        this.target = target;
-        this.timeBetweenMsg = timeBetweenMsg;
-
-        if (messages != null) {
-            this.conversation.addAll(messages);
-        }
-
-        /**
-         */
-    }
-
-    public void setSpriteBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
-    public void render() {
-        if (!aborted && !finished) {
-            if (waitMessageWithoutMessage != null) {
-                if ((System.currentTimeMillis() - waitMessageWithoutMessage) > timeBetweenMsg) {
-                    next();
-                    showMessage();
-                }
-            }
-            if (startedMessage != null) {
-                if (currentMessage.canStop() && (System.currentTimeMillis() - startedMessage) > currentMessage.getMilliseconds()) {
-                    hideMessage();
-                } else {
-
-//                    batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//                    batch.begin();
-//
-//                    ((Table) currentMessage.getActor()).draw(batch, 1);
-//                    batch.end();
-                }
-            }
-        }
-    }
-
-    public void addMessage(Message m) {
-
-        if (player == null) {
-            throw new IllegalStateException("This conversation is empty and read-only!");
-        }
-
-        this.conversation.add(m);
-    }
-
-    public void next() {
-        currentIndex++;
-        if (currentIndex < conversation.size()) {
-            currentMessage = conversation.get(currentIndex);
-        } else {
-            // finished
-            finished = true;
-            if (onFinish != null) {
-                onFinish.run();
-            }
-        }
-    }
-
-    public void hideMessage() {
-        startedMessage = null;
-        waitMessageWithoutMessage = System.currentTimeMillis();
-
-        final Container container = (Container) (currentMessage != null ? currentMessage.getActor() : null);
-
-        if (container != null) {
-            final Stage stage = info.getGameState().getStage();
-            stage.getActors().removeValue(container, true);
-            container.remove();
-        }
-
-    }
-
-    public void showMessage() {
-        if (!finished && !aborted) {
-            startedMessage = System.currentTimeMillis();
-            waitMessageWithoutMessage = null;
-            final Container container = new Container();
-            final Table table = new Table(info.getGameState().getManager().getSkin());
-            container.setActor(table);
-            container.setOrigin(Align.topLeft);
-            table.row().align(Align.left);
-
-            if (currentMessage.getImage() != null) {
-                final Texture img = currentMessage.getImage();
-                table.add(new Image(img)).center();
-            } else {
-                final TextButton button = new TextButton(currentMessage.getObject().getName(), table.getSkin());
-                button.setWidth(150);
-                table.add(button).left();
-                table.row().align(Align.left);
-            }
-
-            final TextButton button = new TextButton(currentMessage.getMessage(), table.getSkin());
-            button.setWidth(150);
-            table.add(button).left();
-
-            table.setWidth(150);
-            table.setHeight(100);
-            table.pad(0).defaults().expandX().space(0);
-            container.setDebug(true, true);
-            container.setWidth(250f);
-            container.setHeight(100f);
-            container.setX(Gdx.graphics.getWidth() / 2);
-
-            currentMessage.setActor(container);
-
-            final Stage stage = info.getGameState().getStage();
-            stage.addActor(container);
-        }
-    }
-
-    public void setInfo(ScreenInfo info) {
-        this.info = info;
-    }
-
-    public boolean isReadOnly() {
-        return player == null;
-    }
-
-    public void setOnFinish(Runnable onFinish) {
-        this.onFinish = onFinish;
-    }
-
-    void start() {
-        currentIndex++;
-        if (currentIndex < conversation.size()) {
-            currentMessage = conversation.get(currentIndex);
-            showMessage();
-        } else {
-            // finished
-            finished = true;
-            if (onFinish != null) {
-                onFinish.run();
-            }
-        }
-
-    }
-
-    public void abort() {
-        hideMessage();
-        aborted = true;
-    }
-<<<<<<< HEAD
-    
-    
-    
-    
->>>>>>> 2f5a1a8... changed path
-=======
->>>>>>> c19b50f... basic conversation structure finished.
 }

@@ -31,21 +31,11 @@ public class ResourceLoader {
 
     final Map<String, FileHandle> loadedResources = new HashMap();
     final Map<String, Sound> loadedAudios = new HashMap();
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
     final Map<String, Texture> loadedTextures = new HashMap();
-=======
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/resources/ResourceLoader.java
-=======
-    final Map<String, Texture> loadedTextures = new HashMap();
->>>>>>> 89e476d... added animmations to player.:core/src/com/mygdx/game/resources/ResourceLoader.java
 
     public ResourceLoader() {
         resources.put("skin", new ArrayList());
         resources.get("skin").add("data/uiskin.json");
-<<<<<<< HEAD
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-
         resources.put("sprites", new ArrayList<String>());
 
         // Player sprites
@@ -60,11 +50,6 @@ public class ResourceLoader {
 
         //Audios 
         resources.put("audio", new ArrayList());
-=======
-        
-=======
-
->>>>>>> c19b50f... basic conversation structure finished.
         resources.put("sprites", new ArrayList<String>());
 
         // Player sprites
@@ -79,11 +64,6 @@ public class ResourceLoader {
 
         //Audios 
         resources.put("audio", new ArrayList());
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-        
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/resources/ResourceLoader.java
-=======
->>>>>>> 89e476d... added animmations to player.:core/src/com/mygdx/game/resources/ResourceLoader.java
         resources.get("audio").add("data/audio/sfx/running/house.mp3");
         resources.get("audio").add("data/audio/sfx/running/gravel.mp3");
         resources.get("audio").add("data/audio/sfx/running/castle.mp3");
@@ -105,33 +85,10 @@ public class ResourceLoader {
         }
 
         for (String k : resources.keySet()) {
+
             groupState.quantity = 0;
+
             final List<String> l = resources.get(k);
-<<<<<<< HEAD
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-
-            update(percent, k, l.size(), groupState.quantity);
-
-=======
-            
-            update(percent, k, l.size(), groupState.quantity);
-            
->>>>>>> 89e476d... added animmations to player.:core/src/com/mygdx/game/resources/ResourceLoader.java
-            for (String s : l) {
-                final FileHandle file = Gdx.files.internal(s);
-                loadedResources.put(s, file);
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-
-                if (k.equals("audio")) {
-                    loadedAudios.put(s, Gdx.audio.newSound(file));
-                } else if (k.equals("sprites")) {
-                    loadedTextures.put(s, new Texture(file));
-                }
-
-=======
-                
-                if(k.equals("audio")){
-=======
 
             update(percent, k, l.size(), groupState.quantity);
 
@@ -140,25 +97,19 @@ public class ResourceLoader {
                 loadedResources.put(s, file);
 
                 if (k.equals("audio")) {
->>>>>>> c19b50f... basic conversation structure finished.
                     loadedAudios.put(s, Gdx.audio.newSound(file));
                 } else if (k.equals("sprites")) {
                     loadedTextures.put(s, new Texture(file));
                 }
-<<<<<<< HEAD
-                
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/resources/ResourceLoader.java
-=======
-
->>>>>>> c19b50f... basic conversation structure finished.
                 current.quantity++;
-                groupState.quantity++;
-                int lPercent = ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+            }
 
-                if (lPercent != percent) {
-                    update(lPercent, k, l.size(), groupState.quantity);
-                    percent = lPercent;
-                }
+            groupState.quantity++;
+            int lPercent = ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+
+            if (lPercent != percent) {
+                update(lPercent, k, l.size(), groupState.quantity);
+                percent = lPercent;
             }
         }
 
@@ -213,37 +164,6 @@ public class ResourceLoader {
     public Map<String, FileHandle> getLoadedResources() {
         return loadedResources;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-
-    public Sound getSound(String key) {
-        return loadedAudios.get(key);
-    }
-
-=======
-    
-    public Sound getSound(String key){
-        return loadedAudios.get(key);
-    }
-    
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/resources/ResourceLoader.java
-    public Object getResource(String key) {
-        return getLoadedResources().get(key);
-    }
-<<<<<<< HEAD:core/src/com/pucpr/game/resources/ResourceLoader.java
-
-    public Texture getTexture(String key) {
-        return loadedTextures.get(key);
-    }
-=======
-    
-    public Texture getTexture(String key){
-        return loadedTextures.get(key);
-    }
-    
-    
->>>>>>> 89e476d... added animmations to player.:core/src/com/mygdx/game/resources/ResourceLoader.java
-=======
 
     public Sound getSound(String key) {
         return loadedAudios.get(key);
@@ -256,6 +176,4 @@ public class ResourceLoader {
     public Texture getTexture(String key) {
         return loadedTextures.get(key);
     }
->>>>>>> c19b50f... basic conversation structure finished.
-
 }

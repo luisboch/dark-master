@@ -172,11 +172,13 @@ public class Tutorial extends AnimatedObject {
         if (!status.is(Keys.SWORD_TAKED)) {
 
             final Conversation conversation = new Conversation(player, this);
+            
+            conversation.addMessage(new Message(player, "Ola!", 2000));
+            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?", 2000));
+            conversation.addMessage(new Message(player, "Sim, claro!", 2000));
+            conversation.addMessage(new Message(player, "O que preciso fazer?", 2000));
+
             conversation.addMessage(
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5339b41... basic conversation structure finished.
                     new Message(this, "Voce deve pegar a espada para \n"
                             + "iniciarmos seu treinamento!", new Message.StopValidator() {
                         @Override
@@ -187,36 +189,17 @@ public class Tutorial extends AnimatedObject {
 
             conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
 
-<<<<<<< HEAD
             return conversation;
         } else {
             final Conversation conversation = new Conversation(player, this, null, 1000);
             conversation.addMessage(new Message(this, "Legal, voce pegou "));
             conversation.addMessage(new Message(player, "Voce vai me ensinar?"));
             conversation.addMessage(new Message(this, "Claro...", 1000));
+
             conversation.addMessage(new Message(player,
-                    "Claro, vamos iniciar, \nvocê precisa bater caixa. \n"
-=======
-                    new Message(this, null, "Você deve pegar a espada para \n"
-                            + "iniciarmos seu treinamento!"));
-            conversation.addMessage(new Message(player, "Ok...", 2000));
-=======
->>>>>>> 5339b41... basic conversation structure finished.
-            return conversation;
-        } else {
-            final Conversation conversation = new Conversation(player, this, null, 1000);
-            conversation.addMessage(new Message(this, "Legal, voce pegou "));
-            conversation.addMessage(new Message(player, "Voce vai me ensinar?"));
-            conversation.addMessage(new Message(this, "Claro...", 1000));
-            conversation.addMessage(new Message(player,
-<<<<<<< HEAD
-                    "Sim, pra começar, você precisa bater caixa. \n"
->>>>>>> c19b50f... basic conversation structure finished.
-=======
-                    "Claro, vamos iniciar, \nvocê precisa bater caixa. \n"
->>>>>>> 5339b41... basic conversation structure finished.
-                    + "Para isso, vá até ela e use \n"
-                    + "sua recém adquirida espada!", new Message.StopValidator() {
+                    "Claro, vamos iniciar, \nvoce precisa bater caixa. \n"
+                    + "Para isso, va ate ela e use \n"
+                    + "sua recem adquirida espada!", new Message.StopValidator() {
                 @Override
                 public boolean canStop() {
                     return status.is(Keys.SIMPLE_HIT_TEST);

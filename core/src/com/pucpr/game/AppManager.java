@@ -4,23 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-<<<<<<< HEAD:core/src/com/pucpr/game/AppManager.java
-<<<<<<< HEAD:core/src/com/pucpr/game/AppManager.java
-=======
->>>>>>> 2f5a1a8... changed path:core/src/com/pucpr/game/AppManager.java
 import com.pucpr.game.resources.ResourceLoader;
 import com.pucpr.game.resources.SoundManager;
 import com.pucpr.game.states.startup.StartupState;
 import com.pupr.game.states.AppState;
-<<<<<<< HEAD:core/src/com/pucpr/game/AppManager.java
-=======
-import com.mygdx.game.resources.ResourceLoader;
-import com.mygdx.game.resources.SoundManager;
-import com.mygdx.game.states.startup.StartupState;
-import com.mygdx.game.states.AppState;
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/AppManager.java
-=======
->>>>>>> 2f5a1a8... changed path:core/src/com/pucpr/game/AppManager.java
 
 public class AppManager extends ApplicationAdapter {
 //	SpriteBatch batch;

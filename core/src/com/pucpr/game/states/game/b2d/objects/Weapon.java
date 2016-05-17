@@ -36,14 +36,7 @@ public class Weapon extends B2Object {
         box2dBody.createFixture(pol, 1);
         pol.dispose();
         box2dBody.setBullet(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
         box2dBody.setAwake(false);
-=======
->>>>>>> c19b50f... basic conversation structure finished.
-=======
-        box2dBody.setAwake(false);
->>>>>>> 5339b41... basic conversation structure finished.
         
         loadAnimation();
     }

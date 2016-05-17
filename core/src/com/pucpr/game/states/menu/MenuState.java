@@ -18,19 +18,8 @@ import com.pucpr.game.AppManager;
 import com.pucpr.game.states.game.GameState;
 import java.util.LinkedList;
 import java.util.List;
-<<<<<<< HEAD:core/src/com/pucpr/game/states/menu/MenuState.java
-<<<<<<< HEAD:core/src/com/pucpr/game/states/menu/MenuState.java
 import com.pupr.game.states.AppState;
 import com.pupr.game.states.AboutState;
-=======
-import com.mygdx.game.states.AppState;
-import com.mygdx.game.states.game.GameState;
-import com.mygdx.game.states.game.basic.BasicGameScreen;
->>>>>>> 757b79b... Improved class structure and fixed some movimentation bugs...:core/src/com/mygdx/game/states/menu/MenuState.java
-=======
-import com.pupr.game.states.AppState;
-import com.pupr.game.states.AboutState;
->>>>>>> 2f5a1a8... changed path:core/src/com/pucpr/game/states/menu/MenuState.java
 
 public class MenuState implements AppState {
 
