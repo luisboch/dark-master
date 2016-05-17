@@ -87,14 +87,26 @@ public class ResourceLoader {
 
                     update(percent, k, l.size(), groupState.quantity);
 
-                    for (String s : l) {
+                    for (final String s : l) {
                         final FileHandle file = Gdx.files.internal(s);
                         loadedResources.put(s, file);
 
                         if (k.equals("audio")) {
-                            loadedAudios.put(s, Gdx.audio.newSound(file));
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadedAudios.put(s, Gdx.audio.newSound(file));
+                                }
+                            });
                         } else if (k.equals("sprites")) {
-                            loadedTextures.put(s, new Texture(file));
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadedTextures.put(s, new Texture(file));
+                                }
+                            });
                         }
                         current.quantity++;
                         total.quantity++;

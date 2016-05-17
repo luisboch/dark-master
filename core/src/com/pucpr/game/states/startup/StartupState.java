@@ -52,10 +52,13 @@ public class StartupState implements AppState, ResourceLoader.Handler {
             Gdx.gl.glClearColor(0, 0, 0.2f, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            batch.begin();
-            font.draw(batch, percent + "%", 100, 150);
-            font.draw(batch, updateString, 100, 100);
-            batch.end();
+            if (updateString != null) {
+                batch.begin();
+                font.draw(batch, percent + "%", 100, 150);
+                font.draw(batch, updateString, 100, 100);
+                batch.end();
+            }
+            
             changed = false;
         }
     }
