@@ -174,7 +174,7 @@ public class Tutorial extends AnimatedObject {
             final Conversation conversation = new Conversation(player, this);
             
             conversation.addMessage(new Message(player, "Ola!", 2000));
-            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?", 2000));
+            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?"));
             conversation.addMessage(new Message(player, "Sim, claro!", 2000));
             conversation.addMessage(new Message(player, "O que preciso fazer?", 2000));
 

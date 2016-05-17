@@ -22,6 +22,7 @@ public class Home extends BasicGameScreen {
 
     @Override
     protected void createBoxes() {
+        
         for (int i = 0; i < 5; i++) {
             final Box box = new Box(world, manager);
             Vector2 position = box.getBox2dBody().getPosition();

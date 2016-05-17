@@ -36,20 +36,7 @@ public class ResourceLoader {
     public ResourceLoader() {
         resources.put("skin", new ArrayList());
         resources.get("skin").add("data/uiskin.json");
-        resources.put("sprites", new ArrayList<String>());
 
-        // Player sprites
-//        resources.get("sprites").add("data/images/sprites/RPG Fantasy/simple.png");
-//        resources.get("sprites").add("data/images/sprites/tales of phantasia/ArcheKlaineOW.png");
-        resources.get("sprites").add("data/images/sprites/tales of phantasia/ClessAlveinOW-otm.png");
-        resources.get("sprites").add("data/images/sprites/tales of phantasia/Weapons.png");
-//        resources.get("sprites").add("data/images/sprites/tales of phantasia/ChesterBarklightOW.png");
-//        resources.get("sprites").add("data/images/sprites/tales of phantasia/SoE_Rat.png");
-//        resources.get("sprites").add("data/images/sprites/tales of phantasia/SOItems.png");
-        resources.get("sprites").add("data/images/sprites/tales of phantasia/SO_VelcantBoss-otm.png");
-
-        //Audios 
-        resources.put("audio", new ArrayList());
         resources.put("sprites", new ArrayList<String>());
 
         // Player sprites
