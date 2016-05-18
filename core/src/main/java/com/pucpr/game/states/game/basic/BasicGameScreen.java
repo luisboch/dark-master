@@ -171,7 +171,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             Vector2 position = box.getPosition(); // that's the box's center position
 
-            float angle = obj.getAngle() == null ? MathUtils.radiansToDegrees * box.getAngle() : obj.getAngle();
+            float angle = obj.getAngle() != null ? MathUtils.radiansToDegrees * obj.getAngle() : 0;
 
             batch.draw(obj.getTextureRegion(), position.x - 1, position.y - 1, // the bottom left corner of the box, unrotated
                     1f, 1f, // the rotation center relative to the bottom left corner of the box
@@ -188,7 +188,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private void renderDebug() {
 
         debugRenderer.render(world, camera.combined);
-
+        
         renderer.begin(ShapeType.Point);
 
         renderer.setColor(0, 1, 0, 1);
@@ -208,8 +208,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 }
             }
         }
-
-        renderer.end();
     }
 
     private void calculate() {

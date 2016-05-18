@@ -17,19 +17,21 @@ import com.pucpr.game.states.game.basic.Conversation;
  * @author luis
  */
 public abstract class B2Object {
+
     private Action action;
     protected String name;
     protected Body box2dBody;
     protected World world;
     protected AppManager manager;
+
     protected abstract void create();
 
     protected void init(World world, AppManager manager) {
         this.world = world;
         this.manager = manager;
-        
+
         create();
-        
+
         if (this.box2dBody != null) {
             this.box2dBody.setUserData(this);
         }
@@ -67,14 +69,13 @@ public abstract class B2Object {
     public float getScale() {
         return GameConfig.GAME_SCALE;
     }
-    
+
     public Conversation contact(Player player) {
         return null;
     }
 
-    
-    public void tick(){
-        
+    public void tick() {
+
     }
 
     public Action getAction() {
@@ -84,9 +85,9 @@ public abstract class B2Object {
     public void setAction(Action action) {
         this.action = action;
     }
-    
-    
+
     public static interface Action {
+
         void doAction();
     }
 }

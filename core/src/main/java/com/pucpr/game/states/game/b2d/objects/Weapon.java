@@ -29,7 +29,8 @@ public class Weapon extends B2Object {
         final BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
         box2dBody = world.createBody(def);
-        box2dBody.setLinearDamping(1.5f);
+        box2dBody.setLinearDamping(3.5f);
+        box2dBody.setAngularDamping(3.5f);
 
         final PolygonShape pol = new PolygonShape();
         pol.setAsBox(0.2f, 0.8f);

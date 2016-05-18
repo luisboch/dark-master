@@ -126,6 +126,13 @@ public class Player extends AnimatedObject {
         return textureScale;
     }
 
+    @Override
+    public Float getAngle() {
+        return 0f;
+    }
+    
+    
+
     public boolean isRunning() {
         return running;
     }
