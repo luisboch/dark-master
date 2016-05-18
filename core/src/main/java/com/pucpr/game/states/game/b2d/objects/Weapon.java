@@ -21,13 +21,13 @@ public class Weapon extends B2Object {
     private TextureRegion texture;
     
     public Weapon(World world, AppManager manager) {
-        super(world, manager);
+        init(world, manager);
     }
 
     @Override
     protected void create() {
         final BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.StaticBody;
+        def.type = BodyDef.BodyType.DynamicBody;
         box2dBody = world.createBody(def);
         box2dBody.setLinearDamping(1.5f);
 

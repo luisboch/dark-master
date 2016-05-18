@@ -11,15 +11,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pucpr.game.AppManager;
-import com.pucpr.game.GameConfig;
-import com.pucpr.game.Keys;
-import com.pucpr.game.PlayerStatus;
-import com.pucpr.game.states.game.basic.Conversation;
-import com.pucpr.game.states.game.basic.Message;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,27 +20,23 @@ import java.util.Map;
  *
  * @author luis
  */
-public class Tutorial extends AnimatedObject {
+public class Player extends AnimatedObject {
 
-    private static final int FRAME_COLS = 8;         // Sprite sheet columns size;
-    private static final int FRAME_ROWS = 5;         // Sprite shet rows size;
+    private static final int FRAME_COLS = 19;         // Sprite sheet columns size;
+    private static final int FRAME_ROWS = 4;         // Sprite shet rows size;
 
-    private static final float textureWidth = 65f;
-    private static final float textureHeight = 90f;
+    private static final float textureWidth = 25f;
+    private static final float textureHeight = 40f;
 
     private boolean running = false;
-    private boolean walking = false;
     private boolean inConversation = false;
 
-    private static float textureScale = 1.5f;
+    private static float textureScale = 1f;
 
     SpriteBatch spriteBatch;            // #6
     TextureRegion currentFrame;           // #7
 
-    float stateTime;                                        // #8
-
-    private Fixture playerPhysicsFixture;
-    private Fixture playerSensorFixture;
+    float stateTime;
 
     private Map<Direction, Animation> walkAnimation;
     private Map<Direction, Animation> runningAnimation;
@@ -63,9 +52,14 @@ public class Tutorial extends AnimatedObject {
         this.direction = direction;
     }
 
-    public Tutorial(World world, AppManager manager) {
-        super(world, manager);
-        name = "Professor";
+    public Player(World world, AppManager manager) {
+        init(world, manager);
+        name = "Player";
+    }
+
+    @Override
+    protected void create() {
+        super.create(0.5f, false, null, BodyDef.BodyType.DynamicBody);
     }
 
     @Override
@@ -86,23 +80,13 @@ public class Tutorial extends AnimatedObject {
     }
 
     @Override
-    public Float getAngle() {
-        return 0f;
-    }
-
-    @Override
-    protected void create() {
-        super.create(0.5f, false, 1.5f, 10, 20, BodyDef.BodyType.StaticBody);
-    }
-
-    @Override
     protected void loadAnimation() {
         runningAnimation = new EnumMap<Direction, Animation>(Direction.class);
         walkAnimation = new EnumMap<Direction, Animation>(Direction.class);
         waitingAnimation = new EnumMap<Direction, Animation>(Direction.class);
 
         final Texture sheet = manager.getResourceLoader().
-                getTexture("data/images/sprites/tales of phantasia/SO_VelcantBoss-otm.png"); // #9
+                getTexture("data/images/sprites/tales of phantasia/ClessAlveinOW-otm.png"); // #9
 
         final float walkVelocity = 1f;
         final float runningVelocity = 0.2f;
@@ -120,9 +104,9 @@ public class Tutorial extends AnimatedObject {
         waitingAnimation.put(Direction.UP, new Animation(01f, staticUpFrames));
 
         final TextureRegion[] moveDownFrames = new TextureRegion[]{allFrames[0][0], allFrames[0][1], allFrames[0][2]};
-        final TextureRegion[] moveUpFrames = new TextureRegion[]{allFrames[1][0], allFrames[1][1], allFrames[1][2]};
-        final TextureRegion[] moveRightFrames = new TextureRegion[]{allFrames[1][4], allFrames[1][5], allFrames[1][6]};
-        final TextureRegion[] moveLeftFrames = new TextureRegion[]{allFrames[2][0], allFrames[2][1], allFrames[2][2]};
+        final TextureRegion[] moveRightFrames = new TextureRegion[]{allFrames[3][0], allFrames[3][1], allFrames[3][2]};
+        final TextureRegion[] moveLeftFrames = new TextureRegion[]{allFrames[0][3], allFrames[0][4], allFrames[0][5]};
+        final TextureRegion[] moveUpFrames = new TextureRegion[]{allFrames[0][6], allFrames[0][7], allFrames[0][8]};
 
         walkAnimation.put(Direction.DOWN, new Animation(walkVelocity, moveDownFrames));
         walkAnimation.put(Direction.RIGHT, new Animation(walkVelocity, moveRightFrames));
@@ -151,67 +135,22 @@ public class Tutorial extends AnimatedObject {
         this.walking = false;
     }
 
-    @Override
-    public boolean isWalking() {
-        return walking;
-    }
-
-    /**
-     *
-     * @param walking
-     */
-    @Override
     public void setWalking(boolean walking) {
         this.walking = walking;
         this.running = false;
     }
 
+    public boolean isInConversation() {
+        return inConversation;
+    }
+
+    public void setInConversation(boolean inConversation) {
+        this.inConversation = inConversation;
+    }
+
     @Override
-    public Conversation contact(Player player) {
-        final PlayerStatus status = PlayerStatus.getInstance();
-        if (!status.is(Keys.SWORD_TAKED)) {
-
-            final Conversation conversation = new Conversation(player, this);
-            
-            conversation.addMessage(new Message(player, "Ola!", 2000));
-            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?"));
-            conversation.addMessage(new Message(player, "Sim, claro!", 2000));
-            conversation.addMessage(new Message(player, "O que preciso fazer?", 2000));
-
-            conversation.addMessage(
-                    new Message(this, "Voce deve pegar a espada para \n"
-                            + "iniciarmos seu treinamento!", new Message.StopValidator() {
-                        @Override
-                        public boolean canStop() {
-                            return status.is(Keys.SWORD_TAKED);
-                        }
-                    }));
-
-            conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
-
-            return conversation;
-        } else {
-            final Conversation conversation = new Conversation(player, this, null, 1000);
-            conversation.addMessage(new Message(this, "Legal, voce pegou "));
-            conversation.addMessage(new Message(player, "Voce vai me ensinar?"));
-            conversation.addMessage(new Message(this, "Claro...", 1000));
-
-            conversation.addMessage(new Message(player,
-                    "Claro, vamos iniciar, \nvoce precisa bater caixa. \n"
-                    + "Para isso, va ate ela e use \n"
-                    + "sua recem adquirida espada!", new Message.StopValidator() {
-                @Override
-                public boolean canStop() {
-                    return status.is(Keys.SIMPLE_HIT_TEST);
-                }
-            }));
-
-            conversation.addMessage(new Message(this, "Legal, você conseguiu!", 2000));
-            conversation.addMessage(new Message(this, "Agora podemos lutar!", 2000));
-
-            return conversation;
-
-        }
+    public void tick() {
+        // Ignored so far..
     }
 
 }

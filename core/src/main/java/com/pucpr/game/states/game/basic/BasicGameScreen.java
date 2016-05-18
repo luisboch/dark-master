@@ -58,6 +58,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private BitmapFont font;
     private Stage stage;
     private B2Object playerContact;
+    private Long startHit = null;
 
     /**
      * box2d debug renderer *
@@ -134,8 +135,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final Player pl = new Player(world, manager);
         final Vector2 pos = pl.getBox2dBody().getPosition();
 
-        pos.x = Gdx.graphics.getWidth() / 2;
-        pos.y = Gdx.graphics.getHeight() / 2;
+        pos.x++;
+        pos.y++;
+        pl.getBox2dBody().setTransform(pos, 0);
+        
         this.player = pl;
         this.objects.add(pl);
     }
@@ -380,6 +383,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     @Override
     public boolean keyDown(int keycode) {
 
+        if (keycode == Input.Keys.SPACE) {
+            startHit = System.currentTimeMillis();
+        }
+
         return true;
     }
 
@@ -388,21 +395,24 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (keycode == Input.Keys.ENTER) {
             if (playerContact != null) {
                 final Conversation converstation = playerContact.contact(player);
-                
+
                 if (playerContact.getAction() != null) {
                     playerContact.getAction().doAction();
                 }
-                
+
                 if (converstation != null) {
-                    
-                    if(gameState.getScreenInfo().getConversation() != null){
+
+                    if (gameState.getScreenInfo().getConversation() != null) {
                         gameState.getScreenInfo().getConversation().abort();
                     }
-                    
+
                     gameState.getScreenInfo().setConversation(converstation);
                 }
             }
+        } else if (keycode == Input.Keys.SPACE) {
+            hit();
         }
+
         return true;
     }
 
@@ -462,6 +472,12 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond() + " update time: " + updateTime, 0, 10);
 
         batch.end();
+    }
+
+    private void hit() {
+        Long loaded = System.currentTimeMillis() - startHit;
+        float force = loaded > 3000 ? 1f : (loaded.floatValue() / 3000f);
+        System.out.println("HIT! WITH " + force + " of power");
     }
 
 }

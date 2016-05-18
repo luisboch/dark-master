@@ -20,11 +20,11 @@ public abstract class B2Object {
     private Action action;
     protected String name;
     protected Body box2dBody;
-    protected final World world;
-    protected final AppManager manager;
+    protected World world;
+    protected AppManager manager;
     protected abstract void create();
 
-    public B2Object(World world, AppManager manager) {
+    protected void init(World world, AppManager manager) {
         this.world = world;
         this.manager = manager;
         

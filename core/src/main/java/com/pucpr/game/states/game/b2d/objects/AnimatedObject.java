@@ -20,16 +20,13 @@ public abstract class AnimatedObject extends B2Object {
     protected boolean walking = false;
     private static final float linearVelReg = 10;
 
-    public AnimatedObject(World world, AppManager manager) {
-        super(world, manager);
-    }
 
     @Override
     public Float getAngle() {
         return 0f;
     }
 
-    protected void create(float radius, boolean bullet, Float linearDamping, float x, float y, BodyDef.BodyType bodyType) {
+    protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType) {
         BodyDef def = new BodyDef();
         def.type = bodyType == null ? BodyDef.BodyType.DynamicBody : bodyType;
         box2dBody = world.createBody(def);
