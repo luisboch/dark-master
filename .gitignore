@@ -16,3 +16,4 @@ hs_err_pid*
 /html/build/
 /build/
 /.nb-gradle/
+/.gradle/
