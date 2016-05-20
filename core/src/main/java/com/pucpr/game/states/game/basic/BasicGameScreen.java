@@ -33,6 +33,7 @@ import com.pucpr.game.states.game.b2d.objects.B2Object;
 import com.pucpr.game.states.game.b2d.objects.Direction;
 import com.pucpr.game.states.game.b2d.objects.Player;
 import com.pucpr.game.states.GameScreenState;
+import com.pucpr.game.states.game.b2d.objects.Weapon;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private BitmapFont font;
     private Stage stage;
     private B2Object playerContact;
-    private Long startHit = null;
+    private Long creatingHit = null;
+    private Long startingHit = null;
 
     /**
      * box2d debug renderer *
@@ -138,7 +140,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         pos.x++;
         pos.y++;
         pl.getBox2dBody().setTransform(pos, 0);
-        
+
         this.player = pl;
         this.objects.add(pl);
     }
@@ -157,6 +159,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         } else {
             renderDebug();
         }
+
     }
 
     private void renderApp() {
@@ -188,7 +191,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private void renderDebug() {
 
         debugRenderer.render(world, camera.combined);
-        
+
         renderer.begin(ShapeType.Point);
 
         renderer.setColor(0, 1, 0, 1);
@@ -382,7 +385,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     public boolean keyDown(int keycode) {
 
         if (keycode == Input.Keys.SPACE) {
-            startHit = System.currentTimeMillis();
+            creatingHit = System.currentTimeMillis();
         }
 
         return true;
@@ -473,9 +476,35 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void hit() {
-        Long loaded = System.currentTimeMillis() - startHit;
-        float force = loaded > 3000 ? 1f : (loaded.floatValue() / 3000f);
+
+        startingHit = System.currentTimeMillis() - creatingHit;
+        float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
         System.out.println("HIT! WITH " + force + " of power");
+
+        final Weapon weapon = new Weapon(world, manager);
+
+        final Vector2 pos = player.getBox2dBody().getPosition();
+        float angle = 0;
+        final float fixPos = 1f;
+        if (player.getDirection() == Direction.LEFT) {
+            pos.x -= fixPos;
+            angle = 3.5f;
+        } else if (player.getDirection() == Direction.RIGHT) {
+            pos.x += fixPos;
+            angle = 1.5f;
+        } else if (player.getDirection() == Direction.DOWN) {
+            pos.x += fixPos;
+            angle = 2.5f;
+        } else if (player.getDirection() == Direction.UP) {
+            pos.x -= fixPos;
+            angle = 0.5f;
+        }
+
+        weapon.setPos(pos, angle * 90 * MathUtils.degRad);
+        weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
+
+        objects.add(weapon);
+
     }
 
 }

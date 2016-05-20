@@ -6,6 +6,7 @@
 package com.pucpr.game.states.game.b2d.objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pucpr.game.AppManager;
@@ -84,6 +85,19 @@ public abstract class B2Object {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public void setPos(float x, float y) {
+        final Vector2 pos = new Vector2(x, y);
+        getBox2dBody().setTransform(pos, 0);
+    }
+
+    public void setPos(Vector2 pos) {
+        setPos(pos, 0);
+    }
+
+    public void setPos(Vector2 pos, float angle) {
+        getBox2dBody().setTransform(pos, angle);
     }
 
     public static interface Action {

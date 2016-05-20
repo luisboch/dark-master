@@ -22,7 +22,7 @@ import com.pucpr.game.states.game.basic.BasicGameScreen;
  *
  * @author luis
  */
-public class Home extends BasicGameScreen {
+public class TutorialScreen extends BasicGameScreen {
 
     @Override
     protected void createBoxes() {

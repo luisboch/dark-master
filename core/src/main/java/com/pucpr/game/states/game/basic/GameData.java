@@ -6,7 +6,7 @@
 package com.pucpr.game.states.game.basic;
 
 import com.pucpr.game.PlayerStatus;
-import com.pucpr.game.states.game.locations.Home;
+import com.pucpr.game.states.game.locations.TutorialScreen;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class GameData {
     private final Map<String, Object> data = new HashMap<String, Object>();
 
     public GameData() {
-        data.put("game.current.screen", Home.class.getCanonicalName());
+        data.put("game.current.screen", TutorialScreen.class.getCanonicalName());
         data.put("game.player.status", PlayerStatus.getInstance());
     }
 
