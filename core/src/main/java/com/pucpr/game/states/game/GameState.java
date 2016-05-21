@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.pucpr.game.AppManager;
+import com.pucpr.game.GameConfig;
 import com.pucpr.game.states.AppState;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 import com.pucpr.game.states.game.basic.GameData;
@@ -28,21 +29,34 @@ public class GameState implements AppState {
     private ScreenInfo screenInfo;
     private GameData gameData;
     private Stage stage = new Stage();
+    private int slowVelocityCtrl = 0;
 
     public void render() {
+        final boolean skipFrame = GameConfig.skipFrames ? slowVelocityCtrl != GameConfig.skipFramesQty : false;
 
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        if (screen != null) {
-            screen.render();
-        }
-
-        if (screenInfo != null) {
-            screenInfo.render();
+        if (GameConfig.skipFrames) {
+            if (slowVelocityCtrl == GameConfig.skipFramesQty) {
+                slowVelocityCtrl = -1;
+            }
+            
+            slowVelocityCtrl++;
         }
 
         stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+
+        if (!skipFrame) {
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            if (screen != null) {
+                screen.render();
+            }
+
+            if (screenInfo != null) {
+                screenInfo.render();
+            }
+
+            stage.draw();
+        }
     }
 
     @Override

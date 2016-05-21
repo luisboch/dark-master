@@ -6,6 +6,7 @@
 package com.pucpr.game.states.game.locations;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.pucpr.game.Keys;
 import com.pucpr.game.NumberUtils;
 import com.pucpr.game.PlayerStatus;
@@ -52,7 +53,7 @@ public class TutorialScreen extends BasicGameScreen {
         t.getBox2dBody().setTransform(pos, 0);
         objects.add(t);
 
-        final Weapon w = new Weapon(world, manager);
+        final Weapon w = new Weapon(world, manager, BodyDef.BodyType.StaticBody);
         Vector2 wPos = w.getBox2dBody().getPosition();
         wPos.set(-20, -16);
         w.getBox2dBody().setTransform(wPos, 0);
@@ -64,6 +65,7 @@ public class TutorialScreen extends BasicGameScreen {
                 PlayerStatus.getInstance().set(Keys.SWORD_TAKED, true);
             }
         });
+        
         
         objects.add(w);
     }

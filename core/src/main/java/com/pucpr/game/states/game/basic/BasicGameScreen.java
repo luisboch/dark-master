@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pucpr.game.states.game.basic;
 
 import com.badlogic.gdx.Gdx;
@@ -21,13 +16,17 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
+import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
+import com.pucpr.game.Keys;
+import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.GameState;
 import com.pucpr.game.states.game.b2d.objects.B2Object;
 import com.pucpr.game.states.game.b2d.objects.Direction;
@@ -73,9 +72,17 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     protected World world;
 
     /**
-     * our boxes *
+     * our itens (used to write on screen) *
      */
-    protected final List<B2Object> objects = new ArrayList<B2Object>();
+    protected final List<B2Object> objects = new ArrayList();
+
+    /**
+     * Nossas armas (adicionadas na lista "objects" também). Esta lista é
+     * temporária, caso o objeto complete sua ação, é removido do "mundo" box2d
+     * e da tela.
+     *
+     */
+    protected final List<Weapon> weapons = new ArrayList();
 
     /**
      * our ground box *
@@ -137,8 +144,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final Player pl = new Player(world, manager);
         final Vector2 pos = pl.getBox2dBody().getPosition();
 
-        pos.x++;
-        pos.y++;
+        pos.x += 4;
+        pos.y += 4;
         pl.getBox2dBody().setTransform(pos, 0);
 
         this.player = pl;
@@ -216,8 +223,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private void calculate() {
         // cap max velocity on x
         final Vector2 vel = player.getBox2dBody().getLinearVelocity();
-
-        Vector2 pos = player.getBox2dBody().getPosition();
 
         if (Math.abs(vel.x) > MAX_VELOCITY) {
             vel.x = Math.signum(vel.x) * MAX_VELOCITY;
@@ -329,12 +334,15 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 }
             }
         }
-        player.setDirection(playerDirection);
-        camera.position.set(player.getBox2dBody().getPosition().x, player.getBox2dBody().getPosition().y, 0);
+
+        calculateBullets();
 
         for (B2Object ob : objects) {
             ob.tick();
         }
+
+        player.setDirection(playerDirection);
+        camera.position.set(player.getBox2dBody().getPosition().x, player.getBox2dBody().getPosition().y, 0);
 
         camera.update();
     }
@@ -476,35 +484,70 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void hit() {
+        if (PlayerStatus.isKey(Keys.SWORD_TAKED) && player.getCurrentWeapon() == null) {
+            startingHit = System.currentTimeMillis() - creatingHit;
+            float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
+            force = force < 1 ? 0.1f : force;
 
-        startingHit = System.currentTimeMillis() - creatingHit;
-        float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
-        System.out.println("HIT! WITH " + force + " of power");
+            System.out.println("HIT! WITH " + force + " of power");
 
-        final Weapon weapon = new Weapon(world, manager);
+            final Weapon weapon = new Weapon(world, manager);
 
-        final Vector2 pos = player.getBox2dBody().getPosition();
-        float angle = 0;
-        final float fixPos = 1f;
-        if (player.getDirection() == Direction.LEFT) {
-            pos.x -= fixPos;
-            angle = 3.5f;
-        } else if (player.getDirection() == Direction.RIGHT) {
-            pos.x += fixPos;
-            angle = 1.5f;
-        } else if (player.getDirection() == Direction.DOWN) {
-            pos.x += fixPos;
-            angle = 2.5f;
-        } else if (player.getDirection() == Direction.UP) {
-            pos.x -= fixPos;
-            angle = 0.5f;
+            final Vector2 pos = player.getBox2dBody().getPosition();
+            float angle = 0;
+            final float fixPos = 1f;
+
+            if (player.getDirection() == Direction.LEFT) {
+                pos.x -= fixPos;
+                angle = 2.3f;
+            } else if (player.getDirection() == Direction.RIGHT) {
+                pos.x += fixPos;
+                angle = 1.7f;
+                force = -force;
+            } else if (player.getDirection() == Direction.UP) {
+                pos.y += fixPos;
+                angle = 1.3f;
+            } else if (player.getDirection() == Direction.DOWN) {
+                pos.y -= fixPos;
+                angle = 3.3f;
+            }
+
+            final float startAngle = angle * 90 * MathUtils.degRad;
+
+            weapon.setPos(pos, startAngle);
+            weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
+            weapon.setStartHitAngle(startAngle);
+
+            objects.add(weapon);
+            weapons.add(weapon);
+            player.setCurrentWeapon(weapon);
+//            final FrictionJointDef def = new FrictionJointDef();
+//            def.bodyA = player.getBox2dBody();
+//            def.bodyB = weapon.getBox2dBody();
+//            def.type = JointDef.JointType.FrictionJoint;
+//            def.
+//            world.createJoint(def);
         }
-
-        weapon.setPos(pos, angle * 90 * MathUtils.degRad);
-        weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
-
-        objects.add(weapon);
-
     }
 
+    private void calculateBullets() {
+
+        final List<Weapon> toRemove = new ArrayList();
+
+        for (Weapon a : weapons) {
+            if (a.isComplete()) {
+                toRemove.add(a);
+            }
+        }
+
+        objects.removeAll(toRemove);
+        weapons.removeAll(toRemove);
+
+        for (Weapon a : toRemove) {
+            world.destroyBody(a.getBox2dBody());
+            if (player.getCurrentWeapon() != null && player.getCurrentWeapon() == a) {
+                player.setCurrentWeapon(null);
+            }
+        }
+    }
 }

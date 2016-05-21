@@ -88,11 +88,6 @@ public class StartupState implements AppState, ResourceLoader.Handler {
 
             LOG.fine("finished...");
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-            }
-
             manager.setState(new MenuState());
         }
     }

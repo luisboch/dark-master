@@ -44,6 +44,8 @@ public class Player extends AnimatedObject {
 
     Direction direction = Direction.DOWN;
 
+    private Weapon currentWeapon = null;
+
     public Direction getDirection() {
         return direction;
     }
@@ -59,7 +61,7 @@ public class Player extends AnimatedObject {
 
     @Override
     protected void create() {
-        super.create(0.5f, false, null, BodyDef.BodyType.DynamicBody);
+        super.create(0.5f, false, null, BodyDef.BodyType.DynamicBody, 5f);
     }
 
     @Override
@@ -130,8 +132,6 @@ public class Player extends AnimatedObject {
     public Float getAngle() {
         return 0f;
     }
-    
-    
 
     public boolean isRunning() {
         return running;
@@ -158,6 +158,14 @@ public class Player extends AnimatedObject {
     @Override
     public void tick() {
         // Ignored so far..
+    }
+
+    public Weapon getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(Weapon currentWeapon) {
+        this.currentWeapon = currentWeapon;
     }
 
 }

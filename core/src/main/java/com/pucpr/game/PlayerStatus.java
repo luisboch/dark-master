@@ -14,7 +14,7 @@ import java.util.Map;
  * @author luis
  */
 public class PlayerStatus {
-    
+
     private static final PlayerStatus _instance = new PlayerStatus();
 
     private final Map<Keys, Object> playersKeys = new EnumMap<Keys, Object>(Keys.class);
@@ -39,6 +39,18 @@ public class PlayerStatus {
      */
     public boolean is(Keys key) {
         return playersKeys.containsKey(key);
+    }
+
+    /**
+     * If the player has this key, return true, false otherwise.
+     *
+     * @Note when you need to check key value, plase, use
+     * {@link #booleanKey(com.pucpr.game.Keys)}
+     * @param key
+     * @return if the player has this key, true, false otherwise.
+     */
+    public static boolean isKey(Keys key) {
+        return getInstance().is(key);
     }
 
     /**
