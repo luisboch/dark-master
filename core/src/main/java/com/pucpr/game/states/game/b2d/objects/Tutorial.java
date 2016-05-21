@@ -90,7 +90,7 @@ public class Tutorial extends AnimatedObject {
 
     @Override
     protected void create() {
-        super.create(0.75f, false, 1.5f, BodyDef.BodyType.StaticBody);
+        super.create(2.75f, false, 1.5f, BodyDef.BodyType.StaticBody);
     }
 
     @Override
