@@ -61,7 +61,7 @@ public class Player extends AnimatedObject {
 
     @Override
     protected void create() {
-        super.create(0.5f, false, null, BodyDef.BodyType.DynamicBody, 5f);
+        super.create(0.6f, false, null, BodyDef.BodyType.DynamicBody, 5f);
     }
 
     @Override

@@ -5,22 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pucpr.game.AppManager;
@@ -33,6 +40,7 @@ import com.pucpr.game.states.game.b2d.objects.Direction;
 import com.pucpr.game.states.game.b2d.objects.Player;
 import com.pucpr.game.states.GameScreenState;
 import com.pucpr.game.states.game.b2d.objects.Weapon;
+import com.pucpr.game.states.game.map.utils.MapBox2dUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -100,6 +108,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     float updateTime;
 
+    protected TiledMap map;
+    protected MapRenderer render;
+
+    public BasicGameScreen(final String mapFile) {
+        map = new TmxMapLoader().load("data/images/sprites/maps/" + mapFile);
+    }
+
     @Override
     public void create() {
         // setup the camera. In Box2D we operate on a
@@ -110,8 +125,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         // looks at (0,16) (that's where the middle of the
         // screen will be located).
         camera = new OrthographicCamera(Gdx.graphics.getWidth() / GameConfig.PPM, Gdx.graphics.getHeight() / GameConfig.PPM);
-        camera.position.set(0, 14, 0);
+        camera.setToOrtho(false, 30, 20);
+        camera.position.x = 0;
+        camera.position.y = 100;
 
+        render = new OrthogonalTiledMapRenderer(map, 1f / GameConfig.PPM);
         // next we setup the immediate mode renderer
         renderer = new ShapeRenderer();
 
@@ -136,6 +154,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // You can savely ignore the rest of this method :)
         world.setContactListener(this);
+        this.objects.addAll(MapBox2dUtil.buildShapes(map, world, manager));
     }
 
     protected void createBoxes() {
@@ -145,9 +164,18 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     public void createPlayer(World world) {
         final Player pl = new Player(world, manager);
         final Vector2 pos = pl.getBox2dBody().getPosition();
+        try {
+            RectangleMapObject mapPos = (RectangleMapObject) map.getLayers().get("PlayerPos").getObjects().get("PlayerPos");
 
-        pos.x += 4;
-        pos.y += 4;
+            pos.x = mapPos.getRectangle().x / GameConfig.PPM;
+            pos.y = mapPos.getRectangle().y / GameConfig.PPM;
+        } catch (Exception ex) {
+            System.out.println(
+                    "Failed to load player position... There are an Layer with name \"PlayerPos\" and Object with Name \"PlayerPos\"? ");
+            pos.x = 0;
+            pos.y = 100;
+        }
+
         pl.getBox2dBody().setTransform(pos, 0);
 
         this.player = pl;
@@ -173,8 +201,15 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private void renderApp() {
 
-        renderer.setProjectionMatrix(camera.combined);
+//        renderer.setProjectionMatrix(camera.combined);
+        int[] baseMap = {0, 1, 2, 3};
+        int[] topMap = {4};
+
         batch.getProjectionMatrix().set(camera.combined);
+        render.setView(camera);
+
+        render.render(baseMap);
+//        
         batch.begin();
 
         for (B2Object obj : objects) {
@@ -184,17 +219,22 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             Vector2 position = box.getPosition(); // that's the box's center position
 
             float angle = obj.getAngle() != null ? MathUtils.radiansToDegrees * obj.getAngle() : 0;
+            final TextureRegion texture = obj.getTextureRegion();
 
-            batch.draw(obj.getTextureRegion(), position.x - 1, position.y - 1, // the bottom left corner of the box, unrotated
-                    1f, 1f, // the rotation center relative to the bottom left corner of the box
-                    2, 2, // the width and height of the box
-                    obj.getScale(), obj.getScale(), // the scale on the x- and y-axis
-                    angle); // the rotation angle
+            if (texture != null) {
+                batch.draw(texture, position.x - 1, position.y - 1, // the bottom left corner of the box, unrotated
+                        1f, 1f, // the rotation center relative to the bottom left corner of the box
+                        2, 2, // the width and height of the box
+                        obj.getScale(), obj.getScale(), // the scale on the x- and y-axis
+                        angle); // the rotation angle
+            }
 
         }
-
+//
         batch.end();
-        writeFPS();
+        render.render(topMap);
+
+//        writeFPS();
     }
 
     private void renderDebug() {

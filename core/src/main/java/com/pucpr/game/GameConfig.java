@@ -16,7 +16,7 @@ public class GameConfig {
     /**
      * 1 metter on box 2d represents 16 pixels on game screen
      */
-    public static final float PPM = 50;
+    public static final float PPM = 32;
     public static final float GAME_SCALE = 1f;
     public static SoundManager SOUND_MANAGER;
     public static final boolean showDebug = false;

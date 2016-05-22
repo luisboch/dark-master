@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="32">
+ <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
+  <image source="hyptosis.png" width="960" height="960"/>
+ </tileset>
+ <tileset firstgid="901" name="Grass" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+  <image source="grass.png" width="160" height="96"/>
+ </tileset>
+ <tileset firstgid="916" name="gameBlocks" tilewidth="32" tileheight="32" tilecount="36" columns="6">
+  <image source="gameBlocks.png" width="192" height="192"/>
+ </tileset>
+ <layer name="Terrain" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3YWwqCQACG0ZFZUiupZRRto5tGlxUnlBRohJfBCc6B78U3538YNARytSxCWCVqUcz9dv9nXZ/ZNlEbe/R2iNN0qitfVR/P6WcX2+3tMZsytqvsMRt75OUan93tkYWu8zx23Cm/OttjEl17jM0ew9kjL825XeL7LhnbzR6DTfU9+C36sUde7JGXVP92mwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgLQeNo3h90CcAAA=
+  </data>
+ </layer>
+ <layer name="Base" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3XMQ6AIBBFwcUTc2DxHmAjBYWdsSAUzCSv3+RXGwEA7OJMEWV0pdXXUPsGbXTbYzl7AADMk49/Mdf7N/zK7wgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOzqAe50kklAnAAA
+  </data>
+ </layer>
+ <layer name="Details" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3YzQnCQBAG0MQKbMSfPowWo40ktWgfakf5jjkogSAMmPfgO+0elhnYWbZpANbp3VafgDnbTfUJ/s81Ne2TIbmpb7l+0oNBP0p9mgnf7qB79j7MEAB+wHt3uV1qt08OyVEdy53Sgy45Jxf9KDX31/HM+mvhW9Y/CgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsDYjUTHtt0CcAAA=
+  </data>
+ </layer>
+ <layer name="Details2" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3OsQ0AIAwEsSgwPnMyB0UaNvjGlq6/KgAAUk5Pt9Mn/PZKHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEkPsLKUN0CcAAA=
+  </data>
+ </layer>
+ <layer name="TopLayer" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3W5wlCMQCF0Tw30NEsi+gs1i0ULHtY9rAM4HUEBYk+zoHvf8iFkFIA2mfYKWXUqX0KXl5bjNPEJvCxaVPKrKl9ivaY5y4XaZlW7rW6bTbYpX062KO6YzY4pXO62KO6aza4pXt62ONndPOn7fnX/oV+dhq8Ed+xzvu18YYBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwh57QldxOQJwAAA==
+  </data>
+ </layer>
+ <objectgroup name="Box2dLayer">
+  <object id="4" x="320" y="151.333" width="127" height="104.667"/>
+  <object id="8" x="409" y="398.667" width="395" height="81.3333"/>
+  <object id="9" x="91" y="483" width="818" height="33"/>
+  <object id="10" x="865" y="30" width="43" height="453"/>
+  <object id="11" x="98" y="67" width="767" height="26"/>
+  <object id="12" x="60" y="25" width="38" height="492"/>
+  <object id="16" x="216" y="383.067">
+   <polygon points="30,-1 -23,-1.06667 -66,51.9333 11,47.2667"/>
+  </object>
+  <object id="27" x="652" y="231.333">
+   <polygon points="0,0 1.33333,14.6667 12.6667,22 30.6667,21.3333 47.3333,-2 36,-9.33333"/>
+  </object>
+  <object id="29" x="356.667" y="456">
+   <polygon points="0,0 1.6338,14.6667 15.5212,22 37.5775,21.3333 62,-4.66667 44.1127,-9.33333"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="PlayerPos">
+  <object id="30" name="PlayerPos" x="120" y="174" width="23" height="23"/>
+ </objectgroup>
+</map>
