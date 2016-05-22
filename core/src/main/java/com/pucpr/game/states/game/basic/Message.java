@@ -7,7 +7,7 @@ package com.pucpr.game.states.game.basic;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
+import com.pucpr.game.states.game.actors.B2Object;
 
 /**
  *

@@ -1,12 +1,11 @@
 /**
  * Weapon.class
  */
-package com.pucpr.game.states.game.b2d.objects;
+package com.pucpr.game.states.game.actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -19,22 +18,19 @@ import com.pucpr.game.states.game.basic.BasicGameScreen;
  * @email luis.c.boch@gmail.com
  * @since May 15, 2016
  */
-public class Weapon extends B2Object {
+public class Knife extends B2Object {
 
     private TextureRegion texture;
     private final BodyDef.BodyType bodyType;
     private Float startHitAngle = null;
     private Long startHistTms = null;
 
-    public Weapon(World world, AppManager manager) {
+    public Knife() {
         bodyType = BodyDef.BodyType.DynamicBody;
-        init(world, manager);
     }
 
-    public Weapon(World world, AppManager manager, BodyDef.BodyType bodyType) {
+    public Knife(BodyDef.BodyType bodyType) {
         this.bodyType = bodyType;
-        init(world, manager);
-
     }
 
     @Override

@@ -27,8 +27,8 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
-import com.pucpr.game.states.game.b2d.objects.SimpleBox2dObject;
+import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.SimpleBox2dObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class MapBox2dUtil {
 
     private static float ppt;
 
-    public static List<B2Object> buildShapes(Map map, World world, AppManager manager) {
+    public static void buildShapes(Map map, World world, AppManager manager) {
         ppt = GameConfig.PPM;
         MapObjects objects = map.getLayers().get("Box2dLayer").getObjects();
 
@@ -80,14 +80,7 @@ public class MapBox2dUtil {
 
             shape.dispose();
         }
-        final List<B2Object> result = new ArrayList<B2Object>();
 
-        for (Body b : bodies) {
-            B2Object basic = new SimpleBox2dObject(b, world, manager);
-            result.add(basic);
-        }
-
-        return result;
     }
 
     private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {

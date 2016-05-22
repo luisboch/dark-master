@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
-import com.pucpr.game.states.game.b2d.objects.Player;
+import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.Player;
 import java.util.ArrayList;
 import java.util.List;
 

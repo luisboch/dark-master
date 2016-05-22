@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -28,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pucpr.game.AppManager;
@@ -35,11 +38,11 @@ import com.pucpr.game.GameConfig;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.GameState;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
-import com.pucpr.game.states.game.b2d.objects.Direction;
-import com.pucpr.game.states.game.b2d.objects.Player;
+import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.Direction;
+import com.pucpr.game.states.game.actors.Player;
 import com.pucpr.game.states.GameScreenState;
-import com.pucpr.game.states.game.b2d.objects.Weapon;
+import com.pucpr.game.states.game.actors.Knife;
 import com.pucpr.game.states.game.map.utils.MapBox2dUtil;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,17 +85,17 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     protected World world;
 
     /**
-     * our itens (used to write on screen) *
+     * our itens (not available on map), used to write on screen *
      */
-    protected final List<B2Object> objects = new ArrayList();
+    protected final List<B2Object> actors = new ArrayList();
 
     /**
-     * Nossas armas (adicionadas na lista "objects" também). Esta lista é
+     * Nossas armas (adicionadas na lista "actors" também). Esta lista é
      * temporária, caso o objeto complete sua ação, é removido do "mundo" box2d
      * e da tela.
      *
      */
-    protected final List<Weapon> weapons = new ArrayList();
+    protected final List<Knife> weapons = new ArrayList();
 
     /**
      * our ground box *
@@ -140,8 +143,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // next we create out physics world.
         createPhysicsWorld();
-        createBoxes();
-        createPlayer(world);
+        loadActors();
 
         // register ourselfs as an InputProcessor
         Gdx.input.setInputProcessor(this);
@@ -154,32 +156,54 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // You can savely ignore the rest of this method :)
         world.setContactListener(this);
-        this.objects.addAll(MapBox2dUtil.buildShapes(map, world, manager));
+        MapBox2dUtil.buildShapes(map, world, manager);
     }
 
     protected void createBoxes() {
 
     }
 
-    public void createPlayer(World world) {
-        final Player pl = new Player(world, manager);
-        final Vector2 pos = pl.getBox2dBody().getPosition();
+    protected B2Object create(MapObject mapObject) {
         try {
-            RectangleMapObject mapPos = (RectangleMapObject) map.getLayers().get("PlayerPos").getObjects().get("PlayerPos");
 
-            pos.x = mapPos.getRectangle().x / GameConfig.PPM;
-            pos.y = mapPos.getRectangle().y / GameConfig.PPM;
+            final String name = mapObject.getName();
+
+            final Class<B2Object> actorClass = (Class<B2Object>) Class.forName("com.pucpr.game.states.game.actors." + name);
+
+            final B2Object actor = actorClass.newInstance();
+
+            if (actorClass.equals(Player.class)) {
+                this.player = (Player) actor;
+            }
+
+            actor.init(world, manager);
+
+            actors.add(actor);
+
+            return actor;
         } catch (Exception ex) {
-            System.out.println(
-                    "Failed to load player position... There are an Layer with name \"PlayerPos\" and Object with Name \"PlayerPos\"? ");
-            pos.x = 0;
-            pos.y = 100;
+            throw new RuntimeException(ex);
         }
+    }
 
-        pl.getBox2dBody().setTransform(pos, 0);
+    private void loadActors() {
 
-        this.player = pl;
-        this.objects.add(pl);
+        final MapLayer mapActors = map.getLayers().get("Actors");
+        if (mapActors != null) {
+            for (final MapObject actorMap : mapActors.getObjects()) {
+
+                final RectangleMapObject mapPos = (RectangleMapObject) actorMap;
+                final B2Object actor = create(actorMap);
+                final Vector2 pos = actor.getBox2dBody().getPosition();
+
+                pos.x = mapPos.getRectangle().x / GameConfig.PPM;
+                pos.y = mapPos.getRectangle().y / GameConfig.PPM;
+
+                actor.getBox2dBody().setTransform(pos, 0);
+                
+                configure(actor);
+            }
+        }
     }
 
     @Override
@@ -201,7 +225,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private void renderApp() {
 
-//        renderer.setProjectionMatrix(camera.combined);
         int[] baseMap = {0, 1, 2, 3};
         int[] topMap = {4};
 
@@ -212,7 +235,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 //        
         batch.begin();
 
-        for (B2Object obj : objects) {
+        for (B2Object obj : actors) {
 
             final Body box = obj.getBox2dBody();
 
@@ -379,11 +402,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         calculateBullets();
 
-        for (B2Object ob : objects) {
+        for (B2Object ob : actors) {
             ob.tick();
         }
 
-        Collections.sort(objects, new Comparator<B2Object>() {
+        Collections.sort(actors, new Comparator<B2Object>() {
             @Override
             public int compare(B2Object o1, B2Object o2) {
                 if (o1.getBox2dBody() == null || o2.getBox2dBody() == null) {
@@ -547,8 +570,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             System.out.println("HIT! WITH " + force + " of power");
 
-            final Weapon weapon = new Weapon(world, manager);
-
+            final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
+            weapon.init(world, manager);
+            
             final Vector2 pos = player.getBox2dBody().getPosition();
             float angle = 0;
             final float fixPos = 1f;
@@ -574,7 +598,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
             weapon.setStartHitAngle(startAngle);
 
-            objects.add(weapon);
+            actors.add(weapon);
             weapons.add(weapon);
             player.setCurrentWeapon(weapon);
 //            final FrictionJointDef def = new FrictionJointDef();
@@ -588,22 +612,25 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private void calculateBullets() {
 
-        final List<Weapon> toRemove = new ArrayList();
+        final List<Knife> toRemove = new ArrayList();
 
-        for (Weapon a : weapons) {
+        for (Knife a : weapons) {
             if (a.isComplete()) {
                 toRemove.add(a);
             }
         }
 
-        objects.removeAll(toRemove);
+        actors.removeAll(toRemove);
         weapons.removeAll(toRemove);
 
-        for (Weapon a : toRemove) {
+        for (Knife a : toRemove) {
             world.destroyBody(a.getBox2dBody());
             if (player.getCurrentWeapon() != null && player.getCurrentWeapon() == a) {
                 player.setCurrentWeapon(null);
             }
         }
+    }
+
+    protected void configure(B2Object actor) {
     }
 }

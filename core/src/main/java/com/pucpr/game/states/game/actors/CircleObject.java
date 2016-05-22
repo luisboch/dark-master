@@ -1,7 +1,7 @@
 /**
  * AnimatedObject.class
  */
-package com.pucpr.game.states.game.b2d.objects;
+package com.pucpr.game.states.game.actors;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
  * @email luis.c.boch@gmail.com
  * @since May 15, 2016
  */
-public abstract class AnimatedObject extends B2Object {
+public abstract class CircleObject extends B2Object {
 
     protected boolean walking = false;
     private static final float linearVelReg = 10;

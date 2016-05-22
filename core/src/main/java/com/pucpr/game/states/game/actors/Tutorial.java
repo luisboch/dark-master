@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pucpr.game.states.game.b2d.objects;
+package com.pucpr.game.states.game.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author luis
  */
-public class Tutorial extends AnimatedObject {
+public class Tutorial extends CircleObject {
 
     private static final int FRAME_COLS = 8;         // Sprite sheet columns size;
     private static final int FRAME_ROWS = 5;         // Sprite shet rows size;
@@ -53,17 +53,8 @@ public class Tutorial extends AnimatedObject {
 
     Direction direction = Direction.DOWN;
 
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public Tutorial(World world, AppManager manager) {
-        init(world, manager);
-        name = "Professor";
+    public Tutorial() {
+        setName("Tutorial");
     }
 
     @Override

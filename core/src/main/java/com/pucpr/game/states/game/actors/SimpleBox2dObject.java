@@ -2,7 +2,7 @@
  * SimpleBox2dObject.class
  */
 
-package com.pucpr.game.states.game.b2d.objects;
+package com.pucpr.game.states.game.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
