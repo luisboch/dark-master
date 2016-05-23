@@ -34,6 +34,8 @@ import com.pucpr.game.states.game.b2d.objects.Player;
 import com.pucpr.game.states.GameScreenState;
 import com.pucpr.game.states.game.b2d.objects.Weapon;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -340,6 +342,20 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         for (B2Object ob : objects) {
             ob.tick();
         }
+
+        Collections.sort(objects, new Comparator<B2Object>() {
+            @Override
+            public int compare(B2Object o1, B2Object o2) {
+                if (o1.getBox2dBody() == null || o2.getBox2dBody() == null) {
+                    return 0;
+                } else if (o1.getBox2dBody().getPosition().y > o2.getBox2dBody().getPosition().y) {
+                    return -1;
+                } else if (o1.getBox2dBody().getPosition().y < o2.getBox2dBody().getPosition().y) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
 
         player.setDirection(playerDirection);
         camera.position.set(player.getBox2dBody().getPosition().x, player.getBox2dBody().getPosition().y, 0);

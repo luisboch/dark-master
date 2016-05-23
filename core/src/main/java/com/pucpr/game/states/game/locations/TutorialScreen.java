@@ -55,7 +55,7 @@ public class TutorialScreen extends BasicGameScreen {
 
         final Weapon w = new Weapon(world, manager, BodyDef.BodyType.StaticBody);
         Vector2 wPos = w.getBox2dBody().getPosition();
-        wPos.set(-20, -16);
+        wPos.set(-20, -19);
         w.getBox2dBody().setTransform(wPos, 0);
         w.setAction(new B2Object.Action() {
             @Override

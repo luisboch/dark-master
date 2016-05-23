@@ -24,7 +24,7 @@ public abstract class AnimatedObject extends B2Object {
     }
 
     protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType) {
-        create(0, bullet, linearDamping, bodyType, null);
+        create(0.75f, bullet, linearDamping, bodyType, null);
     }
 
     protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType, Float mass) {
