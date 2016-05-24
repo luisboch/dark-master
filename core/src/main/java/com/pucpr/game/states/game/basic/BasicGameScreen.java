@@ -291,6 +291,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 }
             }
         }
+        renderer.end();
     }
 
     private void calculate() {
