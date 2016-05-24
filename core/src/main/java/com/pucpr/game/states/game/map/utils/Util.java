@@ -7,14 +7,12 @@ import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,7 +26,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
 import com.pucpr.game.states.game.actors.B2Object;
-import com.pucpr.game.states.game.actors.SimpleBox2dObject;
+import com.pucpr.game.states.game.basic.BasicGameScreen;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +36,11 @@ import java.util.List;
  * @email luis.c.boch@gmail.com
  * @since May 22, 2016
  */
-public class MapBox2dUtil {
+public class Util {
 
     private static float ppt;
 
-    public static void buildShapes(Map map, World world, AppManager manager) {
+    public static List<Body> buildShapes(Map map, World world, AppManager manager) {
         ppt = GameConfig.PPM;
         MapObjects objects = map.getLayers().get("Box2dLayer").getObjects();
 
@@ -79,8 +77,45 @@ public class MapBox2dUtil {
             bodies.add(body);
 
             shape.dispose();
+
+            if (object.getName() != null && !object.getName().isEmpty()) {
+                final B2Object actor = loadActor(object, world, manager);
+                body.setUserData(actor);
+                actor.setBox2dBody(body);
+            }
         }
 
+        return bodies;
+
+    }
+
+    public static <E extends B2Object> E loadActor(MapObject actorName, World world, AppManager manager) {
+        final E actor = loadActor(actorName.getName(), world, manager);
+        actor.setProperies(actorName.getProperties());
+        return actor;
+    }
+
+    public static <E extends B2Object> E loadActor(String actorName, World world, AppManager manager) {
+
+        try {
+            final Class<E> actorClass = (Class<E>) Class.forName("com.pucpr.game.states.game.actors." + actorName);
+            final E actor = actorClass.newInstance();
+            actor.init(world, manager);
+            return actor;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static <E extends BasicGameScreen> E loadScreen(String screenName) {
+
+        try {
+            final Class<E> screenClass = (Class<E>) Class.forName("com.pucpr.game.states.game.locations." + screenName);
+            final E screen = screenClass.newInstance();
+            return screen;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {
@@ -102,7 +137,7 @@ public class MapBox2dUtil {
         circleShape.setPosition(new Vector2(circle.x / ppt, circle.y / ppt));
         return circleShape;
     }
-    
+
     private static PolygonShape getPolygon(PolygonMapObject polygonObject) {
         PolygonShape polygon = new PolygonShape();
         float[] vertices = polygonObject.getPolygon().getTransformedVertices();
@@ -110,7 +145,6 @@ public class MapBox2dUtil {
         float[] worldVertices = new float[vertices.length];
 
         for (int i = 0; i < vertices.length; ++i) {
-            System.out.println(vertices[i]);
             worldVertices[i] = vertices[i] / ppt;
         }
 

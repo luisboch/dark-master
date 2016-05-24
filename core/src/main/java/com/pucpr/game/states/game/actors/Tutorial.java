@@ -12,12 +12,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
-import com.pucpr.game.AppManager;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.basic.Conversation;
 import com.pucpr.game.states.game.basic.Message;
+import com.pucpr.game.handlers.StopValidator;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -157,47 +156,32 @@ public class Tutorial extends CircleObject {
 
     @Override
     public Conversation contact(Player player) {
+        final Conversation conversation = new Conversation(player, this);
         final PlayerStatus status = PlayerStatus.getInstance();
         if (!status.is(Keys.SWORD_TAKED)) {
-
-            final Conversation conversation = new Conversation(player, this);
-            
-            conversation.addMessage(new Message(player, "Ola!", 2000));
-            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?"));
-            conversation.addMessage(new Message(player, "Sim, claro!", 2000));
-            conversation.addMessage(new Message(player, "O que preciso fazer?", 2000));
-
-            conversation.addMessage(
-                    new Message(this, "Voce deve pegar a espada para \n"
-                            + "iniciarmos seu treinamento!", new Message.StopValidator() {
-                        @Override
-                        public boolean canStop() {
-                            return status.is(Keys.SWORD_TAKED);
-                        }
-                    }));
-
-            conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
-
-            return conversation;
-        } else {
-            final Conversation conversation = new Conversation(player, this, null, 1000);
-            conversation.addMessage(new Message(this, "Legal, voce pegou "));
-            conversation.addMessage(new Message(player, "Voce vai me ensinar?"));
-            conversation.addMessage(new Message(this, "Claro...", 1000));
-
-            conversation.addMessage(new Message(player,
-                    "Claro, vamos iniciar, \nvoce precisa bater caixa. \n"
-                    + "Para isso, va ate ela e use \n"
-                    + "sua recem adquirida espada!", new Message.StopValidator() {
+            conversation.addMessage(new Message(this, "Ola Tudo bem? Voce quer avancar?"));
+            conversation.addMessage(new Message(player, "Ola, sim, eu quero", 2000));
+            conversation.addMessage(new Message(this, "Legal, entao pegue as facas \ndo meu lado esquerdo!", 2000,
+                    new StopValidator() {
                 @Override
                 public boolean canStop() {
-                    return status.is(Keys.SIMPLE_HIT_TEST);
+                    return status.is(Keys.SWORD_TAKED);
                 }
             }));
 
-            conversation.addMessage(new Message(this, "Legal, você conseguiu!", 2000));
-            conversation.addMessage(new Message(this, "Agora podemos lutar!", 2000));
-
+            conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
+            conversation.addMessage(new Message(this, "Excelente, venha aqui que te dou \na chave do portao!"));
+            return conversation;
+        } else if (!status.is(Keys.KEY_COD157767_TAKED)) {
+            conversation.addMessage(new Message(this, "Pronto, agora voce pode passar\npelo portao!", new com.pucpr.game.handlers.Action() {
+                @Override
+                public void doAction() {
+                    status.set(Keys.KEY_COD157767_TAKED, true);
+                }
+            }));
+            return conversation;
+        } else {
+            conversation.addMessage(new Message(this, "Como esta indo? "));
             return conversation;
 
         }

@@ -37,13 +37,14 @@ import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
+import com.pucpr.game.handlers.Action;
 import com.pucpr.game.states.game.GameState;
 import com.pucpr.game.states.game.actors.B2Object;
 import com.pucpr.game.states.game.actors.Direction;
 import com.pucpr.game.states.game.actors.Player;
 import com.pucpr.game.states.GameScreenState;
 import com.pucpr.game.states.game.actors.Knife;
-import com.pucpr.game.states.game.map.utils.MapBox2dUtil;
+import com.pucpr.game.states.game.map.utils.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -156,7 +157,19 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // You can savely ignore the rest of this method :)
         world.setContactListener(this);
-        MapBox2dUtil.buildShapes(map, world, manager);
+        final List<Body> bodies = Util.buildShapes(map, world, manager);
+
+        for (Body b : bodies) {
+
+            if (b.getUserData() != null) {
+//                
+                final B2Object object = (B2Object) b.getUserData();
+
+                checkForMapConfigurations(object);
+
+                configure((B2Object) b.getUserData(), true);
+            }
+        }
     }
 
     protected void createBoxes() {
@@ -166,17 +179,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     protected B2Object create(MapObject mapObject) {
         try {
 
-            final String name = mapObject.getName();
+            final B2Object actor = Util.loadActor(mapObject, world, manager);
 
-            final Class<B2Object> actorClass = (Class<B2Object>) Class.forName("com.pucpr.game.states.game.actors." + name);
-
-            final B2Object actor = actorClass.newInstance();
-
-            if (actorClass.equals(Player.class)) {
+            if (actor instanceof Player) {
                 this.player = (Player) actor;
             }
-
-            actor.init(world, manager);
 
             actors.add(actor);
 
@@ -200,8 +207,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 pos.y = mapPos.getRectangle().y / GameConfig.PPM;
 
                 actor.getBox2dBody().setTransform(pos, 0);
-                
-                configure(actor);
+
+                checkForMapConfigurations(actor);
+                configure(actor, false);
             }
         }
     }
@@ -441,6 +449,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
             playerContact = contact;
+            
+            if(contact != null){
+                contact.getTouchAction().doAction();
+            }
         }
 
     }
@@ -572,7 +584,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);
-            
+
             final Vector2 pos = player.getBox2dBody().getPosition();
             float angle = 0;
             final float fixPos = 1f;
@@ -631,6 +643,54 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         }
     }
 
-    protected void configure(B2Object actor) {
+    protected void configure(B2Object actor, boolean block) {
+    }
+
+    private void checkForMapConfigurations(final B2Object object) {
+        if (object.getProperies() != null) {
+
+            final String event = object.getProperies().get("event", String.class);
+            final String nextScreen = object.getProperies().get("NextScreen", String.class);
+            final String mustHaveKeys = object.getProperies().get("MustHaveKeys", String.class);
+            final String addKeys = object.getProperies().get("AddKey", String.class);
+            final String[] mustHaveKeysArr = mustHaveKeys == null ? new String[]{} : mustHaveKeys.split(",");
+            final String[] addKeysArr = addKeys == null ? new String[]{} : addKeys.split(",");
+            final String detroyOnEvent = object.getProperies().get("detroyOnEvent", String.class);
+
+            final Action acc = new Action() {
+                @Override
+                public void doAction() {
+                    for (String keyStr : mustHaveKeysArr) {
+                        final Keys key = Keys.valueOf(keyStr.trim());
+                        if (!PlayerStatus.isKey(key)) {
+                            System.out.println("Player must have key: " + key.name() + " to interact with this object!");
+                            return;
+                        }
+                    }
+
+                    for (String keyStr : addKeysArr) {
+                        final Keys key = Keys.valueOf(keyStr.trim());
+                        PlayerStatus.getInstance().set(key, true);
+                    }
+
+                    if (nextScreen != null && !nextScreen.isEmpty()) {
+                        final BasicGameScreen screen = Util.loadScreen(nextScreen);
+                        gameState.setScreen(screen);
+                    }
+
+                    if (detroyOnEvent != null && detroyOnEvent.equalsIgnoreCase("true")) {
+                        actors.remove(object);
+                        world.destroyBody(object.getBox2dBody());
+                    }
+                }
+            };
+
+            if (event == null || event.equals("action")) {
+                object.addAction(acc);
+            } else if (event.equals("touch")) {
+                object.addTouchAction(acc);
+            }
+
+        }
     }
 }

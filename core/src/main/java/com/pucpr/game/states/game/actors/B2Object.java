@@ -6,26 +6,33 @@
 package com.pucpr.game.states.game.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
+import com.pucpr.game.handlers.Action;
 import com.pucpr.game.states.game.basic.Conversation;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author luis
  */
-public abstract class B2Object extends Actor{
+public abstract class B2Object extends Actor {
 
-    private Action action;
+    private MapProperties properies;
+    private final List<Action> actions = new ArrayList<Action>();
+    private final List<Action> touchActions = new ArrayList<Action>();
     protected Body box2dBody;
     protected World world;
     protected AppManager manager;
 
-    protected abstract void create();
+    protected void create() {
+    }
 
     public void init(World world, AppManager manager) {
         this.world = world;
@@ -72,11 +79,45 @@ public abstract class B2Object extends Actor{
     }
 
     public Action getAction() {
-        return action;
+        return new Action() {
+            @Override
+            public void doAction() {
+                for (Action a : actions) {
+                    a.doAction();
+                }
+            }
+        };
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void addAction(Action action) {
+        actions.add(action);
+    }
+    public void rmAction(Action action) {
+        removeAction(action);
+    }
+    public void removeAction(Action action) {
+        actions.add(action);
+    }
+
+    public Action getTouchAction() {
+        return new Action() {
+            @Override
+            public void doAction() {
+                for (Action a : touchActions) {
+                    a.doAction();
+                }
+            }
+        };
+    }
+
+    public void addTouchAction(Action action) {
+        touchActions.add(action);
+    }
+    public void rmTouchAction(Action action) {
+        removeTouchAction(action);
+    }
+    public void removeTouchAction(Action action) {
+        touchActions.add(action);
     }
 
     public void setPos(float x, float y) {
@@ -92,8 +133,11 @@ public abstract class B2Object extends Actor{
         getBox2dBody().setTransform(pos, angle);
     }
 
-    public static interface Action {
+    public MapProperties getProperies() {
+        return properies;
+    }
 
-        void doAction();
+    public void setProperies(MapProperties properies) {
+        this.properies = properies;
     }
 }

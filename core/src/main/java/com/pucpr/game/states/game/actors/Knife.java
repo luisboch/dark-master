@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.pucpr.game.AppManager;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 
 /**
@@ -26,7 +24,7 @@ public class Knife extends B2Object {
     private Long startHistTms = null;
 
     public Knife() {
-        bodyType = BodyDef.BodyType.DynamicBody;
+        bodyType = BodyDef.BodyType.StaticBody;
     }
 
     public Knife(BodyDef.BodyType bodyType) {

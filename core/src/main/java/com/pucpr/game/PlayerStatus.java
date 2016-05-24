@@ -6,7 +6,6 @@
 package com.pucpr.game;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

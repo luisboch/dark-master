@@ -12,12 +12,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
-import com.pucpr.game.AppManager;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.basic.Conversation;
 import com.pucpr.game.states.game.basic.Message;
+import com.pucpr.game.handlers.StopValidator;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -158,46 +157,13 @@ public class Guard extends CircleObject {
     @Override
     public Conversation contact(Player player) {
         final PlayerStatus status = PlayerStatus.getInstance();
-        if (!status.is(Keys.SWORD_TAKED)) {
-
-            final Conversation conversation = new Conversation(player, this);
-            
-            conversation.addMessage(new Message(player, "Ola!", 2000));
-            conversation.addMessage(new Message(this, "Ola Tudo bem? gostaria de aprender?"));
-            conversation.addMessage(new Message(player, "Sim, claro!", 2000));
-            conversation.addMessage(new Message(player, "O que preciso fazer?", 2000));
-
-            conversation.addMessage(
-                    new Message(this, "Voce deve pegar a espada para \n"
-                            + "iniciarmos seu treinamento!", new Message.StopValidator() {
-                        @Override
-                        public boolean canStop() {
-                            return status.is(Keys.SWORD_TAKED);
-                        }
-                    }));
-
-            conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
-
+        final Conversation conversation = new Conversation(player, this);
+        if (status.is(Keys.KEY_COD157767_TAKED)) {
+            conversation.addMessage(new Message(this, "Pode passar!", 2000));
             return conversation;
         } else {
-            final Conversation conversation = new Conversation(player, this, null, 1000);
-            conversation.addMessage(new Message(this, "Legal, voce pegou "));
-            conversation.addMessage(new Message(player, "Voce vai me ensinar?"));
-            conversation.addMessage(new Message(this, "Claro...", 1000));
-
-            conversation.addMessage(new Message(player,
-                    "Claro, vamos iniciar, \nvoce precisa bater caixa. \n"
-                    + "Para isso, va ate ela e use \n"
-                    + "sua recem adquirida espada!", new Message.StopValidator() {
-                @Override
-                public boolean canStop() {
-                    return status.is(Keys.SIMPLE_HIT_TEST);
-                }
-            }));
-
-            conversation.addMessage(new Message(this, "Legal, você conseguiu!", 2000));
-            conversation.addMessage(new Message(this, "Agora podemos lutar!", 2000));
-
+            conversation.addMessage(new Message(this, "Voce precisa da chave para avancar!"));
+            conversation.addMessage(new Message(this, "Por que nao tenta o outro rapaz?"));
             return conversation;
 
         }
