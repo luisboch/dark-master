@@ -31,6 +31,7 @@ public class GameState implements AppState {
     private Stage stage = new Stage();
     private int slowVelocityCtrl = 0;
 
+    @Override
     public void render() {
         final boolean skipFrame = GameConfig.skipFrames ? slowVelocityCtrl != GameConfig.skipFramesQty : false;
 
@@ -38,7 +39,7 @@ public class GameState implements AppState {
             if (slowVelocityCtrl == GameConfig.skipFramesQty) {
                 slowVelocityCtrl = -1;
             }
-            
+
             slowVelocityCtrl++;
         }
 
@@ -83,11 +84,7 @@ public class GameState implements AppState {
         try {
             final String className = gameData.getString("game.current.screen");
             final Class clazz = Class.forName(className);
-            screen = (BasicGameScreen) clazz.newInstance();
-            screen.setManager(manager);
-            screen.setGameState(this);
-            screen.setStage(stage);
-            screen.create();
+            setScreen((BasicGameScreen) clazz.newInstance());
         } catch (Exception ex) {
             Logger.getGlobal().log(Level.SEVERE, ex.getMessage(), ex);
             throw new RuntimeException(ex);
@@ -109,4 +106,13 @@ public class GameState implements AppState {
     public ScreenInfo getScreenInfo() {
         return screenInfo;
     }
+
+    public void setScreen(BasicGameScreen screen) {
+        this.screen = screen;
+        screen.setManager(manager);
+        screen.setGameState(this);
+        screen.setStage(stage);
+        screen.create();
+    }
+
 }

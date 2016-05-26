@@ -9,15 +9,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
-import com.pucpr.game.states.game.b2d.objects.Player;
+import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.Player;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,6 +165,7 @@ public class Conversation {
             container.setX(Gdx.graphics.getWidth() / 2);
 
             currentMessage.setActor(container);
+            currentMessage.doAction();
 
             final Stage stage = info.getGameState().getStage();
             stage.addActor(container);

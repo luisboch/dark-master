@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pucpr.game;
+package com.pucpr.game.handlers;
 
 /**
  *
- * @author luis
+ * @author Luis Carlos
  */
-public enum Keys {
-    SWORD_TAKED,
-    SIMPLE_HIT_TEST,
-    SUPER_HIT_TEST,
-    KEY_COD157767_TAKED;
+public interface StopValidator {
+
+    boolean canStop();
+    
 }

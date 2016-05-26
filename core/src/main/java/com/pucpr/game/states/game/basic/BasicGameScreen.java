@@ -5,34 +5,46 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pucpr.game.AppManager;
 import com.pucpr.game.GameConfig;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
+import com.pucpr.game.handlers.Action;
 import com.pucpr.game.states.game.GameState;
-import com.pucpr.game.states.game.b2d.objects.B2Object;
-import com.pucpr.game.states.game.b2d.objects.Direction;
-import com.pucpr.game.states.game.b2d.objects.Player;
+import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.Direction;
+import com.pucpr.game.states.game.actors.Player;
 import com.pucpr.game.states.GameScreenState;
-import com.pucpr.game.states.game.b2d.objects.Weapon;
+import com.pucpr.game.states.game.actors.Knife;
+import com.pucpr.game.states.game.map.utils.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -74,17 +86,17 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     protected World world;
 
     /**
-     * our itens (used to write on screen) *
+     * our itens (not available on map), used to write on screen *
      */
-    protected final List<B2Object> objects = new ArrayList();
+    protected final List<B2Object> actors = new ArrayList();
 
     /**
-     * Nossas armas (adicionadas na lista "objects" também). Esta lista é
+     * Nossas armas (adicionadas na lista "actors" também). Esta lista é
      * temporária, caso o objeto complete sua ação, é removido do "mundo" box2d
      * e da tela.
      *
      */
-    protected final List<Weapon> weapons = new ArrayList();
+    protected final List<Knife> weapons = new ArrayList();
 
     /**
      * our ground box *
@@ -100,6 +112,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     float updateTime;
 
+    protected TiledMap map;
+    protected MapRenderer render;
+
+    public BasicGameScreen(final String mapFile) {
+        map = new TmxMapLoader().load("data/images/sprites/maps/" + mapFile);
+    }
+
     @Override
     public void create() {
         // setup the camera. In Box2D we operate on a
@@ -110,8 +129,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         // looks at (0,16) (that's where the middle of the
         // screen will be located).
         camera = new OrthographicCamera(Gdx.graphics.getWidth() / GameConfig.PPM, Gdx.graphics.getHeight() / GameConfig.PPM);
-        camera.position.set(0, 14, 0);
+        camera.setToOrtho(false, 30, 20);
+        camera.position.x = 0;
+        camera.position.y = 100;
 
+        render = new OrthogonalTiledMapRenderer(map, 1f / GameConfig.PPM);
         // next we setup the immediate mode renderer
         renderer = new ShapeRenderer();
 
@@ -122,8 +144,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // next we create out physics world.
         createPhysicsWorld();
-        createBoxes();
-        createPlayer(world);
+        loadActors();
 
         // register ourselfs as an InputProcessor
         Gdx.input.setInputProcessor(this);
@@ -136,22 +157,61 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         // You can savely ignore the rest of this method :)
         world.setContactListener(this);
+        final List<Body> bodies = Util.buildShapes(map, world, manager);
+
+        for (Body b : bodies) {
+
+            if (b.getUserData() != null) {
+//                
+                final B2Object object = (B2Object) b.getUserData();
+
+                checkForMapConfigurations(object);
+
+                configure((B2Object) b.getUserData(), true);
+            }
+        }
     }
 
     protected void createBoxes() {
 
     }
 
-    public void createPlayer(World world) {
-        final Player pl = new Player(world, manager);
-        final Vector2 pos = pl.getBox2dBody().getPosition();
+    protected B2Object create(MapObject mapObject) {
+        try {
 
-        pos.x += 4;
-        pos.y += 4;
-        pl.getBox2dBody().setTransform(pos, 0);
+            final B2Object actor = Util.loadActor(mapObject, world, manager);
 
-        this.player = pl;
-        this.objects.add(pl);
+            if (actor instanceof Player) {
+                this.player = (Player) actor;
+            }
+
+            actors.add(actor);
+
+            return actor;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void loadActors() {
+
+        final MapLayer mapActors = map.getLayers().get("Actors");
+        if (mapActors != null) {
+            for (final MapObject actorMap : mapActors.getObjects()) {
+
+                final RectangleMapObject mapPos = (RectangleMapObject) actorMap;
+                final B2Object actor = create(actorMap);
+                final Vector2 pos = actor.getBox2dBody().getPosition();
+
+                pos.x = mapPos.getRectangle().x / GameConfig.PPM;
+                pos.y = mapPos.getRectangle().y / GameConfig.PPM;
+
+                actor.getBox2dBody().setTransform(pos, 0);
+
+                checkForMapConfigurations(actor);
+                configure(actor, false);
+            }
+        }
     }
 
     @Override
@@ -173,28 +233,39 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private void renderApp() {
 
-        renderer.setProjectionMatrix(camera.combined);
+        int[] baseMap = {0, 1, 2, 3};
+        int[] topMap = {4};
+
         batch.getProjectionMatrix().set(camera.combined);
+        render.setView(camera);
+
+        render.render(baseMap);
+//        
         batch.begin();
 
-        for (B2Object obj : objects) {
+        for (B2Object obj : actors) {
 
             final Body box = obj.getBox2dBody();
 
             Vector2 position = box.getPosition(); // that's the box's center position
 
             float angle = obj.getAngle() != null ? MathUtils.radiansToDegrees * obj.getAngle() : 0;
+            final TextureRegion texture = obj.getTextureRegion();
 
-            batch.draw(obj.getTextureRegion(), position.x - 1, position.y - 1, // the bottom left corner of the box, unrotated
-                    1f, 1f, // the rotation center relative to the bottom left corner of the box
-                    2, 2, // the width and height of the box
-                    obj.getScale(), obj.getScale(), // the scale on the x- and y-axis
-                    angle); // the rotation angle
+            if (texture != null) {
+                batch.draw(texture, position.x - 1, position.y - 1, // the bottom left corner of the box, unrotated
+                        1f, 1f, // the rotation center relative to the bottom left corner of the box
+                        2, 2, // the width and height of the box
+                        obj.getScale(), obj.getScale(), // the scale on the x- and y-axis
+                        angle); // the rotation angle
+            }
 
         }
-
+//
         batch.end();
-        writeFPS();
+        render.render(topMap);
+
+//        writeFPS();
     }
 
     private void renderDebug() {
@@ -220,6 +291,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 }
             }
         }
+        renderer.end();
     }
 
     private void calculate() {
@@ -339,11 +411,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         calculateBullets();
 
-        for (B2Object ob : objects) {
+        for (B2Object ob : actors) {
             ob.tick();
         }
 
-        Collections.sort(objects, new Comparator<B2Object>() {
+        Collections.sort(actors, new Comparator<B2Object>() {
             @Override
             public int compare(B2Object o1, B2Object o2) {
                 if (o1.getBox2dBody() == null || o2.getBox2dBody() == null) {
@@ -378,6 +450,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
             playerContact = contact;
+            
+            if(contact != null){
+                contact.getTouchAction().doAction();
+            }
         }
 
     }
@@ -507,7 +583,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             System.out.println("HIT! WITH " + force + " of power");
 
-            final Weapon weapon = new Weapon(world, manager);
+            final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
+            weapon.init(world, manager);
 
             final Vector2 pos = player.getBox2dBody().getPosition();
             float angle = 0;
@@ -534,7 +611,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
             weapon.setStartHitAngle(startAngle);
 
-            objects.add(weapon);
+            actors.add(weapon);
             weapons.add(weapon);
             player.setCurrentWeapon(weapon);
 //            final FrictionJointDef def = new FrictionJointDef();
@@ -548,22 +625,73 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private void calculateBullets() {
 
-        final List<Weapon> toRemove = new ArrayList();
+        final List<Knife> toRemove = new ArrayList();
 
-        for (Weapon a : weapons) {
+        for (Knife a : weapons) {
             if (a.isComplete()) {
                 toRemove.add(a);
             }
         }
 
-        objects.removeAll(toRemove);
+        actors.removeAll(toRemove);
         weapons.removeAll(toRemove);
 
-        for (Weapon a : toRemove) {
+        for (Knife a : toRemove) {
             world.destroyBody(a.getBox2dBody());
             if (player.getCurrentWeapon() != null && player.getCurrentWeapon() == a) {
                 player.setCurrentWeapon(null);
             }
+        }
+    }
+
+    protected void configure(B2Object actor, boolean block) {
+    }
+
+    private void checkForMapConfigurations(final B2Object object) {
+        if (object.getProperies() != null) {
+
+            final String event = object.getProperies().get("event", String.class);
+            final String nextScreen = object.getProperies().get("NextScreen", String.class);
+            final String mustHaveKeys = object.getProperies().get("MustHaveKeys", String.class);
+            final String addKeys = object.getProperies().get("AddKey", String.class);
+            final String[] mustHaveKeysArr = mustHaveKeys == null ? new String[]{} : mustHaveKeys.split(",");
+            final String[] addKeysArr = addKeys == null ? new String[]{} : addKeys.split(",");
+            final String detroyOnEvent = object.getProperies().get("detroyOnEvent", String.class);
+
+            final Action acc = new Action() {
+                @Override
+                public void doAction() {
+                    for (String keyStr : mustHaveKeysArr) {
+                        final Keys key = Keys.valueOf(keyStr.trim());
+                        if (!PlayerStatus.isKey(key)) {
+                            System.out.println("Player must have key: " + key.name() + " to interact with this object!");
+                            return;
+                        }
+                    }
+
+                    for (String keyStr : addKeysArr) {
+                        final Keys key = Keys.valueOf(keyStr.trim());
+                        PlayerStatus.getInstance().set(key, true);
+                    }
+
+                    if (nextScreen != null && !nextScreen.isEmpty()) {
+                        final BasicGameScreen screen = Util.loadScreen(nextScreen);
+                        gameState.setScreen(screen);
+                    }
+
+                    if (detroyOnEvent != null && detroyOnEvent.equalsIgnoreCase("true")) {
+                        actors.remove(object);
+                        world.destroyBody(object.getBox2dBody());
+                    }
+                }
+            };
+
+            if (event == null || event.equals("action")) {
+                object.addAction(acc);
+            } else if (event.equals("touch")) {
+                object.addTouchAction(acc);
+            }
+
         }
     }
 }
