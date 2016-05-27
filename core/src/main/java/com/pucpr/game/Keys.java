@@ -10,8 +10,8 @@ package com.pucpr.game;
  * @author luis
  */
 public enum Keys {
-    SWORD_TAKED,
+    SWORD_TOOK,
     SIMPLE_HIT_TEST,
     SUPER_HIT_TEST,
-    KEY_COD157767_TAKED;
+    KEY_COD157767_TOOK;
 }

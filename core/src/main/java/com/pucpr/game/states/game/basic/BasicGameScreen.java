@@ -576,7 +576,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void hit() {
-        if (PlayerStatus.isKey(Keys.SWORD_TAKED) && player.getCurrentWeapon() == null) {
+        if (PlayerStatus.isKey(Keys.SWORD_TOOK) && player.getCurrentWeapon() == null) {
             startingHit = System.currentTimeMillis() - creatingHit;
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
             force = force < 1 ? 0.1f : force;

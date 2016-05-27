@@ -158,25 +158,25 @@ public class Tutorial extends CircleObject {
     public Conversation contact(Player player) {
         final Conversation conversation = new Conversation(player, this);
         final PlayerStatus status = PlayerStatus.getInstance();
-        if (!status.is(Keys.SWORD_TAKED)) {
+        if (!status.is(Keys.SWORD_TOOK)) {
             conversation.addMessage(new Message(this, "Ola Tudo bem? Voce quer avancar?"));
             conversation.addMessage(new Message(player, "Ola, sim, eu quero", 2000));
             conversation.addMessage(new Message(this, "Legal, entao pegue as facas \ndo meu lado esquerdo!", 2000,
                     new StopValidator() {
                 @Override
                 public boolean canStop() {
-                    return status.is(Keys.SWORD_TAKED);
+                    return status.is(Keys.SWORD_TOOK);
                 }
             }));
 
             conversation.addMessage(new Message(player, "Pronto, peguei!", 2000));
             conversation.addMessage(new Message(this, "Excelente, venha aqui que te dou \na chave do portao!"));
             return conversation;
-        } else if (!status.is(Keys.KEY_COD157767_TAKED)) {
+        } else if (!status.is(Keys.KEY_COD157767_TOOK)) {
             conversation.addMessage(new Message(this, "Pronto, agora voce pode passar\npelo portao!", new com.pucpr.game.handlers.Action() {
                 @Override
                 public void doAction() {
-                    status.set(Keys.KEY_COD157767_TAKED, true);
+                    status.set(Keys.KEY_COD157767_TOOK, true);
                 }
             }));
             return conversation;

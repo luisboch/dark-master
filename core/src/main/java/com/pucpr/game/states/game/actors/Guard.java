@@ -158,7 +158,7 @@ public class Guard extends CircleObject {
     public Conversation contact(Player player) {
         final PlayerStatus status = PlayerStatus.getInstance();
         final Conversation conversation = new Conversation(player, this);
-        if (status.is(Keys.KEY_COD157767_TAKED)) {
+        if (status.is(Keys.KEY_COD157767_TOOK)) {
             conversation.addMessage(new Message(this, "Pode passar!", 2000));
             return conversation;
         } else {
