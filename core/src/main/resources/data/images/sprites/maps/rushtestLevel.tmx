@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
- <layer name="Camada de Tiles 1" width="100" height="100">
+ <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
+  <image source="hyptosis.png" width="960" height="960"/>
+ </tileset>
+ <tileset firstgid="901" name="grass" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+  <image source="grass.png" width="160" height="96"/>
+  <terraintypes>
+   <terrain name="Grama" tile="-1"/>
+   <terrain name="Estrada Simples" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,1"/>
+  <tile id="1" terrain="0,0,1,1"/>
+  <tile id="2" terrain="0,0,1,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="1,0,1,1"/>
+  <tile id="5" terrain="0,1,0,1"/>
+  <tile id="6" terrain="1,1,1,1"/>
+  <tile id="7" terrain="1,0,1,0"/>
+  <tile id="8" terrain="0,1,1,1"/>
+  <tile id="9" terrain="1,1,1,0"/>
+  <tile id="10" terrain="0,1,0,0"/>
+  <tile id="11" terrain="1,1,0,0"/>
+  <tile id="12" terrain="1,0,0,0"/>
+  <tile id="13" terrain="1,1,0,1"/>
+ </tileset>
+ <layer name="Terrain" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3etuwjAMBWAknn0XdmGwJ17RVGGCc29jxz6Rzp9pG1I/Ulo7DYdD33g/zpePJZ9LvgRee+8hfWxr87LkGx5qss4NeMiHzo3zkis8xBxeiYXU3IDHf+g5SnJuwOPR4+ZwEbSAx6OH1DkKHvDQHHjoyupxWvJm7PjP7LHlHFmvoWk4a3g852fJ77F+jsSOOb2vpOH+Nzzyc+SUeV9z94/0b+nPz8Sam3/wyM8R7hhTn9AhPObhfSX93/CoM7kEiRmdye9cI39L7ytj13Dw6DdquYeHh67AQ09SPS54jE/q/gYech5cHR8eY5Prx8NDxgIe8qGfG7GeIzzGpHRtBDzGpLRm7N2Dq8mm6uG9Hrm1EV49UjVZrm7Ya1Pac/TmEXOg9UCuZrjatLrAo86BnkNozTC0aZkzNWuAPXhw/bnStVWrDTdnSnu5Nf1f6x6hResaN27OlJzDatcAW/bgLLZYaxj2DmM99pL7cS8ee1mkTOhcaX19ix57W8RMqEvr61vzGGVBTXJ99ZrXt+Qx2oJz6e2rW/GQtNgyVjxKatkzxJrHzBYWPTQ8IwAPeMADHvDw60H7hiOfkfLokerRcs8Q9Pai4JF2SPVoUxlxLvTiEeuDlCT27Aw82jx6aykjrxWse/RajN7/yrLHFjXG0ftfWfOg6z9o37p1X5jRdTFrHlteF0ns1WfFI9an63lfS+zVZ8UjdGntz3FzY2QN35rHVpHaxxIe8NAeyX1F4fEcyT134RH3kOjFw+OesP5rcT/qWTy0rN/y7sH1RCzvf6zRg/YHued0LO9/rMkj1R/UsBe1B4/cXOitq8CjLlzdV8tc8OyhcS549phlnRw8dAUeuuLFY+QaQ3jEU/qsuJZY9+BMNJ+7PHiEJvCQ97hlhs92eOiKFw/p76GFx2Okv4cWHve07HsEj/0S1njhocdDuv8Hj+fv5sL9uR4PnK/gAY/HoH6ly+MW3H/AAx55D1zv6vLQPDe8eMxSS/TiMctnhzcP7Z8d3jy0zw146AsGBgYGBgaGv/EH5AaiwA==
+  </data>
+ </layer>
+ <layer name="Detail1" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
   </data>
  </layer>
+ <layer name="Detail2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <layer name="TopLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <objectgroup name="Box2dLayer"/>
+ <objectgroup name="Actors"/>
 </map>
