@@ -450,8 +450,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
             playerContact = contact;
-            
-            if(contact != null){
+
+            if (contact != null) {
                 contact.getTouchAction().doAction();
             }
         }
@@ -493,7 +493,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.ENTER) {
+        if (keycode == Input.Keys.E) {
             if (playerContact != null) {
                 final Conversation converstation = playerContact.contact(player);
 
