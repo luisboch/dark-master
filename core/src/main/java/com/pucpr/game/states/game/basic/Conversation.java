@@ -162,7 +162,8 @@ public class Conversation {
             container.setDebug(true, true);
             container.setWidth(250f);
             container.setHeight(100f);
-            container.setX(Gdx.graphics.getWidth() / 2);
+            container.setX((Gdx.graphics.getWidth() / 2) -100);
+            container.setY(500);
 
             currentMessage.setActor(container);
             currentMessage.doAction();
