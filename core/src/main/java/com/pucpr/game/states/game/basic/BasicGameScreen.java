@@ -181,11 +181,12 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             final B2Object actor = Util.loadActor(mapObject, world, manager);
 
-            if (actor instanceof Player) {
-                this.player = (Player) actor;
+            if (actor != null) {
+                if (actor instanceof Player) {
+                    this.player = (Player) actor;
+                }
+                actors.add(actor);
             }
-
-            actors.add(actor);
 
             return actor;
         } catch (Exception ex) {
@@ -201,6 +202,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                 final RectangleMapObject mapPos = (RectangleMapObject) actorMap;
                 final B2Object actor = create(actorMap);
+                
+                if (actor == null) {
+                    continue;
+                }
+                
                 final Vector2 pos = actor.getBox2dBody().getPosition();
 
                 pos.x = mapPos.getRectangle().x / GameConfig.PPM;
@@ -441,8 +447,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final Object obj1 = c.getFixtureA().getBody().getUserData();
         final Object obj2 = c.getFixtureB().getBody().getUserData();
 
-        System.out.println("obj1: " + obj1 + ", obj2: " + obj2);
-
         if (obj1 != null && obj2 != null) {
             final B2Object contact;
             if (obj1 instanceof Player) {
@@ -453,7 +457,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 return;
             }
 
-            System.out.println("contact: " + contact);
             Vector2[] points = c.getWorldManifold().getPoints();
             playerContact = new ObjectConcat(contact, points[0]);
 
@@ -588,8 +591,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             startingHit = System.currentTimeMillis() - creatingHit;
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
             force = force < 1 ? 0.1f : force;
-
-            System.out.println("HIT! WITH " + force + " of power");
 
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);

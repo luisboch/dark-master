@@ -91,12 +91,16 @@ public class Util {
 
     public static <E extends B2Object> E loadActor(MapObject actorName, World world, AppManager manager) {
         final E actor = loadActor(actorName.getName(), world, manager);
-        actor.setProperies(actorName.getProperties());
+        if (actor != null) {
+            actor.setProperies(actorName.getProperties());
+        }
         return actor;
     }
 
     public static <E extends B2Object> E loadActor(String actorName, World world, AppManager manager) {
-
+        if (actorName == null) {
+            return null;
+        }
         try {
             final Class<E> actorClass = (Class<E>) Class.forName("com.pucpr.game.states.game.actors." + actorName);
             final E actor = actorClass.newInstance();
