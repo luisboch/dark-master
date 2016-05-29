@@ -231,16 +231,23 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     }
 
+    @SuppressWarnings("empty-statement")
     private void renderApp() {
 
-        int[] baseMap = {0, 1, 2, 3};
-        int[] topMap = {4};
+        final PlayerStatus status = PlayerStatus.getInstance();
 
+        int[] baseMap = {0, 1, 2, 3, 8};
+        if (!status.is(Keys.KEY_COD157767_TOOK)) {
+            baseMap = new int[]{0, 1, 2, 3, 7};
+        } 
+        
+        int[] topMap = {4};
+        
         batch.getProjectionMatrix().set(camera.combined);
         render.setView(camera);
 
         render.render(baseMap);
-//        
+
         batch.begin();
 
         for (B2Object obj : actors) {
@@ -493,24 +500,30 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.E) {
-            if (playerContact != null) {
-                final Conversation converstation = playerContact.contact(player);
 
+        if (playerContact != null) {
+            final Conversation converstation = playerContact.contact(player);
+            if (keycode == Input.Keys.E) {
                 if (playerContact.getAction() != null) {
                     playerContact.getAction().doAction();
                 }
-
-                if (converstation != null) {
-
-                    if (gameState.getScreenInfo().getConversation() != null) {
-                        gameState.getScreenInfo().getConversation().abort();
-                    }
-
-                    gameState.getScreenInfo().setConversation(converstation);
-                }
             }
+            final PlayerStatus status = PlayerStatus.getInstance();
+
+            if (converstation != null) {
+
+                if (gameState.getScreenInfo().getConversation() != null) {
+                    gameState.getScreenInfo().getConversation().abort();
+                }
+
+                gameState.getScreenInfo().setConversation(converstation);
+            }
+
         } else if (keycode == Input.Keys.SPACE) {
+//            Conversation converstation = gameState.getScreenInfo().getConversation();
+//            if (converstation != null) {
+//                converstation.next();
+//            }
             hit();
         }
 
