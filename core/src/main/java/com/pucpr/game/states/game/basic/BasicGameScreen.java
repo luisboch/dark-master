@@ -237,6 +237,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final PlayerStatus status = PlayerStatus.getInstance();
 
         int[] baseMap = {0, 1, 2, 3, 8};
+        
         if (!status.is(Keys.KEY_COD157767_TOOK)) {
             baseMap = new int[]{0, 1, 2, 3, 7};
         } 
