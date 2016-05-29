@@ -59,10 +59,10 @@
  </objectgroup>
  <objectgroup name="Actors">
   <object id="48" name="Guard" x="1192.08" y="830.333" width="23" height="23"/>
-  <object id="49" name="Knife" x="1034.92" y="926.5" width="12" height="16.5">
+  <object id="49" name="Knife" x="1032.96" y="932.85" width="12" height="16.5">
    <properties>
-    <property name="AddKey" value="SWORD_TOOK"/>
-    <property name="detroyOnEvent" type="bool" value="true"/>
+    <property name="AddKeys" value="SWORD_TOOK"/>
+    <property name="DestroyOnEvent" type="bool" value="true"/>
    </properties>
   </object>
   <object id="50" name="Player" x="634.918" y="910" width="23" height="23"/>
