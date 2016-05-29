@@ -25,6 +25,7 @@ public class Knife extends B2Object {
 
     public Knife() {
         bodyType = BodyDef.BodyType.StaticBody;
+        setName("Knife");
     }
 
     public Knife(BodyDef.BodyType bodyType) {

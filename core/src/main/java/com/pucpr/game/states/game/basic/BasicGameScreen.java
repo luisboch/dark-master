@@ -71,7 +71,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private SpriteBatch batch;
     private BitmapFont font;
     private Stage stage;
-    private B2Object playerContact;
+    private ObjectConcat playerContact;
     private Long creatingHit = null;
     private Long startingHit = null;
 
@@ -181,11 +181,12 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
             final B2Object actor = Util.loadActor(mapObject, world, manager);
 
-            if (actor instanceof Player) {
-                this.player = (Player) actor;
+            if (actor != null) {
+                if (actor instanceof Player) {
+                    this.player = (Player) actor;
+                }
+                actors.add(actor);
             }
-
-            actors.add(actor);
 
             return actor;
         } catch (Exception ex) {
@@ -201,6 +202,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                 final RectangleMapObject mapPos = (RectangleMapObject) actorMap;
                 final B2Object actor = create(actorMap);
+
+                if (actor == null) {
+                    continue;
+                }
+
                 final Vector2 pos = actor.getBox2dBody().getPosition();
 
                 pos.x = mapPos.getRectangle().x / GameConfig.PPM;
@@ -237,13 +243,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final PlayerStatus status = PlayerStatus.getInstance();
 
         int[] baseMap = {0, 1, 2, 3, 8};
-        
+
         if (!status.is(Keys.KEY_COD157767_TOOK)) {
             baseMap = new int[]{0, 1, 2, 3, 7};
-        } 
-        
+        }
+
         int[] topMap = {4};
-        
+
         batch.getProjectionMatrix().set(camera.combined);
         render.setView(camera);
 
@@ -445,8 +451,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public void beginContact(Contact c) {
+
         final Object obj1 = c.getFixtureA().getBody().getUserData();
         final Object obj2 = c.getFixtureB().getBody().getUserData();
+
         if (obj1 != null && obj2 != null) {
             final B2Object contact;
             if (obj1 instanceof Player) {
@@ -454,10 +462,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             } else if (obj2 instanceof Player) {
                 contact = (B2Object) obj1;
             } else {
-                contact = null;
+                return;
             }
 
-            playerContact = contact;
+            Vector2[] points = c.getWorldManifold().getPoints();
+            playerContact = new ObjectConcat(contact, points[0]);
 
             if (contact != null) {
                 contact.getTouchAction().doAction();
@@ -468,7 +477,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public void endContact(Contact contact) {
-        playerContact = null;
     }
 
     @Override
@@ -502,24 +510,40 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     @Override
     public boolean keyUp(int keycode) {
 
+//        if (playerContact != null) {
+//            final Conversation converstation = playerContact.contact(player);
+//            if (keycode == Input.Keys.E) {
+//                if (playerContact.getAction() != null) {
+//                    playerContact.getAction().doAction();
+//                }
+//            }
+//            final PlayerStatus status = PlayerStatus.getInstance();
+//
+//            if (converstation != null) {
+//
+//                if (gameState.getScreenInfo().getConversation() != null) {
+//                    gameState.getScreenInfo().getConversation().abort();
         if (playerContact != null) {
-            final Conversation converstation = playerContact.contact(player);
-            if (keycode == Input.Keys.E) {
-                if (playerContact.getAction() != null) {
-                    playerContact.getAction().doAction();
-                }
-            }
-            final PlayerStatus status = PlayerStatus.getInstance();
-
-            if (converstation != null) {
-
-                if (gameState.getScreenInfo().getConversation() != null) {
-                    gameState.getScreenInfo().getConversation().abort();
+            float dst = playerContact.pos.dst(player.getBox2dBody().getPosition());
+            if (dst < 1f) {
+                final Conversation converstation = playerContact.object.contact(player);
+                if (keycode == Input.Keys.E) {
+                    if (playerContact.object.getAction() != null) {
+                        playerContact.object.getAction().doAction();
+                    }
                 }
 
-                gameState.getScreenInfo().setConversation(converstation);
+                if (converstation != null) {
+
+                    if (gameState.getScreenInfo().getConversation() != null) {
+                        gameState.getScreenInfo().getConversation().abort();
+                    }
+
+                    gameState.getScreenInfo().setConversation(converstation);
+                }
             }
 
+//                gameState.getScreenInfo().setConversation(converstation);
         } else if (keycode == Input.Keys.SPACE) {
 //            Conversation converstation = gameState.getScreenInfo().getConversation();
 //            if (converstation != null) {
@@ -595,8 +619,6 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
             force = force < 1 ? 0.1f : force;
 
-            System.out.println("HIT! WITH " + force + " of power");
-
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);
 
@@ -667,10 +689,12 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final String event = object.getProperies().get("event", String.class);
             final String nextScreen = object.getProperies().get("NextScreen", String.class);
             final String mustHaveKeys = object.getProperies().get("MustHaveKeys", String.class);
-            final String addKeys = object.getProperies().get("AddKey", String.class);
+            final String addKeys = object.getProperies().get("AddKeys", String.class);
+            final String destroyObjects = object.getProperies().get("DestroyObjects", String.class);
             final String[] mustHaveKeysArr = mustHaveKeys == null ? new String[]{} : mustHaveKeys.split(",");
             final String[] addKeysArr = addKeys == null ? new String[]{} : addKeys.split(",");
-            final String detroyOnEvent = object.getProperies().get("detroyOnEvent", String.class);
+            final String[] destroyObjectsArr = destroyObjects == null ? new String[]{} : destroyObjects.split(",");
+            final String detroyOnEvent = object.getProperies().get("DestroyOnEvent", String.class);
 
             final Action acc = new Action() {
                 @Override
@@ -697,6 +721,25 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                         actors.remove(object);
                         world.destroyBody(object.getBox2dBody());
                     }
+
+                    // Login will remove some other actors?
+                    final List<B2Object> toRemove = new ArrayList();
+
+                    for (String k : destroyObjectsArr) {
+                        for (B2Object a : actors) {
+                            if (a.getName() != null && a.getName().equals(k)) {
+                                toRemove.add(a);
+                            }
+                        }
+                    }
+
+                    for (B2Object b : toRemove) {
+                        world.destroyBody(b.getBox2dBody());
+                    }
+
+                    actors.removeAll(toRemove);
+                    weapons.removeAll(toRemove);
+
                 }
             };
 
@@ -707,5 +750,17 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
         }
+    }
+
+    private static class ObjectConcat {
+
+        public ObjectConcat(B2Object object, Vector2 pos) {
+            this.object = object;
+            this.pos = pos;
+        }
+
+        private B2Object object;
+        private Vector2 pos;
+
     }
 }
