@@ -21,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -115,6 +116,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     protected TiledMap map;
     protected MapRenderer render;
 
+    protected Vector3 mousePos = new Vector3();
+
     public BasicGameScreen(final String mapFile) {
         map = new TmxMapLoader().load("data/images/sprites/maps/" + mapFile);
     }
@@ -202,11 +205,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                 final RectangleMapObject mapPos = (RectangleMapObject) actorMap;
                 final B2Object actor = create(actorMap);
-                
+
                 if (actor == null) {
                     continue;
                 }
-                
+
                 final Vector2 pos = actor.getBox2dBody().getPosition();
 
                 pos.x = mapPos.getRectangle().x / GameConfig.PPM;
@@ -228,6 +231,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         updateTime = (TimeUtils.nanoTime() - start) / 1000000000.0f;
 
         camera.update();
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        camera.unproject(mousePos);
 
         if (!GameConfig.showDebug) {
             renderApp();
@@ -551,13 +556,14 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-        return false;
+        hit();
+        return true;
     }
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int newParam) {
-
-        return false;
+        creatingHit = System.currentTimeMillis();
+        return true;
     }
 
     public SpriteBatch getBatch() {
@@ -590,35 +596,51 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (PlayerStatus.isKey(Keys.SWORD_TOOK) && player.getCurrentWeapon() == null) {
             startingHit = System.currentTimeMillis() - creatingHit;
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
-            force = force < 1 ? 0.1f : force;
+//            force = force < 1 ? 0.1f : force;
+            force = 1;
 
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);
 
             final Vector2 pos = player.getBox2dBody().getPosition();
             float angle = 0;
-            final float fixPos = 1f;
+            final float fixPos = 1.5f;
 
-            if (player.getDirection() == Direction.LEFT) {
+            final Vector2 mPos = new Vector2(mousePos.x, mousePos.y);
+
+            System.out.println("PlayerPos: " + pos + ", Mouse: " + mPos);
+
+            final float deltaY = mPos.y - pos.y;
+            final float deltaX = mPos.x - pos.x;
+
+            final float fixAngle = MathUtils.atan2(deltaY, deltaX) * 180 / MathUtils.PI;
+
+            System.out.println("fixAngle: " + fixAngle);
+            if (Math.abs(fixAngle) > (180 - 45)) {
                 pos.x -= fixPos;
-                angle = 2.3f;
-            } else if (player.getDirection() == Direction.RIGHT) {
+//                angle = 2.3f;
+            } else if (Math.abs(fixAngle) < 45) {
                 pos.x += fixPos;
-                angle = 1.7f;
-                force = -force;
-            } else if (player.getDirection() == Direction.UP) {
+//                angle = 1.7f;
+//                force = -force;
+            } else if (fixAngle > 45 && fixAngle < 135) {
                 pos.y += fixPos;
-                angle = 1.3f;
-            } else if (player.getDirection() == Direction.DOWN) {
+//                angle = 1.3f;
+            } else if (fixAngle < -45 && fixAngle > -135) {
                 pos.y -= fixPos;
-                angle = 3.3f;
+//                angle = 3.3f;
             }
 
-            final float startAngle = angle * 90 * MathUtils.degRad;
+//            
+            force = force * 60;
+//            Double angleFixed = fixAngle * 180 / Math.PI % 360;
+            final float angle360 = (fixAngle + 180) - 90;
+            weapon.setPos(pos, angle360 * MathUtils.degreesToRadians);
 
-            weapon.setPos(pos, startAngle);
-            weapon.getBox2dBody().applyAngularImpulse(50 * force, true);
-            weapon.setStartHitAngle(startAngle);
+            weapon.getBox2dBody().setLinearVelocity(new Vector2(force * MathUtils.cosDeg(fixAngle ), force * MathUtils.sinDeg(fixAngle)));
+            
+            weapon.setRotation(angle360);
+            weapon.setStartHitAngle(angle);
 
             actors.add(weapon);
             weapons.add(weapon);

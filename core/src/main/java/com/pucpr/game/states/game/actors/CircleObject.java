@@ -24,15 +24,18 @@ public abstract class CircleObject extends B2Object {
     }
 
     protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType) {
-        create(0.75f, bullet, linearDamping, bodyType, null);
+        create(0.75f, bullet, linearDamping, bodyType, null, null);
     }
 
-    protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType, Float mass) {
+    protected void create(float radius, boolean bullet, Float linearDamping, BodyDef.BodyType bodyType, Float mass, Float angularDamping) {
         BodyDef def = new BodyDef();
         def.type = bodyType == null ? BodyDef.BodyType.DynamicBody : bodyType;
         box2dBody = world.createBody(def);
         if (linearDamping != null) {
-            box2dBody.setLinearDamping(1.5f);
+            box2dBody.setLinearDamping(linearDamping);
+        }
+        if(angularDamping != null){
+            box2dBody.setAngularDamping(angularDamping);
         }
         final CircleShape circleShape = new CircleShape();
         circleShape.setRadius(radius);
