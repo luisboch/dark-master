@@ -26,24 +26,24 @@ public class GameData {
     public Map<String, Object> getData() {
         return data;
     }
-    
-    public Object get(String key){
+
+    public Object get(String key) {
         return data.get(key);
     }
-    
-    public Integer getInt(String key){
+
+    public Integer getInt(String key) {
         return (Integer) data.get(key);
     }
-    
-    public String getString(String key){
+
+    public String getString(String key) {
         return (String) data.get(key);
     }
-    
-    public Float getFloat(String key){
+
+    public Float getFloat(String key) {
         return (Float) data.get(key);
     }
-    
-    public void set(String key, Object val){
+
+    public void set(String key, Object val) {
         data.put(key, val);
     }
 

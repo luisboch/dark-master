@@ -6,7 +6,9 @@ package com.pucpr.game.states.game.actors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 
@@ -46,7 +48,8 @@ public class Knife extends B2Object {
         pol.dispose();
         box2dBody.setBullet(false);
         box2dBody.setAwake(false);
-
+        final MassData data = box2dBody.getMassData();
+        data.center.set(0.2f, 0);
         loadAnimation();
     }
 
@@ -95,15 +98,22 @@ public class Knife extends B2Object {
         if (System.currentTimeMillis() - startHistTms > 1000) {
             return true;
         }
-
-        final float startAngle = startHitAngle / 90 / MathUtils.degRad;
-//        System.out.println("StartAngle:" + startAngle + ", CurrentAngle:" + getBox2dBody().getAngle());
-        final float fullMovimentAngle = 2.5f;
-        if (startAngle != 1.7f) {
-            return getBox2dBody().getAngle() > (startHitAngle + fullMovimentAngle);
-        } else {
-            return getBox2dBody().getAngle() > (startHitAngle - fullMovimentAngle);
+        final Vector2 vel = getBox2dBody().getLinearVelocity();
+        
+        if (vel.x == 0 && vel.y == 0) {
+            return true;
         }
+
+        return false;
+
+//        final float startAngle = startHitAngle / 90 / MathUtils.degRad;
+////        System.out.println("StartAngle:" + startAngle + ", CurrentAngle:" + getBox2dBody().getAngle());
+//        final float fullMovimentAngle = 2.5f;
+//        if (startAngle != 1.7f) {
+//            return getBox2dBody().getAngle() > (startHitAngle + fullMovimentAngle);
+//        } else {
+//            return getBox2dBody().getAngle() > (startHitAngle - fullMovimentAngle);
+//        }
     }
 
 }

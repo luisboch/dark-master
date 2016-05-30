@@ -60,7 +60,7 @@ public class Player extends CircleObject {
     
     @Override
     protected void create() {
-        super.create(0.6f, false, null, BodyDef.BodyType.DynamicBody, 5f);
+        super.create(0.6f, false, null, BodyDef.BodyType.DynamicBody, 5f, 100f);
     }
 
     @Override
