@@ -528,23 +528,24 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 //
 //                if (gameState.getScreenInfo().getConversation() != null) {
 //                    gameState.getScreenInfo().getConversation().abort();
-        if (playerContact != null) {
-            float dst = playerContact.pos.dst(player.getBox2dBody().getPosition());
-            if (dst < 1f) {
-                final Conversation converstation = playerContact.object.contact(player);
-                if (keycode == Input.Keys.E) {
+        if (keycode == Input.Keys.E) {
+            if (playerContact != null) {
+                float dst = playerContact.pos.dst(player.getBox2dBody().getPosition());
+                if (dst < 1f) {
+                    final Conversation converstation = playerContact.object.contact(player);
+
                     if (playerContact.object.getAction() != null) {
                         playerContact.object.getAction().doAction();
                     }
-                }
 
-                if (converstation != null) {
+                    if (converstation != null) {
 
-                    if (gameState.getScreenInfo().getConversation() != null) {
-                        gameState.getScreenInfo().getConversation().abort();
+                        if (gameState.getScreenInfo().getConversation() != null) {
+                            gameState.getScreenInfo().getConversation().abort();
+                        }
+
+                        gameState.getScreenInfo().setConversation(converstation);
                     }
-
-                    gameState.getScreenInfo().setConversation(converstation);
                 }
             }
 
@@ -664,8 +665,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final float angle360 = (fixAngle + 180) - 90;
             weapon.setPos(pos, angle360 * MathUtils.degreesToRadians);
 
-            weapon.getBox2dBody().setLinearVelocity(new Vector2(force * MathUtils.cosDeg(fixAngle ), force * MathUtils.sinDeg(fixAngle)));
-            
+            weapon.getBox2dBody().setLinearVelocity(new Vector2(force * MathUtils.cosDeg(fixAngle), force * MathUtils.sinDeg(fixAngle)));
+
             weapon.setRotation(angle360);
             weapon.setStartHitAngle(angle);
 
