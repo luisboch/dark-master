@@ -18,6 +18,7 @@ public class GateFirstLevel extends B2Object {
     @Override
     public TextureRegion getTextureRegion() {
         if (isOpened) {
+            
             return // Textura do portão aberto;
         } else {
             return // Textura do portão fechado;
