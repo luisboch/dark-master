@@ -20,6 +20,7 @@ public class SoundManager {
     private AppManager manager;
     private boolean walking;
     private boolean running;
+    private boolean resources;
 
     private String musicName;
 
@@ -51,6 +52,15 @@ public class SoundManager {
 
     public void setRunning(boolean running) {
         checkMoveAudioChanged(running ? false : walking, running);
+    }
+
+    public boolean takingResources() {
+        return resources;
+    }
+
+    public void setResources(boolean resources) {
+        this.resources = resources;
+        movementAudioChanged();
     }
 
     public String getMusicName() {
@@ -149,12 +159,22 @@ public class SoundManager {
             runningWalkingSound.stop();
         }
 
-        if (isPlayFX() && (isRunning() || isWalking())) {
+        if (isPlayFX() && (isRunning() || isWalking() || this.resources)) {
+            String song = null;
             try {
-                runningWalkingSound = manager.getResourceLoader().getSound("data/audio/sfx/" + (isRunning() ? "running/" : "walking/") + ambient + ".mp3");
+                
+                if (isRunning()) {
+                    song = "running/";
+
+                } else if (isWalking()) {
+                    song = "walking/";
+                } else {
+                    song = "resources/";
+                }
+                runningWalkingSound = manager.getResourceLoader().getSound("data/audio/sfx/" + song + ambient + ".mp3");
                 runningWalkingSound.loop();
             } catch (Exception ex) {
-                throw new IllegalStateException("Failed to load amibient " + ambient + ", walking/running sound not found!", ex);
+                throw new IllegalStateException("Failed to load amibient data/audio/sfx/" +song + ambient + ", walking/running sound not found!", ex);
             }
         }
     }

@@ -535,11 +535,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     final Conversation converstation = playerContact.object.contact(player);
 
                     if (playerContact.object.getAction() != null) {
+                        GameConfig.SOUND_MANAGER.setResources(true);
                         playerContact.object.getAction().doAction();
+
                     }
-
+                    GameConfig.SOUND_MANAGER.setResources(false);
                     if (converstation != null) {
-
+                        
                         if (gameState.getScreenInfo().getConversation() != null) {
                             gameState.getScreenInfo().getConversation().abort();
                         }
