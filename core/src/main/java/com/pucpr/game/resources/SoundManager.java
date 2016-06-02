@@ -20,7 +20,6 @@ public class SoundManager {
     private AppManager manager;
     private boolean walking;
     private boolean running;
-    private boolean resources;
 
     private String musicName;
 
@@ -33,6 +32,7 @@ public class SoundManager {
     private Music music;
 
     private Sound runningWalkingSound;
+    private Sound getItemSound;
 
     public SoundManager(AppManager manager) {
         this.manager = manager;
@@ -52,15 +52,6 @@ public class SoundManager {
 
     public void setRunning(boolean running) {
         checkMoveAudioChanged(running ? false : walking, running);
-    }
-
-    public boolean takingResources() {
-        return resources;
-    }
-
-    public void setResources(boolean resources) {
-        this.resources = resources;
-        movementAudioChanged();
     }
 
     public String getMusicName() {
@@ -159,22 +150,35 @@ public class SoundManager {
             runningWalkingSound.stop();
         }
 
-        if (isPlayFX() && (isRunning() || isWalking() || this.resources)) {
+        if (isPlayFX() && (isRunning() || isWalking())) {
             String song = null;
             try {
                 
                 if (isRunning()) {
                     song = "running/";
-
                 } else if (isWalking()) {
                     song = "walking/";
-                } else {
-                    song = "resources/";
-                }
+                } 
+                
                 runningWalkingSound = manager.getResourceLoader().getSound("data/audio/sfx/" + song + ambient + ".mp3");
                 runningWalkingSound.loop();
             } catch (Exception ex) {
                 throw new IllegalStateException("Failed to load amibient data/audio/sfx/" +song + ambient + ", walking/running sound not found!", ex);
+            }
+        }
+    }
+    
+    public void playGetItemSound() {
+
+        if (getItemSound != null ) {
+            getItemSound.stop();
+            getItemSound.play();
+        } else {
+            try {
+                getItemSound = manager.getResourceLoader().getSound("data/audio/sfx/resources/get-item.mp3");
+                getItemSound.play();
+            } catch (Exception ex) {
+                throw new IllegalStateException("Failed to load amibient data/audio/sfx/resources/get-item.mp3, walking/running sound not found!", ex);
             }
         }
     }
