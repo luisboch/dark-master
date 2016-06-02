@@ -532,13 +532,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     final Conversation converstation = playerContact.object.contact(player);
 
                     if (playerContact.object.getAction() != null) {
-                        GameConfig.SOUND_MANAGER.playGetItemSound();
                         playerContact.object.getAction().doAction();
-
                     }
-                    
+
                     if (converstation != null) {
-                        
+
                         if (gameState.getScreenInfo().getConversation() != null) {
                             gameState.getScreenInfo().getConversation().abort();
                         }
@@ -717,6 +715,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final String[] addKeysArr = addKeys == null ? new String[]{} : addKeys.split(",");
             final String[] destroyObjectsArr = destroyObjects == null ? new String[]{} : destroyObjects.split(",");
             final String detroyOnEvent = object.getProperies().get("DestroyOnEvent", String.class);
+            final String playGetItemSound = object.getProperies().get("PlayGetItemSound", String.class);
 
             final Action acc = new Action() {
                 @Override
@@ -757,6 +756,10 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                     for (B2Object b : toRemove) {
                         world.destroyBody(b.getBox2dBody());
+                    }
+                    
+                    if (playGetItemSound != null && playGetItemSound.equalsIgnoreCase("true")) {
+                        GameConfig.SOUND_MANAGER.playGetItemSound();
                     }
 
                     actors.removeAll(toRemove);

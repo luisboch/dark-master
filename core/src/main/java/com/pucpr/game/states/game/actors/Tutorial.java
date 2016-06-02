@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.pucpr.game.GameConfig;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.basic.Conversation;
@@ -177,6 +178,7 @@ public class Tutorial extends CircleObject {
                 @Override
                 public void doAction() {
                     status.set(Keys.KEY_COD157767_TOOK, true);
+                    GameConfig.SOUND_MANAGER.playGetItemSound();
                 }
             }));
             return conversation;
