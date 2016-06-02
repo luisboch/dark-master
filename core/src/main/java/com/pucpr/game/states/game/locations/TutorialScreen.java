@@ -5,7 +5,11 @@
  */
 package com.pucpr.game.states.game.locations;
 
+import com.pucpr.game.Keys;
+import com.pucpr.game.PlayerStatus;
+import com.pucpr.game.handlers.Action;
 import com.pucpr.game.states.game.actors.B2Object;
+import com.pucpr.game.states.game.actors.GateFirstLevel;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 
 /**
@@ -20,7 +24,18 @@ public class TutorialScreen extends BasicGameScreen {
 
     @Override
     protected void configure(final B2Object actor, boolean block) {
-        
+        if (actor instanceof GateFirstLevel) {
+            final GateFirstLevel gate = (GateFirstLevel) actor;
+            gate.addAction(new Action() {
+                @Override
+                public void doAction() {
+                    if (!gate.isIsOpened() && PlayerStatus.isKey(Keys.KEY_COD157767_TOOK)) {
+                        gate.setIsOpened(true);
+                    }
+                }
+            });
+        }
+
     }
 
 }
