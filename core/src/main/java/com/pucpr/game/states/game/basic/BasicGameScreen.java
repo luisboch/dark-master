@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,7 +29,6 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.pucpr.game.AppManager;
@@ -242,16 +239,24 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     }
 
+    @SuppressWarnings("empty-statement")
     private void renderApp() {
 
-        int[] baseMap = {0, 1, 2, 3};
+        final PlayerStatus status = PlayerStatus.getInstance();
+
+        int[] baseMap = {0, 1, 2, 3, 8};
+
+        if (!status.is(Keys.KEY_COD157767_TOOK)) {
+            baseMap = new int[]{0, 1, 2, 3, 7};
+        }
+
         int[] topMap = {4};
 
         batch.getProjectionMatrix().set(camera.combined);
         render.setView(camera);
 
         render.render(baseMap);
-//        
+
         batch.begin();
 
         for (B2Object obj : actors) {
@@ -506,6 +511,20 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public boolean keyUp(int keycode) {
+
+//        if (playerContact != null) {
+//            final Conversation converstation = playerContact.contact(player);
+//            if (keycode == Input.Keys.E) {
+//                if (playerContact.getAction() != null) {
+//                    playerContact.getAction().doAction();
+//                }
+//            }
+//            final PlayerStatus status = PlayerStatus.getInstance();
+//
+//            if (converstation != null) {
+//
+//                if (gameState.getScreenInfo().getConversation() != null) {
+//                    gameState.getScreenInfo().getConversation().abort();
         if (keycode == Input.Keys.E) {
             if (playerContact != null) {
                 float dst = playerContact.pos.dst(player.getBox2dBody().getPosition());
@@ -513,11 +532,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     final Conversation converstation = playerContact.object.contact(player);
 
                     if (playerContact.object.getAction() != null) {
+                        GameConfig.SOUND_MANAGER.playGetItemSound();
                         playerContact.object.getAction().doAction();
+
                     }
-
+                    
                     if (converstation != null) {
-
+                        
                         if (gameState.getScreenInfo().getConversation() != null) {
                             gameState.getScreenInfo().getConversation().abort();
                         }
@@ -526,7 +547,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     }
                 }
             }
+
+//                gameState.getScreenInfo().setConversation(converstation);
         } else if (keycode == Input.Keys.SPACE) {
+//            Conversation converstation = gameState.getScreenInfo().getConversation();
+//            if (converstation != null) {
+//                converstation.next();
+//            }
             hit();
         }
 
@@ -637,8 +664,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final float angle360 = (fixAngle + 180) - 90;
             weapon.setPos(pos, angle360 * MathUtils.degreesToRadians);
 
-            weapon.getBox2dBody().setLinearVelocity(new Vector2(force * MathUtils.cosDeg(fixAngle ), force * MathUtils.sinDeg(fixAngle)));
-            
+            weapon.getBox2dBody().setLinearVelocity(new Vector2(force * MathUtils.cosDeg(fixAngle), force * MathUtils.sinDeg(fixAngle)));
+
             weapon.setRotation(angle360);
             weapon.setStartHitAngle(angle);
 
