@@ -29,8 +29,8 @@ public class TutorialScreen extends BasicGameScreen {
             gate.addAction(new Action() {
                 @Override
                 public void doAction() {
-                    if (!gate.isIsOpened() && PlayerStatus.isKey(Keys.KEY_COD157767_TOOK)) {
-                        gate.setIsOpened(true);
+                    if (!gate.isOpened() && PlayerStatus.isKey(Keys.KEY_COD157767_TOOK)) {
+                        gate.setOpened(true);
                     }
                 }
             });

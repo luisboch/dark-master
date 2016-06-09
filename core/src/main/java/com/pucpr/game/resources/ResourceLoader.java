@@ -49,6 +49,7 @@ public class ResourceLoader {
 //        resources.get("sprites").add("data/images/sprites/tales of phantasia/SoE_Rat.png");
 //        resources.get("sprites").add("data/images/sprites/tales of phantasia/SOItems.png");
         resources.get("sprites").add("data/images/sprites/tales of phantasia/SO_VelcantBoss-otm.png");
+        resources.get("sprites").add("data/images/sprites/maps/hyptosis.png");
 
         //Audios 
         resources.put("audio", new ArrayList());
