@@ -108,11 +108,13 @@ public class GameState implements AppState {
     }
 
     public void setScreen(BasicGameScreen screen) {
+        this.screenInfo.hideTimeOut();
         this.screen = screen;
         screen.setManager(manager);
         screen.setGameState(this);
         screen.setStage(stage);
         screen.create();
+        
     }
 
 }

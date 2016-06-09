@@ -22,7 +22,7 @@ public class GateFirstLevel extends B2Object {
     boolean opened = false;
     private TextureRegion textureOpen;
     private TextureRegion textureClosed;
-    
+
     public void create() {
         setName("GateFirstLevel");
         loadAnimation();
@@ -35,8 +35,8 @@ public class GateFirstLevel extends B2Object {
 
         final TextureRegion[][] allFrames = TextureRegion.split(sheet, sheet.getWidth() / 15, sheet.getHeight() / 30);              // #10
 
-        textureOpen = allFrames[0][0];
-        textureClosed = allFrames[1][3];
+        textureClosed = allFrames[0][0];
+        textureOpen = allFrames[1][3];
     }
 
     public void createBox2dBody(World world) {
@@ -47,6 +47,7 @@ public class GateFirstLevel extends B2Object {
         def.type = BodyDef.BodyType.StaticBody;
         this.box2dBody = world.createBody(def);
         this.box2dBody.createFixture(polygon, 1);
+        box2dBody.setUserData(this);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="62">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" backgroundcolor="#000000" nextobjectid="64">
  <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
   <image source="hyptosis.png" width="960" height="960"/>
  </tileset>
@@ -8,27 +8,27 @@
  </tileset>
  <layer name="Terrain" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3Ya0rDUBSF0ZQOyZHoMBTRUfiq4mPEVjHYU6OY5rTHG9eC+6MUSrK/PqBdBwAAAMzBzfL7w378tPnYHru+1vbr/bfuU3abcu7WZ/Vx7pPeA62qapDZY05dqlvoEVW3yOwxhybVLfSIqltk92itSfX2h+jRUpPq7fWIqrfXI6reXo+oevtD9WilSfX2ekSZOx4vuu4k6fQ9+sdHCz3GntP1ZudJp+/RPz7Tw/dVkaFrv0o613qMNnTtq6Szy5566PHXbF/704TzokeKrPve3PN2Of4350GPd/voUfF9p4ce+5B134/Lab8/m+dZj9meFlVvpkd0iF02/zcc89x/a/Gm+j3ss/Fp6j1fJP6/u30uJ35eWlT9Hvb5iKo30yOq3kyPqHozPb6q3k2PqHo3PaLq3fSIqnfTIqreTo9h1Rvq8TvV22owzA4AAAAAAAAAAAAAAAAAAAAAAADQvlcHOK5fQJwAAA==
+   H4sIAAAAAAAAA+3Ya0rDUBSF0ZQOyZHoMBTRUfiq4mPEVjHYU6OY5rTHG9eC+6MUSrK/PqBdBwAAAMzBzfL7w378tPnYHru+1vbr/bfuU3abcu7WZ/Vx7pPeA62qapDZY05dqlvoEVW3yOwxhybVLfSIqltk92itSfX2h+jRUpPq7fWIqrfXI6reXo+oevtD9WilSfX2ekSZOx4vuu4k6fQ9+sdHCz3GntP1ZudJp+/RPz7Tw/dVkaFrv0o613qMNnTtq6Szy5566PHXbF/704TzokeKrPve3PN2Of4350GPd/voUfF9p4ce+5B134/Lab8/m+dZj9meFlVvpkd0iF02/zcc89x/a/Gm+j3ss/Fp6j1fJP6/u30uJ35eWlT9Hvb5iKo30yOq3kyPqHozPb6q3k2PqHo3PaLq3fSIqnfTIqreTo9h1Rvq8TvV22owzA4AAAAAAAAAAAAAAAAAAAAAAADQvlcHOK5fQJwAAA==
   </data>
  </layer>
  <layer name="Base" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XMQ6AIBBFwcUTc2D0HmAjBYVWxoKQmJnk9Zv8aiMAAAAAAAAAAAAAgL8pKWIfHWn1NdS+QRud9ljOHgAA8+TtW8x1/w3f8jsCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8Xd7qy/NAnAAA
+   H4sIAAAAAAAAA+3XMQ6AIBBFwcUTc2D0HmAjBYVWxoKQmJnk9Zv8aiMAAAAAAAAAAAAAgL8pKWIfHWn1NdS+QRud9ljOHgAA8+TtW8x1/w3f8jsCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8Xd7qy/NAnAAA
   </data>
  </layer>
  <layer name="Details" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3Y2wnCMBQG4OgE3cNL3cPLMPrgGu0suoe6kUcq2AehUMQD5fvgh0DyEM6BJKQUAAAAAAAAAAAAgGl7zLJ3wJBqnr2D6TlGTZtIGzmpb7qm14P2PT73wv98uxNeZ9CidFmWz/gSa6/uEAB+wHt3vFXUbh2pIxt1TLeNHuwi+8hBP1IN/XXcYv4+8i3rHwUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKDzBC6bFyJAnAAA
+   H4sIAAAAAAAAA+3Y2wnCMBQG4OgE3cNL3cPLMPrgGu0suoe6kUcq2AehUMQD5fvgh0DyEM6BJKQUAAAAAAAAAAAAgGl7zLJ3wJBqnr2D6TlGTZtIGzmpb7qm14P2PT73wv98uxNeZ9CidFmWz/gSa6/uEAB+wHt3vFXUbh2pIxt1TLeNHuwi+8hBP1IN/XXcYv4+8i3rHwUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKDzBC6bFyJAnAAA
   </data>
  </layer>
  <layer name="Details2" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XMQrAIAwFULG9jVftOXuODqVLwYqagsN7EBAJGfIHMSUAAAAAAAAAAACAdZWPmp1LnJ592v3/ZvOQUaxnn0e+68zt3tYdcfatr18eYyLe7tpcxshjLfJYi92tpbzO0X9DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJoLD5wNZ0CcAAA=
+   H4sIAAAAAAAAA+3XMQrAIAwFULG9jVftOXuODqVLwYqagsN7EBAJGfIHMSUAAAAAAAAAAACAdZWPmp1LnJ592v3/ZvOQUaxnn0e+68zt3tYdcfatr18eYyLe7tpcxshjLfJYi92tpbzO0X9DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJoLD5wNZ0CcAAA=
   </data>
  </layer>
  <layer name="TopLayer" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3W660BUQCF0UMHtKISg0aoxbMLEo8+7qUPlwJsJZDIwV0r+f6fzJ45mVIAAAAAAAAAAAAAPtewXcqoXfsU3N23GKeJTeBp01Yps1btU3yPeZ7lIi3TynOtbpsNdmmfDvao7icb/KZjOtmjunM2+EuXdLXH2+jkn7brv/YjNNlp8EC8xjr318Ydxj/Vz7vfvKie7woAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKq5Af0RzNVAnAAA
+   H4sIAAAAAAAAA+3W660BUQCF0UMHtKISg0aoxbMLEo8+7qUPlwJsJZDIwV0r+f6fzJ45mVIAAAAAAAAAAAAAPtewXcqoXfsU3N23GKeJTeBp01Yps1btU3yPeZ7lIi3TynOtbpsNdmmfDvao7icb/KZjOtmjunM2+EuXdLXH2+jkn7brv/YjNNlp8EC8xjr318Ydxj/Vz7vfvKie7woAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKq5Af0RzNVAnAAA
   </data>
  </layer>
  <objectgroup name="Box2dLayer">
@@ -49,6 +49,12 @@
   <object id="46" x="829.076" y="884.394" width="127" height="104.667"/>
   <object id="52" x="994" y="930" width="92.5" height="26"/>
   <object id="56" x="1281" y="768" width="94" height="61"/>
+  <object id="63" name="ActorAction" x="1215" y="731.5" width="68" height="41">
+   <properties>
+    <property name="NextScreen" value="RushTest"/>
+    <property name="event" value="touch"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Actors">
   <object id="48" name="Guard" x="1192.08" y="830.333" width="23" height="23"/>
@@ -61,12 +67,6 @@
   </object>
   <object id="50" name="Player" x="634.918" y="910" width="23" height="23"/>
   <object id="51" name="Tutorial" x="892.085" y="977.333" width="23" height="23"/>
-  <object id="61" name="GateFirstLevel" x="1244.25" y="789.5" width="6.75" height="22.5">
-   <properties>
-    <property name="MustHaveKeys" value="KEY_COD157767_TOOK"/>
-    <property name="NextScreen" value="RushTest"/>
-    <property name="event" value="touch"/>
-   </properties>
-  </object>
+  <object id="61" name="GateFirstLevel" x="1247.25" y="786.5" width="6.75" height="22.5"/>
  </objectgroup>
 </map>
