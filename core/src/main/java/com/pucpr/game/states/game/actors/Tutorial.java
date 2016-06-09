@@ -92,6 +92,7 @@ public class Tutorial extends CircleObject {
 
         final Texture sheet = manager.getResourceLoader().
                 getTexture("data/images/sprites/tales of phantasia/SO_VelcantBoss-otm.png"); // #9
+//                getTexture("data/images/sprites/maps/hyptosis-otm.png"); // #9
 
         final float walkVelocity = 1f;
         final float runningVelocity = 0.2f;
