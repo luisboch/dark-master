@@ -31,6 +31,7 @@ public class TutorialScreen extends BasicGameScreen {
                 public void doAction() {
                     if (!gate.isOpened() && PlayerStatus.isKey(Keys.KEY_COD157767_TOOK)) {
                         gate.setOpened(true);
+                        world.destroyBody(gate.getBox2dBody());
                     }
                 }
             });

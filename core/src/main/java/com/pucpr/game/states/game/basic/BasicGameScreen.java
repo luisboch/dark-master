@@ -59,7 +59,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     private OrthographicCamera camera;
     protected AppManager manager;
-    private GameState gameState;
+    protected GameState gameState;
 
     /**
      * the immediate mode renderer to output our debug drawings *
@@ -753,7 +753,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     for (B2Object b : toRemove) {
                         world.destroyBody(b.getBox2dBody());
                     }
-                    
+
                     if (playGetItemSound != null && playGetItemSound.equalsIgnoreCase("true")) {
                         GameConfig.SOUND_MANAGER.playGetItemSound();
                     }

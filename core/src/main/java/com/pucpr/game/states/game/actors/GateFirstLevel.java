@@ -22,7 +22,7 @@ public class GateFirstLevel extends B2Object {
     boolean opened = false;
     private TextureRegion textureOpen;
     private TextureRegion textureClosed;
-    
+
     public void create() {
         setName("GateFirstLevel");
         loadAnimation();
@@ -47,7 +47,7 @@ public class GateFirstLevel extends B2Object {
         def.type = BodyDef.BodyType.StaticBody;
         this.box2dBody = world.createBody(def);
         this.box2dBody.createFixture(polygon, 1);
-        this.box2dBody.setUserData(this);
+        box2dBody.setUserData(this);
     }
 
     @Override
