@@ -6,10 +6,8 @@
 package com.pucpr.game.states.game.basic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -72,12 +70,15 @@ public class ScreenInfo extends BasicAppState {
         table.pad(0).defaults().expandX().space(0);
 
         container.setDebug(true, true);
-        container.setWidth(Gdx.graphics.getWidth());
-        container.setHeight(Gdx.graphics.getHeight());
+        container.setWidth(200f);
+        container.setHeight(50f);
 //        container.setX(0 - (Gdx.graphics.getWidth() / 2) + 60);
 //        container.setY((Gdx.graphics.getWidth() / 2) - 20);
 
         final Stage stage = gameState.getStage();
+
+        container.setX((Gdx.graphics.getWidth() / 2) - 100);
+        container.setY(500);
         stage.addActor(container);
         timeOutContainer = container;
 
