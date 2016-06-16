@@ -634,8 +634,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (PlayerStatus.isKey(Keys.SWORD_TOOK) && player.getCurrentWeapon() == null && creatingHit != null) {
             startingHit = System.currentTimeMillis() - creatingHit;
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
-//            force = force < 1 ? 0.1f : force;
-            force = 1;
+            force = force < 0.1f ? 0.1f : force;
+//            force = 1;
 
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);
@@ -670,7 +670,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
 //            
-            force = force * 60;
+            force = force * 120;
 //            Double angleFixed = fixAngle * 180 / Math.PI % 360;
             final float angle360 = (fixAngle + 180) - 90;
             weapon.setPos(pos, angle360 * MathUtils.degreesToRadians);
