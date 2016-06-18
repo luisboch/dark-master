@@ -23,7 +23,7 @@ public class RushTest extends BasicGameScreen {
     @Override
     public void create() {
         super.create();
-        gameState.getScreenInfo().showTimeOut(15000);
+//        gameState.getScreenInfo().showTimeOut(15000);
 
     }
 

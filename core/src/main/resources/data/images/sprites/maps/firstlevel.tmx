@@ -8,27 +8,27 @@
  </tileset>
  <layer name="Terrain" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Ya0rDUBSF0ZQOyZHoMBTRUfiq4mPEVjHYU6OY5rTHG9eC+6MUSrK/PqBdBwAAAMzBzfL7w378tPnYHru+1vbr/bfuU3abcu7WZ/Vx7pPeA62qapDZY05dqlvoEVW3yOwxhybVLfSIqltk92itSfX2h+jRUpPq7fWIqrfXI6reXo+oevtD9WilSfX2ekSZOx4vuu4k6fQ9+sdHCz3GntP1ZudJp+/RPz7Tw/dVkaFrv0o613qMNnTtq6Szy5566PHXbF/704TzokeKrPve3PN2Of4350GPd/voUfF9p4ce+5B134/Lab8/m+dZj9meFlVvpkd0iF02/zcc89x/a/Gm+j3ss/Fp6j1fJP6/u30uJ35eWlT9Hvb5iKo30yOq3kyPqHozPb6q3k2PqHo3PaLq3fSIqnfTIqreTo9h1Rvq8TvV22owzA4AAAAAAAAAAAAAAAAAAAAAAADQvlcHOK5fQJwAAA==
+   H4sIAAAAAAAAC+3YbUoCYRSG4RGX1EpsGUUfq6jMoo8VZ+GA7zRF45zx9I7XBeeHBKLPHQo2DQAAADAHD8ufj2n8tvnQHoc+V/f5Tq37mN3G3OP2Nrt7CvofqFVWg8gec+qS3UKPUnaLyB5zaJLdQo9SdovoHrU1yd7+GD1qapK9vR6l7O31KGVvr0cpe/tj9ailSfb2epQid1wtmuY86Noe7eOzhR5D72K72VXQtT3ax5d6+LxK0vfa74LuXo/B+l77JugO2VMPPf6b7mt/HXHveoSIet/7e66Xw79znvX4MkWPjM87PfSYQtT7flmO+/7Zvzc9Zns1yt5Mj9Ixdtn/3XDI306txadD3+9qgg27ncb8xlujMXvdbLe6Dvx9t3u3u9NjHlej7M30KGVvpkcpezM9vsveTY9S9m56lLJ306OUvZsWpezt9OiXvaEef5O9rQb97AAAAAAAAAAAAAAAAAAAAAAAAAD1+wDLNRRLQJwAAA==
   </data>
  </layer>
  <layer name="Base" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3XMQ6AIBBFwcUTc2D0HmAjBYVWxoKQmJnk9Zv8aiMAAAAAAAAAAAAAgL8pKWIfHWn1NdS+QRud9ljOHgAA8+TtW8x1/w3f8jsCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8Xd7qy/NAnAAA
+   H4sIAAAAAAAAC+3XMQ6CQBQE0MX7mngg9CDqUdR7iI0UJNIRiOhkeS+ZZov92T8FoRQAAAAAAAAAAGBr2j6nL+U4uvc6Om9/8I5anCuZUQt9ZNFHFn1kmdrVrSnlPuTRrDODj6ldPfsOuiEvfaxOH1l8P7LoI4s+sugjiz6yzNnVYTcvS2Zs3aWSGbCW/cL/vH/fDQAAAAAAAAAAAAAAAAAAAAAAAAAAAABAnjeszmtnQJwAAA==
   </data>
  </layer>
  <layer name="Details" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Y2wnCMBQG4OgE3cNL3cPLMPrgGu0suoe6kUcq2AehUMQD5fvgh0DyEM6BJKQUAAAAAAAAAAAAgGl7zLJ3wJBqnr2D6TlGTZtIGzmpb7qm14P2PT73wv98uxNeZ9CidFmWz/gSa6/uEAB+wHt3vFXUbh2pIxt1TLeNHuwi+8hBP1IN/XXcYv4+8i3rHwUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKDzBC6bFyJAnAAA
+   H4sIAAAAAAAAC+3WywlCMRAF0GgF9uG3Dz/F+Ba28V4t2ogdeUXBtxAEEQPhHLiQRRbDDGRSCgAAAAAAAAAAAEDbrpPaFfDJbFq7gvYc09M+GZJOf6vrRzMYnufTKPzPu51wf4Pm5ZFFeZ3PuXuxQwD4Af/d7y3Tu1WyTjb6WN02M9gl++RgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADTuBkXkDgBAnAAA
   </data>
  </layer>
  <layer name="Details2" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3XMQrAIAwFULG9jVftOXuODqVLwYqagsN7EBAJGfIHMSUAAAAAAAAAAACAdZWPmp1LnJ592v3/ZvOQUaxnn0e+68zt3tYdcfatr18eYyLe7tpcxshjLfJYi92tpbzO0X9DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJoLD5wNZ0CcAAA=
+   H4sIAAAAAAAAC+3XMQrAIAwFULG9jVftOXuODqVLwYqagsN7EBAJGfIHMSUAAAAAAAAAAACAdZWPmp1LnJ592v3/ZvOQUaxnn0e+68zt3tYdcfatr18eYyLe7tpcxshjLfJYi92tpbzO0X9DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJoLD5wNZ0CcAAA=
   </data>
  </layer>
  <layer name="TopLayer" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3W660BUQCF0UMHtKISg0aoxbMLEo8+7qUPlwJsJZDIwV0r+f6fzJ45mVIAAAAAAAAAAAAAPtewXcqoXfsU3N23GKeJTeBp01Yps1btU3yPeZ7lIi3TynOtbpsNdmmfDvao7icb/KZjOtmjunM2+EuXdLXH2+jkn7brv/YjNNlp8EC8xjr318Ydxj/Vz7vfvKie7woAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKq5Af0RzNVAnAAA
+   H4sIAAAAAAAAC+3W7U3CUACF4dtuAKswiUUW0VmUjx/uoInKHoB7AA7A6QiY1EvJ8yTv/5ue9qalAAAAAAAAAAAAAIzXY1vKoq19Cnr9Fk/p2SbwZy9NKa9N7VPcj2We5Sqt08Zzre4zG3yl77S1R3W7bLBPh/Rjj+qO2eCUzunXHjdjkn/aqf/aUeiy0/yKGMZ77q8Pd9i/eRs4rvOQd78bqJnvCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrkAQ7c5jECcAAA=
   </data>
  </layer>
  <objectgroup name="Box2dLayer">
@@ -42,12 +42,12 @@
    <polygon points="0,0 1.6338,14.6667 15.5212,22 37.5775,21.3333 62,-4.66667 44.1127,-9.33333"/>
   </object>
   <object id="43" x="725.076" y="1116.13">
-   <polygon points="30,-1 -23,-1.06667 -66,51.9333 11,47.2667"/>
+   <polygon points="30,-1 -23,-1.06667 -89.5,88.4333 3.5,87.7667"/>
   </object>
-  <object id="44" x="570.076" y="1240.06" width="846.667" height="33"/>
+  <object id="44" x="606" y="1203" width="769" height="70.06"/>
   <object id="45" x="1374.08" y="763.061" width="43" height="477"/>
   <object id="46" x="829.076" y="884.394" width="127" height="104.667"/>
-  <object id="52" x="994" y="930" width="92.5" height="26"/>
+  <object id="52" x="989" y="919" width="104" height="37"/>
   <object id="56" x="1281" y="768" width="94" height="61"/>
   <object id="63" name="ActorAction" x="1215" y="731.5" width="68" height="41">
    <properties>
@@ -67,6 +67,6 @@
   </object>
   <object id="50" name="Player" x="634.918" y="910" width="23" height="23"/>
   <object id="51" name="Tutorial" x="892.085" y="977.333" width="23" height="23"/>
-  <object id="61" name="GateFirstLevel" x="1247.25" y="788.5" width="6.75" height="22.5"/>
+  <object id="61" name="GateFirstLevel" x="1247.75" y="774.5" width="6.75" height="22.5"/>
  </objectgroup>
 </map>
