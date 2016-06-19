@@ -31,6 +31,8 @@ public abstract class B2Object extends Actor {
     protected World world;
     protected AppManager manager;
 
+    private boolean destroyOnHit = false;
+
     protected void create() {
     }
 
@@ -53,6 +55,9 @@ public abstract class B2Object extends Actor {
 
     public void setBox2dBody(Body box2dBody) {
         this.box2dBody = box2dBody;
+        if (this.box2dBody != null) {
+            this.box2dBody.setUserData(this);
+        }
     }
 
     public Float getAngle() {
@@ -92,9 +97,11 @@ public abstract class B2Object extends Actor {
     public void addAction(Action action) {
         actions.add(action);
     }
+
     public void rmAction(Action action) {
         removeAction(action);
     }
+
     public void removeAction(Action action) {
         actions.add(action);
     }
@@ -113,9 +120,11 @@ public abstract class B2Object extends Actor {
     public void addTouchAction(Action action) {
         touchActions.add(action);
     }
+
     public void rmTouchAction(Action action) {
         removeTouchAction(action);
     }
+
     public void removeTouchAction(Action action) {
         touchActions.add(action);
     }
@@ -140,4 +149,13 @@ public abstract class B2Object extends Actor {
     public void setProperies(MapProperties properies) {
         this.properies = properies;
     }
+
+    public boolean isDestroyOnHit() {
+        return destroyOnHit;
+    }
+
+    public void setDestroyOnHit(boolean destroyOnHit) {
+        this.destroyOnHit = destroyOnHit;
+    }
+
 }

@@ -19,7 +19,7 @@ public class GameConfig {
     public static final float PPM = 32;
     public static final float GAME_SCALE = 1f;
     public static SoundManager SOUND_MANAGER;
-    public static final boolean showDebug = false;
+    public static final boolean showDebug = true;
     public static final int skipFramesQty = 60;
     public static final boolean skipFrames = false;
 }

@@ -45,6 +45,7 @@ public class ResourceLoader {
         resources.get("sprites").add("data/images/sprites/tales of phantasia/ClessAlveinOW-otm.png");
         resources.get("sprites").add("data/images/sprites/tales of phantasia/Weapons.png");
         resources.get("sprites").add("data/images/sprites/util/japanese-village.png");
+        resources.get("sprites").add("data/images/sprites/RPG Maker/trees.png");
 //        resources.get("sprites").add("data/images/sprites/tales of phantasia/ChesterBarklightOW.png");
 //        resources.get("sprites").add("data/images/sprites/tales of phantasia/SoE_Rat.png");
 //        resources.get("sprites").add("data/images/sprites/tales of phantasia/SOItems.png");

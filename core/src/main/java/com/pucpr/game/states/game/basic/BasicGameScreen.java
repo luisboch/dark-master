@@ -55,7 +55,7 @@ import java.util.List;
 public class BasicGameScreen implements GameScreenState, InputProcessor, ContactListener {
 
     private Direction playerDirection = Direction.DOWN;
-    private static final Float MAX_VELOCITY = 16f;
+    private static final Float MAX_VELOCITY = 8f;
 
     private OrthographicCamera camera;
     protected AppManager manager;
@@ -86,7 +86,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     /**
      * our itens (not available on map), used to write on screen *
      */
-    protected final List<B2Object> actors = new ArrayList();
+    protected final List<B2Object> actors = new ArrayList<B2Object>();
 
     /**
      * Nossas armas (adicionadas na lista "actors" também). Esta lista é
@@ -94,17 +94,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
      * e da tela.
      *
      */
-    protected final List<Knife> weapons = new ArrayList();
-
-    /**
-     * our ground box *
-     */
-    Body groundBody;
-
-    /**
-     * a hit body *
-     */
-    Body hitBody = null;
+    protected final List<Knife> weapons = new ArrayList<Knife>();
+    protected final List<Body> bodiesToDestroy = new ArrayList<Body>();
 
     Player player;
 
@@ -209,8 +200,8 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                 final Vector2 pos = actor.getBox2dBody().getPosition();
 
-                pos.x = mapPos.getRectangle().x / GameConfig.PPM;
-                pos.y = mapPos.getRectangle().y / GameConfig.PPM;
+                pos.x = (mapPos.getRectangle().x / GameConfig.PPM);
+                pos.y = (mapPos.getRectangle().y / GameConfig.PPM);
 
                 actor.getBox2dBody().setTransform(pos, 0);
 
@@ -224,6 +215,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     public void render() {
         calculate();
         long start = TimeUtils.nanoTime();
+        destroyDeathBodies();
         world.step(Gdx.graphics.getDeltaTime(), 8, 3);
         updateTime = (TimeUtils.nanoTime() - start) / 1000000000.0f;
 
@@ -345,9 +337,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             playerDirection = Direction.LEFT;
             if (vel.x > -maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x - 2f, vel.y);
+                vel.x -= 2f;
             } else if (vel.x < -maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x + 2f, vel.y);
+                vel.x += 2f;
             }
 
             horizontalKey = true;
@@ -357,9 +349,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             playerDirection = Direction.RIGHT;
 
             if (vel.x < maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x + 2f, vel.y);
+                vel.x += 2f;
             } else if (vel.x > maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x - 2f, vel.y);
+                vel.x -= 2f;
             }
 
             horizontalKey = true;
@@ -371,9 +363,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             playerDirection = Direction.DOWN;
 
             if (vel.y > -maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x, vel.y - 2f);
+                vel.y -= 2f;
             } else if (vel.x < -maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x, vel.y + 2f);
+                vel.y += 2f;
             }
             verticalKey = true;
 
@@ -382,9 +374,9 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             playerDirection = Direction.UP;
 
             if (vel.y < maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x, vel.y + 2f);
+                vel.y += 2f;
             } else if (vel.y > maxVel) {
-                player.getBox2dBody().setLinearVelocity(vel.x, vel.y - 2f);
+                vel.y -= 2f;
             }
             verticalKey = true;
         }
@@ -392,15 +384,15 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (!horizontalKey) {
             if (vel.x > 0) {
                 if (vel.x > 2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x - 2f, vel.y);
+                    vel.x -= 2f;
                 } else if (vel.x <= 2f) {
-                    player.getBox2dBody().setLinearVelocity(0, vel.y);
+                    vel.x = 0f;
                 }
             } else if (vel.x < 0) {
                 if (vel.x <= -2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x + 2f, vel.y);
+                    vel.x += 2f;
                 } else if (vel.x > -2f) {
-                    player.getBox2dBody().setLinearVelocity(0, vel.y);
+                    vel.x = 0f;
                 }
             }
         }
@@ -408,18 +400,20 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         if (!verticalKey) {
             if (vel.y > 0) {
                 if (vel.y > 2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x, vel.y - 2f);
+                    vel.y -= 2f;
                 } else if (vel.y <= 2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x, 0);
+                    vel.y = 0f;
                 }
             } else if (vel.y < 0) {
                 if (vel.y <= -2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x, vel.y + 2f);
+                    vel.y += 2f;
                 } else if (vel.y > -2f) {
-                    player.getBox2dBody().setLinearVelocity(vel.x, 0);
+                    vel.y = 0f;
                 }
             }
         }
+
+        player.getBox2dBody().setLinearVelocity(vel.x, vel.y);
 
         calculateBullets();
 
@@ -454,21 +448,44 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         final Object obj2 = c.getFixtureB().getBody().getUserData();
 
         if (obj1 != null && obj2 != null) {
-            final B2Object contact;
+            boolean isPlayerContact = false;
+            B2Object contact1 = null;
+
             if (obj1 instanceof Player) {
-                contact = (B2Object) obj2;
+                contact1 = (B2Object) obj2;
+                isPlayerContact = true;
             } else if (obj2 instanceof Player) {
-                contact = (B2Object) obj1;
+                contact1 = (B2Object) obj1;
+                isPlayerContact = true;
+            }
+
+            if (isPlayerContact && contact1 != null) {
+                Vector2[] points = c.getWorldManifold().getPoints();
+                playerContact = new ObjectConcat(contact1, points[0]);
+
+                if (contact1 != null) {
+                    contact1.getTouchAction().doAction();
+                }
             } else {
-                return;
+
+                boolean isKnifeContact = false;
+
+                if (obj1 instanceof Knife) {
+                    contact1 = (B2Object) obj2;
+                    isKnifeContact = true;
+                } else if (obj2 instanceof Knife) {
+                    contact1 = (B2Object) obj1;
+                    isKnifeContact = true;
+                }
+
+                if (isKnifeContact && contact1 != null) {
+                    if (contact1.isDestroyOnHit()) {
+                        actors.remove(contact1);
+                        bodiesToDestroy.add(contact1.getBox2dBody());
+                    }
+                }
             }
 
-            Vector2[] points = c.getWorldManifold().getPoints();
-            playerContact = new ObjectConcat(contact, points[0]);
-
-            if (contact != null) {
-                contact.getTouchAction().doAction();
-            }
         }
 
     }
@@ -614,11 +631,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void hit() {
-        if (PlayerStatus.isKey(Keys.SWORD_TOOK) && player.getCurrentWeapon() == null) {
+        if (PlayerStatus.isKey(Keys.SWORD_TOOK) && player.getCurrentWeapon() == null && creatingHit != null) {
             startingHit = System.currentTimeMillis() - creatingHit;
             float force = startingHit > 1500 ? 1f : (startingHit.floatValue() / 1500f);
-//            force = force < 1 ? 0.1f : force;
-            force = 1;
+            force = force < 0.1f ? 0.1f : force;
+//            force = 1;
 
             final Knife weapon = new Knife(BodyDef.BodyType.DynamicBody);
             weapon.init(world, manager);
@@ -653,7 +670,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             }
 
 //            
-            force = force * 60;
+            force = force * 120;
 //            Double angleFixed = fixAngle * 180 / Math.PI % 360;
             final float angle360 = (fixAngle + 180) - 90;
             weapon.setPos(pos, angle360 * MathUtils.degreesToRadians);
@@ -712,6 +729,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final String[] destroyObjectsArr = destroyObjects == null ? new String[]{} : destroyObjects.split(",");
             final String detroyOnEvent = object.getProperies().get("DestroyOnEvent", String.class);
             final String playGetItemSound = object.getProperies().get("PlayGetItemSound", String.class);
+            final String destroyOnHit = object.getProperies().get("DestroyOnHit", String.class);
 
             final Action acc = new Action() {
                 @Override
@@ -770,7 +788,17 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 object.addTouchAction(acc);
             }
 
+            object.setDestroyOnHit(destroyOnHit != null && destroyOnHit.equalsIgnoreCase("true"));
         }
+    }
+
+    private void destroyDeathBodies() {
+        
+        for (Body b : bodiesToDestroy) {
+            world.destroyBody(b);
+        }
+        
+        bodiesToDestroy.clear();
     }
 
     private static class ObjectConcat {

@@ -28,6 +28,7 @@ import com.pucpr.game.GameConfig;
 import com.pucpr.game.states.game.actors.B2Object;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -151,7 +152,12 @@ public class Util {
         for (int i = 0; i < vertices.length; ++i) {
             worldVertices[i] = vertices[i] / ppt;
         }
-
+        
+        if (polygonObject.getName() != null && polygonObject.getName().equals("Test1")) {
+            System.out.println("vertices: " + Arrays.toString(vertices));
+            System.out.println("worldVertices: " + Arrays.toString(worldVertices));
+        }
+        
         polygon.set(worldVertices);
         return polygon;
     }
