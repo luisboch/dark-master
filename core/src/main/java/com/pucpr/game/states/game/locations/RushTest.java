@@ -5,6 +5,8 @@
  */
 package com.pucpr.game.states.game.locations;
 
+import com.pucpr.game.Keys;
+import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
 
 /**
@@ -23,18 +25,33 @@ public class RushTest extends BasicGameScreen {
     @Override
     public void create() {
         super.create();
-//        gameState.getScreenInfo().showTimeOut(15000);
-
+        if (!PlayerStatus.isKey(Keys.RUSH_TEST_DONE)) {
+            gameState.getScreenInfo().showTimeOut(30000l);
+        }
     }
 
     @Override
     public void render() {
         super.render();
 
-        if (gameState.getScreenInfo().isTimeOver()) {
-            gameState.setScreen(new TutorialScreen());
+        if (!PlayerStatus.isKey(Keys.RUSH_TEST_DONE) && gameState.getScreenInfo().isTimeOver()) {
+
+            final TutorialScreen prevScreen = new TutorialScreen();
+            prevScreen.movePlayerToGate(TutorialScreen.GATE_2);
+            gameState.setScreen(prevScreen);
         }
 
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        if (PlayerStatus.isKey(Keys.RUSH_TEST_ISCOMPLETE) && !PlayerStatus.isKey(Keys.RUSH_TEST_DONE)) {
+            gameState.getScreenInfo().showImage("data/images/sprites/util/ok.png", 6000);
+            PlayerStatus.getInstance().set(Keys.RUSH_TEST_DONE, true);
+        } else {
+            
+        }
     }
 
 }

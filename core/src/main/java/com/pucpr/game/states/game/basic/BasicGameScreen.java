@@ -141,6 +141,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
         Gdx.input.setInputProcessor(this);
     }
 
+    @Override
+    public void close() {
+
+    }
+
     private void createPhysicsWorld() {
         // we instantiate a new World with a proper gravity vector
         // and tell it to sleep when possible.
@@ -482,6 +487,15 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     if (contact1.isDestroyOnHit()) {
                         actors.remove(contact1);
                         bodiesToDestroy.add(contact1.getBox2dBody());
+
+                        for (Knife k : weapons) {
+                            bodiesToDestroy.add(k.getBox2dBody());
+                            actors.remove(k);
+                        }
+
+                        weapons.clear();
+                        player.setCurrentWeapon(null);
+                        creatingHit = null;
                     }
                 }
             }
@@ -719,7 +733,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     private void checkForMapConfigurations(final B2Object object) {
         if (object.getProperies() != null) {
 
-            final String event = object.getProperies().get("event", String.class);
+            final String event = object.getProperies().get("Event", String.class);
             final String nextScreen = object.getProperies().get("NextScreen", String.class);
             final String mustHaveKeys = object.getProperies().get("MustHaveKeys", String.class);
             final String addKeys = object.getProperies().get("AddKeys", String.class);
@@ -730,6 +744,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final String detroyOnEvent = object.getProperies().get("DestroyOnEvent", String.class);
             final String playGetItemSound = object.getProperies().get("PlayGetItemSound", String.class);
             final String destroyOnHit = object.getProperies().get("DestroyOnHit", String.class);
+            final String gate = object.getProperies().get("Gate", String.class);
 
             final Action acc = new Action() {
                 @Override
@@ -748,8 +763,13 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     }
 
                     if (nextScreen != null && !nextScreen.isEmpty()) {
+
                         final BasicGameScreen screen = Util.loadScreen(nextScreen);
                         gameState.setScreen(screen);
+                        
+                        if (gate != null && !gate.equals("")) {
+                            screen.movePlayerToGate(gate);
+                        }
                     }
 
                     if (detroyOnEvent != null && detroyOnEvent.equalsIgnoreCase("true")) {
@@ -793,12 +813,39 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void destroyDeathBodies() {
-        
+
         for (Body b : bodiesToDestroy) {
             world.destroyBody(b);
         }
-        
+
         bodiesToDestroy.clear();
+    }
+
+    public void movePlayerToGate(String gateName) {
+
+        final MapLayer gates = map.getLayers().get("Gates");
+
+        if (gates != null) {
+            for (final MapObject gate : gates.getObjects()) {
+
+                final RectangleMapObject mapPos = (RectangleMapObject) gate;
+                if (mapPos.getName() != null && mapPos.getName().equals(gateName)) {
+
+                    final Vector2 pos = player.getBox2dBody().getPosition();
+
+                    pos.x = (mapPos.getRectangle().x / GameConfig.PPM);
+                    pos.y = (mapPos.getRectangle().y / GameConfig.PPM);
+
+                    player.getBox2dBody().setTransform(pos, 0);
+
+                } else {
+                    continue;
+                }
+            }
+        } else {
+            System.out.println("ERROR: Trying to move player on map whitout \"Gates\" layer!");
+        }
+
     }
 
     private static class ObjectConcat {
