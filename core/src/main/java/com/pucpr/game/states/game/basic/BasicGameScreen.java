@@ -482,6 +482,15 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     if (contact1.isDestroyOnHit()) {
                         actors.remove(contact1);
                         bodiesToDestroy.add(contact1.getBox2dBody());
+
+                        for (Knife k : weapons) {
+                            bodiesToDestroy.add(k.getBox2dBody());
+                            actors.remove(k);
+                        }
+
+                        weapons.clear();
+                        player.setCurrentWeapon(null);
+                        creatingHit = null;
                     }
                 }
             }
@@ -793,11 +802,11 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
     }
 
     private void destroyDeathBodies() {
-        
+
         for (Body b : bodiesToDestroy) {
             world.destroyBody(b);
         }
-        
+
         bodiesToDestroy.clear();
     }
 

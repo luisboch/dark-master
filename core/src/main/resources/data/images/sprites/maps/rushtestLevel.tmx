@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="112">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="130">
  <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
   <image source="hyptosis.png" width="960" height="960"/>
  </tileset>
@@ -57,22 +57,22 @@
    <polygon points="0,0 2,-45.3333 -9.33333,-66.6667 -0.666667,-129.333 -44.6667,-162 -48.6667,-180.667 78.6667,-215.333 88.6667,2"/>
   </object>
   <object id="56" x="1533.33" y="2274">
-   <polygon points="0,0 -40,4.66667 -41.3333,-102.667 48.6667,-132.667 108,-138.667 119.333,-165.333 211.333,-175.333 141.167,-35.6667"/>
+   <polygon points="0,0 -40,4.66667 -41.3333,-102.667 108,-138.667 119.333,-165.333 211.333,-175.333 141.167,-35.6667"/>
   </object>
   <object id="62" x="1714.67" y="2138.67">
-   <polygon points="-38.6667,93.3333 40.6667,-64.3333 85.3333,-68.3333 100,-91.6667 126.333,-105.333 130,-125.667 163.333,-137.667 197.667,-26"/>
+   <polygon points="-38.6667,93.3333 40.6667,-64.3333 85.3333,-68.3333 163.333,-137.667 197.667,-26"/>
   </object>
   <object id="63" x="1877" y="2001">
-   <polygon points="0,0 3.66667,-21 28.3333,-36 34.6667,-85.6667 56,-97 62.6667,-147.667 176.667,-120.667 35.3333,111.667"/>
+   <polygon points="0,0 28.3333,-36 56,-97 85.6667,-139.667 176.667,-120.667 35.3333,111.667"/>
   </object>
   <object id="65" x="1942.67" y="1848">
-   <polygon points="-3.33333,6 26,-24.6667 26.6667,-94.6667 56.6667,-106 57.3333,-186 90,-197.333 258,-164.667 110.667,32"/>
+   <polygon points="19.6667,11 38,-16.6667 57.3333,-186 90,-197.333 258,-164.667 110.667,32"/>
   </object>
   <object id="66" x="2032" y="1649.33">
    <polygon points="249.333,-149.333 71,-310.333 95,-347.333 231.333,-469.667 396,-471.667"/>
   </object>
   <object id="68" x="1722.67" y="1531.33">
-   <polygon points="0,0 -100,-1.33333 -216.667,124 -264,130 -315.333,226.667 -380.667,224 -342.667,332 -205.333,448.667"/>
+   <polygon points="0,0 -100,-1.33333 -315.333,226.667 -350.667,231 -342.667,332 -205.333,448.667"/>
   </object>
   <object id="73" x="1855" y="1441">
    <polygon points="0,0 92,-24 194,-179 303,-329 226,-424 11,-198"/>
@@ -89,20 +89,17 @@
   <object id="78" x="2426.67" y="1178.67">
    <polygon points="0,0 112,-120 117.333,-160 380.333,-179 -142.667,320"/>
   </object>
-  <object id="80" x="2610.67" y="794.667">
-   <polygon points="98.6667,-154.667 98.6667,-373.333 42.6667,-436 350.667,-474.667"/>
-  </object>
   <object id="81" x="2653.33" y="357.333">
-   <polygon points="0,0 -134.667,4 -192,72 -221.333,30.6667 -354.667,34.6667 -348,-149.333 177.333,-192 306.667,-36"/>
+   <polygon points="-134.667,4 -192,72 -221.333,30.6667 -348,-149.333"/>
   </object>
   <object id="82" x="2294.67" y="390.667">
    <polygon points="3,3 -190.667,68 -208,30.6667 -309.333,22.6667 -306.667,-160 10.6667,-185.333"/>
   </object>
   <object id="84" x="1986" y="499">
-   <polygon points="0,0 62,14 86,41 241,40 293,0 348,10 326,206 -1,160"/>
+   <polygon points="241,40 293,0 348,10 326,206 175,185"/>
   </object>
   <object id="85" x="2332" y="508">
-   <polygon points="0,0 38,-44 56,-2 197,-7 262,-76 268,-31 -20,196"/>
+   <polygon points="0,0 38,-44 56,-2 -20,196"/>
   </object>
   <object id="86" x="2600" y="477">
    <polygon points="0,0 38,-1 30,107 3,126 -2,200 -100,325 -289,226"/>
@@ -149,11 +146,29 @@
   <object id="108" x="1665" y="862">
    <polygon points="-1.33333,3.33333 34,-30 232,-35 186,-225 -137,-222.667"/>
   </object>
-  <object id="109" x="2610.67" y="794.667">
-   <polygon points="0,0 -6.66667,52 -44,70.6667 -34.6667,204 -68,224 196,205.333"/>
-  </object>
   <object id="110" x="2709.33" y="641.333">
-   <polygon points="0,-1 -38.6667,32 -45.3333,105.333 -98.6667,153.333 96.6667,357.667 252.667,-322.667"/>
+   <polygon points="-38.6667,32 -45.3333,105.333 -98.6667,153.333 96.6667,357.667 252.667,-322.667"/>
+  </object>
+  <object id="113" x="2705.33" y="418.667">
+   <polygon points="0,0 8,201.333 254.667,-97.3333"/>
+  </object>
+  <object id="114" x="2521" y="362">
+   <polygon points="-2,-1 125,-7 184,56.5 440.5,-41 192,-227 -214.5,-153.5"/>
+  </object>
+  <object id="118" x="2389" y="506.5">
+   <polygon points="-1.25,0 130,-8.5 182.5,-51.5 211,-29.5 -75,193.5"/>
+  </object>
+  <object id="119" x="2225" y="540">
+   <polygon points="0,0 -168,-6 -238.667,-16 -238.667,118.667 -63,144"/>
+  </object>
+  <object id="127" x="2299" y="395">
+   <polygon points="0,0 134,-4 8,-185"/>
+  </object>
+  <object id="128" x="2576" y="866">
+   <polygon points="-1.33333,-1 -1,122 -33,153 230,133"/>
+  </object>
+  <object id="129" x="2612" y="795">
+   <polygon points="0,0 -9,55 -38.3333,69.6667 194,204"/>
   </object>
  </objectgroup>
  <objectgroup name="Actors">
@@ -170,12 +185,42 @@
   </object>
   <object id="42" name="TreeTrunk1" x="2132.75" y="998" width="2.5" height="28">
    <properties>
-    <property name="CreateBox2DBody" value="true"/>
+    <property name="DestroyOnHit" value="true"/>
    </properties>
   </object>
   <object id="43" name="TreeTrunk1" x="2154.75" y="1036" width="2.5" height="28">
    <properties>
-    <property name="CreateBox2DBody" value="true"/>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="120" name="TreeTrunk1" x="2585.75" y="755" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="121" name="TreeTrunk1" x="2665.75" y="487" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="122" name="TreeTrunk1" x="2367.75" y="416" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="123" name="TreeTrunk1" x="2045.75" y="462" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="124" name="TreeTrunk1" x="1842.75" y="879" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
+   </properties>
+  </object>
+  <object id="125" name="TreeTrunk1" x="1896.75" y="902" width="2.5" height="28">
+   <properties>
+    <property name="DestroyOnHit" value="true"/>
    </properties>
   </object>
  </objectgroup>
