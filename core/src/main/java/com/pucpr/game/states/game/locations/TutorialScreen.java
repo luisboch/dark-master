@@ -18,6 +18,9 @@ import com.pucpr.game.states.game.basic.BasicGameScreen;
  */
 public class TutorialScreen extends BasicGameScreen {
 
+    public static final String GATE_1 = "Gate1";
+    public static final String GATE_2 = "Gate2";
+
     public TutorialScreen() {
         super("firstlevel.tmx");
     }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="4">
+ <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
+  <image source="hyptosis.png" width="960" height="960"/>
+  <terraintypes>
+   <terrain name="Forest" tile="-1"/>
+  </terraintypes>
+  <tile id="492" terrain=",,,0"/>
+  <tile id="493" terrain=",,0,0"/>
+  <tile id="494" terrain=",,0,0"/>
+  <tile id="495" terrain=",,0,"/>
+  <tile id="522" terrain=",0,,0"/>
+  <tile id="523" terrain="0,0,0,0"/>
+  <tile id="524" terrain="0,0,0,0"/>
+  <tile id="525" terrain="0,,0,"/>
+  <tile id="552" terrain=",0,,0"/>
+  <tile id="553" terrain="0,0,0,0"/>
+  <tile id="554" terrain="0,0,0,0"/>
+  <tile id="555" terrain="0,,0,"/>
+  <tile id="582" terrain=",0,,"/>
+  <tile id="585" terrain="0,,0,"/>
+  <tile id="613" terrain="0,0,,"/>
+  <tile id="615" terrain="0,,,"/>
+ </tileset>
+ <tileset firstgid="901" name="grass" tilewidth="32" tileheight="32" tilecount="15" columns="5">
+  <image source="grass.png" width="160" height="96"/>
+  <terraintypes>
+   <terrain name="grass" tile="-1"/>
+   <terrain name="Road" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,1"/>
+  <tile id="1" terrain="0,0,1,1"/>
+  <tile id="2" terrain="0,0,1,0"/>
+  <tile id="3" terrain="0,0,0,0"/>
+  <tile id="4" terrain="1,0,1,1"/>
+  <tile id="5" terrain="0,1,0,1"/>
+  <tile id="6" terrain="1,1,1,1"/>
+  <tile id="7" terrain="1,0,1,0"/>
+  <tile id="8" terrain="0,1,1,1"/>
+  <tile id="9" terrain="1,1,1,0"/>
+  <tile id="10" terrain="0,1,0,0"/>
+  <tile id="11" terrain="1,1,0,0"/>
+  <tile id="12" terrain="1,0,0,0"/>
+  <tile id="13" terrain="1,1,0,1"/>
+ </tileset>
+ <layer name="Terrain" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztnNtuwjAUBCP123u/88UNUiPRUhpi7Ow4zErzSOWzU2jqOAyDMcYYY4wxJpGHGxZbSbpHveU7IZFOev4e0AMTffDQBQ9dsNAFC33w0AULfbDQBwt9sNAFC32w0AcLfbDQBQt9sNAHC32w0AcLXbDYso/bkbuRe8Ba9DEMTyPPIy+AtehDHzR681Ga9Lr1oQ99XMb+2uq1gY/pmm2i5rVbbz5+d/Efk4s9jwtet+Tn1nbdm4/p84fENft4H/k4k913X28LXlPC5xX7KHkv9fK3XB889MFCHyz0wUIfLPTBQh8s9MFCHywuSXrttXyQ7rFfmvT6a/igvI9qJd37XM9ze+0t7pHo47SPxL550kl6hjkf5+6319w318dpH4Tfe33og4Y+WOiDhT5Y9OijhpP0+vWxjo/Ds28le0v6qMvh/9clneqjnY+S856Ufakt+ig5YzidT9RHfR9+XuV9HJ7VLdnr0wcLfbDQBwt9sNAHC32w0AcLfbDQBwt9sNAHix591Eh6hq34qJX0HL37qJ30PD37aJH0TProy8c593oTz+K0Srr3OR/UZw1aJt39Xyz5LqC1nzVonXT3vbFG0jP2wlpJz9kDayY9K51E0jNTSSY9O4100vOToCTdAwFa0n3o4jjpXnTxM+ludHGcdEe6OE66q95cfAF/Ed+z
+  </data>
+ </layer>
+ <layer name="Base" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <layer name="Details1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <layer name="Details2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <layer name="TopLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <objectgroup name="Box2dLayer">
+  <object id="3" name="ActorAction" x="2087.33" y="2691.5" width="68" height="95.6667">
+   <properties>
+    <property name="Event" value="touch"/>
+    <property name="Gate" value="Gate2"/>
+    <property name="NextScreen" value="RushTest"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Actors">
+  <object id="1" name="Player" x="2018.67" y="2726.67" width="16" height="16"/>
+ </objectgroup>
+</map>

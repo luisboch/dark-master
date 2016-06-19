@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="130">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="136">
  <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
   <image source="hyptosis.png" width="960" height="960"/>
  </tileset>
@@ -29,6 +29,11 @@
    eJzt3W1v6jAMBWAkfvveNwb7xWs1VXjBKaVx4pP4RDpfpt2B+tyU1k7D4VA2Xo/95X3Kx5RPgPeSpnR4v/9H8zTlix4wWeYGPfwj58ZpygXgPUX0mB2ehQXq3IjiIc9RyHMjmsfscAa2iOaBeo6iB27ogZVIHm9TXgDeDz3sr3OXa2gZC+sIHt9Tfo6Pz5HcMZf3lTIW8y+Cxxw5R96UY6w55I65/PlJWFvMvygeco5ox1j6pA7pMU/vK+XfpsdjJuckOaOT+J1L5t/K+0qra7hIHluN9tzD0wMr9MCJZY+LHuWxvL+hh52HRR2fHmWx7sfTw8aCHv6RnxtWPUd67EuttRH02Jda64ZG89Bqspb18NTDem3EKB5rNVmtblhqU6vn2LtHzkHWA7Wa4WKz14UejznIc4isGaY2e+ZMzTXAPXpo/bmta6sWG23ObD22NdcA9+aRWuxd46bNmS3nsNprgHvy0CwsjkfaO8z1wWvcj/fqUctizUTOldqv35NHq2Oh9dgXlxav34NHKwtpcq+vXvP1kT1aW2gupX31UTw8LTyD6lGjlo0ei1HbI4pFLx49PCOAYkEPLAt6YFnQgx57I/uGKM9I1RgIHms9Wu0ZgtJeFKqFt8eWHu1avM6FNYeXR64PsiVWz86gGHh7lNZSPK4VRvUotWi9/1Xr0dLDosbYev+r0Tzk+g/Zt95b+25dFxvNw/K6yGOvvlE8cn26kv/XHnv1jeKRupT257z26hvNwype+1jSgx7o8dxXlB638dxzlx55D49ePD2uSeu/HvVcelwtENZvRffQeiKea4Yiesj+oPacjuf6rUgea/1BlL2oR/e4NxdarXumx1+0ui/KXIjsgTgXInv0sk6OHlihB1aieCCsMaTH9mfFUTK6h2aCfO6K4JGa0MPfY04Pn+30wEoUD/TvoY3mgf49tJE8Wux7RI/tSWu89MDx8O7/0eP2u7l4f47jwfMVPejxP6xfYXnM4f0HPehx34PXu1geyHMjikcvtcQoHr18dkTzQP/siOaBPjfogRcODg4ODg6OeOMXq3KvlA==
   </data>
  </layer>
+ <layer name="Base" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
  <layer name="Detail1" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJztnAtu2zAMQJ3cp9vusXXXyAG7e2xHWgrDsMOKFElLdWq9BwRtU1mJKfEn0ZomAAAA6MXt6C8A0IHIvH67TNOfS/562EcPWf+9j+e/S73dWdHuPyOX0vhs+7kp70M7pFyXv0u2y3M9PHITPy2kzLVrZDtrrBifPrSSK+MzY8lB/u9dL7z2CWwWG8M8fH4+Y85bMRlzZKVlboEty7Gdj1rekO1v288yPstPcvg80XFaZB6xQfIamJEyrOXfC5p9ujnawEx0LcNq8/v6KO/t756+iflmSvl2SSa3qdxGaw99iMo64zvOSDReqdkTqTdaHKZdL6m1GXXcIkTiotJ1yPgje/RG4tER+XnEVHG02F/mcu+0sE1bRowHLJsS1Z/sGEGZXvaj1O+b4UNKenFW22bFRi2RuoWezLRcm4v2RRzrQ+bTUSK2Az0pE7W/nlq2iGyX/l6u0/Tt/vp+f/246u3P6j+s+MlDrW0pprL4eR+DX/fX63VeZ4S6jarFN59pc86iF1s892TFnhH2xA9n3heU9xbNdUvrTJrO7NWXs/qKDFlZeP0KrNR0wqqt1fZStVzbqyfWvqPV9yhY89izl+F9L8rZ8hRtXtXus3Uth2e/I1Jf/RXx1iJE6ju2/eyV19nmfhRL7pH6HA+afnn1cjS0+pDac1FWnh+VpRVDnxHLttRiJS8yDvCuS8EjnrzBqtvVrpfrUtb6ygg6UeKInGxUWUsispfzfFRfegRHyJp6249E8okjv8/o61yeWp7aXof32U7s4Ip85mgv2J7zMKJN8p6FYOHdk43WvMNKi7wZP9AOTz2HtqaVGYcRbZOHqL2w5FjLJ2rjhn7N1PZ5eu2PtjorC1ai/hn/HaOUjxxV44Yu5Inu65XqvsDG8iO158tLYKti7K2pzn4GrHjsRG3PPHu99/Ohn23J6sdI4+bxBZlnafEXx9PSNo2kE5JSfZp3byRS4wl9KNmv7N7WyHqwpSSHUu1U6/MtIIc2z635j33aT3Zut6opBZ3oOaCynXa+D7QD39CfVmd+ZZ8lgBycUXU8Whws0XQDn9Eez3P+pfaSaD09wFfB4zuoi34+8Pnt0fK4rHzxBf3wnm/sGQPG6TlgHNqQPX8d2pKZz+gAAAAAAAAAAAAAAMDY/AebINyO
@@ -45,8 +50,20 @@
   </data>
  </layer>
  <objectgroup name="Box2dLayer">
-  <object id="24" x="1414" y="2456.67" width="244" height="78.6667"/>
-  <object id="25" x="1932" y="340" width="54" height="238"/>
+  <object id="24" name="ActorAction" x="1414" y="2456.67" width="244" height="78.6667">
+   <properties>
+    <property name="Event" value="touch"/>
+    <property name="Gate" value="Gate2"/>
+    <property name="NextScreen" value="TutorialScreen"/>
+   </properties>
+  </object>
+  <object id="25" name="ActorAction" x="1932" y="340" width="54" height="238">
+   <properties>
+    <property name="AddKeys" value="RUSH_TEST_ISCOMPLETE"/>
+    <property name="Event" value="touch"/>
+    <property name="NextScreen" value="Village"/>
+   </properties>
+  </object>
   <object id="51" x="1966" y="1535">
    <polygon points="0,0 -52,148 -328,181.333 -242,-4"/>
   </object>
@@ -170,6 +187,9 @@
   <object id="129" x="2612" y="795">
    <polygon points="0,0 -9,55 -38.3333,69.6667 194,204"/>
   </object>
+  <object id="130" x="2102" y="1337">
+   <polygon points="0,0 -77,64 -81,85 -49,87"/>
+  </object>
  </objectgroup>
  <objectgroup name="Actors">
   <object id="3" name="Player" x="1490.79" y="2303.94" width="42.6667" height="46.6667"/>
@@ -223,5 +243,9 @@
     <property name="DestroyOnHit" value="true"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="Gates">
+  <object id="132" name="Gate2" x="2077.5" y="478.333" width="18.5" height="26"/>
+  <object id="135" name="Gate1" x="1510.42" y="2331.33" width="18.5" height="18.6667"/>
  </objectgroup>
 </map>

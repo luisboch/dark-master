@@ -73,7 +73,8 @@ public class GameState implements AppState {
         }
 
         if (screenInfo == null) {
-            screenInfo = new ScreenInfo(this);
+            screenInfo = new ScreenInfo(this, manager);
+            
         }
 
         loadCurrentScreen();
@@ -108,13 +109,18 @@ public class GameState implements AppState {
     }
 
     public void setScreen(BasicGameScreen screen) {
+        
+        if (this.screen != null) {
+            this.screen.close();
+        }
+        
         this.screenInfo.hideTimeOut();
         this.screen = screen;
         screen.setManager(manager);
         screen.setGameState(this);
         screen.setStage(stage);
         screen.create();
-        
+
     }
 
 }

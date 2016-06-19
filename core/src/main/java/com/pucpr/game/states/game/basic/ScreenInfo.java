@@ -8,9 +8,11 @@ package com.pucpr.game.states.game.basic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.pucpr.game.AppManager;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.GameState;
 import com.pucpr.game.states.BasicAppState;
@@ -23,16 +25,22 @@ public class ScreenInfo extends BasicAppState {
 
     private boolean showTimeOut;
     private Long timeOut;
-    private long lastMili;
+    private Long timeOutImage;
+    private long lastTimeOutMili;
+    private long lastImageMili;
+    private boolean showImage = false;
+
     private boolean showMenu = false;
     private Conversation conversation;
     private Container timeOutContainer;
+    private Container imageContainer;
     private TextButton timeOutInfo;
     private final PlayerStatus status = PlayerStatus.getInstance();
     private final GameState gameState;
 
-    public ScreenInfo(GameState gameState) {
+    public ScreenInfo(GameState gameState, AppManager manager) {
         this.gameState = gameState;
+        this.manager = manager;
     }
 
     @Override
@@ -43,46 +51,59 @@ public class ScreenInfo extends BasicAppState {
         }
 
         if (showTimeOut) {
-            timeOut -= (System.currentTimeMillis() - lastMili);
-            lastMili = System.currentTimeMillis();
+            timeOut -= (System.currentTimeMillis() - lastTimeOutMili);
+            lastTimeOutMili = System.currentTimeMillis();
             timeOutInfo.setText(String.valueOf(timeOut));
         }
+
+        if (showImage) {
+            timeOutImage -= (System.currentTimeMillis() - lastImageMili);
+            lastImageMili = System.currentTimeMillis();
+
+            if (timeOutImage < 0) {
+                hideImage();
+            }
+        }
+
     }
 
-    public void showTimeOut(long timeOut) {
-        this.timeOut = timeOut;
-        this.showTimeOut = true;
-        final Container container = new Container();
-        final Table table = new Table(gameState.getManager().getSkin());
+    public void showTimeOut(Long timeOut) {
+        if (timeOut != null) {
+            this.timeOut = timeOut;
+            this.showTimeOut = true;
+            final Container container = new Container();
+            final Table table = new Table(gameState.getManager().getSkin());
 
-        container.setActor(table);
-        container.setOrigin(Align.topLeft);
+            container.setActor(table);
+            container.setOrigin(Align.topLeft);
 
-        table.row().align(Align.left);
+            table.row().align(Align.left);
 
-        timeOutInfo = new TextButton("", table.getSkin());
-        timeOutInfo.setWidth(Gdx.graphics.getWidth());
-        table.add(timeOutInfo).left();
-        timeOutInfo.setText(String.valueOf(timeOut));
+            timeOutInfo = new TextButton("", table.getSkin());
+            timeOutInfo.setWidth(Gdx.graphics.getWidth());
+            table.add(timeOutInfo).left();
+            timeOutInfo.setText(String.valueOf(timeOut));
 
-        table.setWidth(Gdx.graphics.getWidth());
-        table.setHeight(Gdx.graphics.getWidth());
-        table.pad(0).defaults().expandX().space(0);
-
-        container.setDebug(true, true);
-        container.setWidth(200f);
-        container.setHeight(50f);
+            table.setWidth(Gdx.graphics.getWidth());
+            table.setHeight(Gdx.graphics.getWidth());
+            table.pad(0).defaults().expandX().space(0);
+            container.setWidth(200f);
+            container.setHeight(50f);
 //        container.setX(0 - (Gdx.graphics.getWidth() / 2) + 60);
 //        container.setY((Gdx.graphics.getWidth() / 2) - 20);
 
-        final Stage stage = gameState.getStage();
+            final Stage stage = gameState.getStage();
 
-        container.setX((Gdx.graphics.getWidth() / 2) - 100);
-        container.setY(500);
-        stage.addActor(container);
-        timeOutContainer = container;
+            container.setX((Gdx.graphics.getWidth()) - 300);
+            container.setY(500);
+            stage.addActor(container);
+            timeOutContainer = container;
 
-        lastMili = System.currentTimeMillis();
+            lastTimeOutMili = System.currentTimeMillis();
+        } else {
+            hideTimeOut();
+        }
+
     }
 
     public void hideTimeOut() {
@@ -125,5 +146,59 @@ public class ScreenInfo extends BasicAppState {
 
     public boolean isTimeOver() {
         return timeOut != null && timeOut < 0;
+    }
+
+    /**
+     * Show image on center of screen by the configured time
+     *
+     * @param path
+     * @param ms
+     */
+    public void showImage(String path, long ms) {
+        this.timeOutImage = ms;
+        final Container container = new Container();
+        final Table table = new Table(gameState.getManager().getSkin());
+
+        container.setActor(table);
+        container.setOrigin(Align.topLeft);
+
+        table.row().align(Align.left);
+
+        final Image image = new Image(manager.getResourceLoader().getTexture(path));
+        table.add(image).left();
+
+        table.setWidth(Gdx.graphics.getWidth());
+        table.setHeight(Gdx.graphics.getWidth());
+        table.pad(0).defaults().expandX().space(0);
+
+//        container.setDebug(true, true);
+        container.setWidth(Gdx.graphics.getWidth());
+        container.setHeight(Gdx.graphics.getHeight());
+//        container.setDebug(true, true);
+
+        table.setWidth(Gdx.graphics.getWidth());
+        table.setHeight(Gdx.graphics.getHeight());
+
+//        container.setX(0 - (Gdx.graphics.getWidth() / 2) + 60);
+//        container.setY((Gdx.graphics.getWidth() / 2) - 20);
+        final Stage stage = gameState.getStage();
+
+//        container.setX();
+//        container.setY(500);
+        stage.addActor(container);
+        imageContainer = container;
+        lastImageMili = System.currentTimeMillis();
+        showImage = true;
+    }
+
+    public void hideImage() {
+        if (showImage) {
+            this.showImage = false;
+            this.timeOutImage = null;
+
+            final Stage stage = gameState.getStage();
+            stage.getActors().removeValue(imageContainer, true);
+            imageContainer.remove();
+        }
     }
 }
