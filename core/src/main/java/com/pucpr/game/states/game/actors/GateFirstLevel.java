@@ -44,7 +44,7 @@ public class GateFirstLevel extends B2Object {
         Vector2 size = new Vector2(2f, 1f);
         polygon.setAsBox(2f, 1f, size, 0.0f);
         BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.StaticBody;
+        def.type = BodyDef.BodyType.KinematicBody;
         this.box2dBody = world.createBody(def);
         this.box2dBody.createFixture(polygon, 1);
         box2dBody.setUserData(this);
