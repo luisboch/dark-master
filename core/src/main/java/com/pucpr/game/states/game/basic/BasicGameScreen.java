@@ -538,21 +538,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
     @Override
     public boolean keyUp(int keycode) {
-
-//        if (playerContact != null) {
-//            final Conversation converstation = playerContact.contact(player);
-//            if (keycode == Input.Keys.E) {
-//                if (playerContact.getAction() != null) {
-//                    playerContact.getAction().doAction();
-//                }
-//            }
-//            final PlayerStatus status = PlayerStatus.getInstance();
-//
-//            if (converstation != null) {
-//
-//                if (gameState.getScreenInfo().getConversation() != null) {
-//                    gameState.getScreenInfo().getConversation().abort();
-        if (keycode == Input.Keys.E) {
+            if (keycode == Input.Keys.E) {
             if (playerContact != null) {
                 float dst = playerContact.pos.dst(player.getBox2dBody().getPosition());
                 if (dst < 1f) {
@@ -573,12 +559,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                 }
             }
 
-//                gameState.getScreenInfo().setConversation(converstation);
         } else if (keycode == Input.Keys.SPACE) {
-//            Conversation converstation = gameState.getScreenInfo().getConversation();
-//            if (converstation != null) {
-//                converstation.next();
-//            }
             hit();
         }
 
