@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="136">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="141">
  <tileset firstgid="1" name="hyptosis" tilewidth="32" tileheight="32" tilecount="900" columns="30">
   <image source="hyptosis.png" width="960" height="960"/>
+  <terraintypes>
+   <terrain name="Floresta" tile="-1"/>
+  </terraintypes>
  </tileset>
  <tileset firstgid="901" name="grass" tilewidth="32" tileheight="32" tilecount="15" columns="5">
   <image source="grass.png" width="160" height="96"/>
@@ -36,17 +39,22 @@
  </layer>
  <layer name="Detail1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztnAtu2zAMQJ3cp9vusXXXyAG7e2xHWgrDsMOKFElLdWq9BwRtU1mJKfEn0ZomAAAA6MXt6C8A0IHIvH67TNOfS/562EcPWf+9j+e/S73dWdHuPyOX0vhs+7kp70M7pFyXv0u2y3M9PHITPy2kzLVrZDtrrBifPrSSK+MzY8lB/u9dL7z2CWwWG8M8fH4+Y85bMRlzZKVlboEty7Gdj1rekO1v288yPstPcvg80XFaZB6xQfIamJEyrOXfC5p9ujnawEx0LcNq8/v6KO/t756+iflmSvl2SSa3qdxGaw99iMo64zvOSDReqdkTqTdaHKZdL6m1GXXcIkTiotJ1yPgje/RG4tER+XnEVHG02F/mcu+0sE1bRowHLJsS1Z/sGEGZXvaj1O+b4UNKenFW22bFRi2RuoWezLRcm4v2RRzrQ+bTUSK2Az0pE7W/nlq2iGyX/l6u0/Tt/vp+f/246u3P6j+s+MlDrW0pprL4eR+DX/fX63VeZ4S6jarFN59pc86iF1s892TFnhH2xA9n3heU9xbNdUvrTJrO7NWXs/qKDFlZeP0KrNR0wqqt1fZStVzbqyfWvqPV9yhY89izl+F9L8rZ8hRtXtXus3Uth2e/I1Jf/RXx1iJE6ju2/eyV19nmfhRL7pH6HA+afnn1cjS0+pDac1FWnh+VpRVDnxHLttRiJS8yDvCuS8EjnrzBqtvVrpfrUtb6ygg6UeKInGxUWUsispfzfFRfegRHyJp6249E8okjv8/o61yeWp7aXof32U7s4Ip85mgv2J7zMKJN8p6FYOHdk43WvMNKi7wZP9AOTz2HtqaVGYcRbZOHqL2w5FjLJ2rjhn7N1PZ5eu2PtjorC1ai/hn/HaOUjxxV44Yu5Inu65XqvsDG8iO158tLYKti7K2pzn4GrHjsRG3PPHu99/Ohn23J6sdI4+bxBZlnafEXx9PSNo2kE5JSfZp3byRS4wl9KNmv7N7WyHqwpSSHUu1U6/MtIIc2z635j33aT3Zut6opBZ3oOaCynXa+D7QD39CfVmd+ZZ8lgBycUXU8Whws0XQDn9Eez3P+pfaSaD09wFfB4zuoi34+8Pnt0fK4rHzxBf3wnm/sGQPG6TlgHNqQPX8d2pKZz+gAAAAAAAAAAAAAAMDY/AebINyO
+   eJzt3A1OgzAUAGC2+/hzD3+u4QHnPfRIshgSwqC0DNpqvy8hRsXFvde+1zK2rgMAgHgfpf8BAJp1OXXd52n5+7Gv/uffC79jO3HNZxrr6xosNOaBbeb2N2rdsdSyOsz1mashP8NX1wC2G8f4qDiaT3GM4zbJO1CT0P7C/oNWWcemGdb+JWqGddWvIfap8RC/fZXYB8/NuWteW+3hRz1vc+V4qTH+ishzi3MgZMs4Tqlr08dvtQ7day7m98R2eLyHc9c99sdTfzyfl89vKW8pz3Xt3OlrGGte+hy89sdbf7wH8tESvbZ+e9WHe3Ld4jipsSa31CvWxKxJt2hxrMdaGnulr0mZF7eM47KMyfLEvy7jmuReprqoV+XFvvclhXXAPmKuR43Pmd4PuvT3rkvVST1MN601enxeuWOtt6RTV+oQcy/PuH7N5S2US3lepzfAshzzwxotXsz9HOSztm/eswdb6+7jnjiqVdvkittRr8kTz74Dbukd+a31ev0Cbunh/Hdb3ktrXpQXyoFrJPtYW6uGcmCdm8dc/Zp+nh7HiOkDekU5xn+d5KVO1k156Q1/h1zlF7rnjTJCn19/kaMizA9YNjc3zJn66B8wT72CMP0DAAAAAACgPj+O15md
   </data>
  </layer>
  <layer name="Detail2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2zEOwjAMBVC39ylwD9reDu4BJ8QSYmBgqlQn9D3JexTHf0kSAQAAAAAAAOzpNkTch+pVHNs0RpyyzlmXsXo1XLMHc9aSteoHf+qRuf+U/UBH5FYdew9vZoEPZ6GeHtA6ZxRonZyCb2YC6IW8AlomowAAOAp/L+A38wEAAAB9ct8LAAAAAAAAAFTwZgEAAAAAAAC2ewEyXBel
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
   </data>
  </layer>
- <layer name="TopLayer" width="100" height="100">
+ <layer name="TopLayer1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
+  </data>
+ </layer>
+ <layer name="TopLayer2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   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
   </data>
  </layer>
  <objectgroup name="Box2dLayer">
@@ -65,16 +73,16 @@
    </properties>
   </object>
   <object id="51" x="1966" y="1535">
-   <polygon points="0,0 -52,148 -328,181.333 -242,-4"/>
+   <polygon points="-47.3333,29.3333 -72.6667,114 -328,181.333 -254,24.6667"/>
   </object>
   <object id="53" x="1915" y="1682">
-   <polygon points="0,0 -276.667,34.6667 -396.667,298.667 -325.333,348.667 -216,313 -165,297 -97,229"/>
+   <polygon points="-276.667,34.6667 -396.667,298.667 -326.666,334.667 -225.333,293.667 -103,160.333"/>
   </object>
   <object id="55" x="1582.67" y="2455.33">
    <polygon points="0,0 2,-45.3333 -9.33333,-66.6667 -0.666667,-129.333 -44.6667,-162 -48.6667,-180.667 78.6667,-215.333 88.6667,2"/>
   </object>
   <object id="56" x="1533.33" y="2274">
-   <polygon points="0,0 -40,4.66667 -41.3333,-102.667 108,-138.667 119.333,-165.333 211.333,-175.333 141.167,-35.6667"/>
+   <polygon points="36,-8 -3.33333,-42 34.6667,-125.334 211.333,-175.333 141.167,-35.6667"/>
   </object>
   <object id="62" x="1714.67" y="2138.67">
    <polygon points="-38.6667,93.3333 40.6667,-64.3333 85.3333,-68.3333 163.333,-137.667 197.667,-26"/>
@@ -89,10 +97,10 @@
    <polygon points="249.333,-149.333 71,-310.333 95,-347.333 231.333,-469.667 396,-471.667"/>
   </object>
   <object id="68" x="1722.67" y="1531.33">
-   <polygon points="0,0 -100,-1.33333 -315.333,226.667 -350.667,231 -342.667,332 -205.333,448.667"/>
+   <polygon points="-10,27.3333 -86.6667,33.3333 -315.333,226.667 -350.667,231 -342.667,332 -205.333,448.667"/>
   </object>
   <object id="73" x="1855" y="1441">
-   <polygon points="0,0 92,-24 194,-179 303,-329 226,-424 11,-198"/>
+   <polygon points="-2,-29 92,-24 194,-179 303,-329 226,-424 11,-198"/>
   </object>
   <object id="74" x="2079" y="1016.5">
    <polygon points="-159,-28.5 -169.5,-58 -253,-62.5 -409,239.5 -214,226.5"/>
@@ -104,64 +112,64 @@
    <polygon points="0,0 266.667,-264.667 316.667,-262.667 320,-282 434,-136 376,-22.6667"/>
   </object>
   <object id="78" x="2426.67" y="1178.67">
-   <polygon points="0,0 112,-120 117.333,-160 380.333,-179 -142.667,320"/>
+   <polygon points="0,0 156,-162.667 380.333,-179 -142.667,320"/>
   </object>
   <object id="81" x="2653.33" y="357.333">
-   <polygon points="-134.667,4 -192,72 -221.333,30.6667 -348,-149.333"/>
+   <polygon points="-130.167,-37.5 -238.833,5.1667 -348,-149.333"/>
   </object>
   <object id="82" x="2294.67" y="390.667">
-   <polygon points="3,3 -190.667,68 -208,30.6667 -309.333,22.6667 -306.667,-160 10.6667,-185.333"/>
+   <polygon points="-54,6.5 -207.5,4.1667 -309.333,22.6667 -306.667,-160 10.6667,-185.333"/>
   </object>
   <object id="84" x="1986" y="499">
    <polygon points="241,40 293,0 348,10 326,206 175,185"/>
   </object>
   <object id="85" x="2332" y="508">
-   <polygon points="0,0 38,-44 56,-2 -20,196"/>
+   <polygon points="0,0 56,-2 -20,196"/>
   </object>
   <object id="86" x="2600" y="477">
    <polygon points="0,0 38,-1 30,107 3,126 -2,200 -100,325 -289,226"/>
   </object>
   <object id="88" x="2500" y="800">
-   <polygon points="0,0 1,129 -37,197 -138,294 -184,287 -334,196 -420,-127 -186,-96"/>
+   <polygon points="0,0 1,129 -37,197 -169,217.5 -242.5,223 -354.5,120.5 -420,-127 -186,-96"/>
   </object>
   <object id="89" x="2147.33" y="928">
-   <polygon points="-140.667,-31.3333 -159.333,-60.6667 -240.667,-62 -295.333,-290.667 -67.3333,-255.333"/>
+   <polygon points="-124.167,-78.8333 -163.333,-112.667 -259.667,-138.5 -295.333,-290.667 -67.3333,-255.333"/>
   </object>
   <object id="90" x="1898" y="829.333">
-   <polygon points="-234.667,36.6667 -285,40 -301.333,66 -354,70.6667 -368.667,-188.667"/>
+   <polygon points="-259.667,-4.8333 -317.833,27 -524,156.667 -368.667,-188.667"/>
   </object>
   <object id="92" x="1542" y="1250.83">
-   <polygon points="-321.333,-44.3728 -326.667,454.821 -744.667,457.841 -579.333,-252.695"/>
+   <polygon points="-346.333,-42.3728 -354.667,444.154 -744.667,457.841 -579.333,-252.695"/>
   </object>
   <object id="93" x="1213" y="1700">
-   <polygon points="0,0 36,21 28,252 215,395 206,625 -345,649 -415,9"/>
+   <polygon points="48,-6 39.3333,39 28,252 215,395 -345,649 -415,9"/>
   </object>
   <object id="95" x="1419" y="2326">
    <polygon points="0,0 56,38 90,73 88,128 -263,135 -261,9"/>
   </object>
   <object id="96" x="1579.38" y="1437">
-   <polygon points="0,0 -202.496,200 -282.299,201 -286.376,-160 13.6243,-177"/>
+   <polygon points="0,0 -136.496,50 -252.799,162 -286.376,-160 13.6243,-177"/>
   </object>
   <object id="97" x="1579" y="1433">
-   <polygon points="0,4 275,7 287,-191 13,-172"/>
+   <polygon points="2.5,-24.5 275,-22 287,-191 13,-172"/>
   </object>
   <object id="99" x="2032" y="1461.33">
    <polygon points="0,0 70.6667,-122.667 248,38.6667 165.333,222.667 -2.66667,186.667"/>
   </object>
   <object id="102" x="1224" y="1204">
-   <polygon points="-3.66667,2.33333 319.667,-303.667 305.667,-564 -262,-208"/>
+   <polygon points="-31.6667,3.33333 149.667,-216.667 305.667,-564 -262,-208"/>
   </object>
   <object id="104" x="1690" y="952">
-   <polygon points="0,0 58,-26 130,-34 136,2 38,186"/>
+   <polygon points="0,0 133.667,-15 136,2 38,186"/>
   </object>
   <object id="105" x="1924" y="986">
    <polygon points="-3.66667,1.33333 66,-10 78,26 156.667,31 -58.3333,256.667"/>
   </object>
   <object id="107" x="2007.33" y="896">
-   <polygon points="0,0 46,8 64,40 142.667,42.6667 72.6667,-222.667"/>
+   <polygon points="16,-47.5 83,-43.5 137.167,23.6667 72.6667,-222.667"/>
   </object>
   <object id="108" x="1665" y="862">
-   <polygon points="-1.33333,3.33333 34,-30 232,-35 186,-225 -137,-222.667"/>
+   <polygon points="-27.3333,-37.6667 23.5,-62.5 222,-74 186,-225 -137,-222.667"/>
   </object>
   <object id="110" x="2709.33" y="641.333">
    <polygon points="-38.6667,32 -45.3333,105.333 -98.6667,153.333 96.6667,357.667 252.667,-322.667"/>
@@ -170,7 +178,7 @@
    <polygon points="0,0 8,201.333 254.667,-97.3333"/>
   </object>
   <object id="114" x="2521" y="362">
-   <polygon points="-2,-1 125,-7 184,56.5 440.5,-41 192,-227 -214.5,-153.5"/>
+   <polygon points="3,-42 155,-49.5 192,-227 -214.5,-153.5"/>
   </object>
   <object id="118" x="2389" y="506.5">
    <polygon points="-1.25,0 130,-8.5 182.5,-51.5 211,-29.5 -75,193.5"/>
@@ -179,16 +187,22 @@
    <polygon points="0,0 -168,-6 -238.667,-16 -238.667,118.667 -63,144"/>
   </object>
   <object id="127" x="2299" y="395">
-   <polygon points="0,0 134,-4 8,-185"/>
+   <polygon points="-50.5,-21.5 115.5,-32.5 8,-185"/>
   </object>
   <object id="128" x="2576" y="866">
-   <polygon points="-1.33333,-1 -1,122 -33,153 230,133"/>
+   <polygon points="-1.33333,-1 -1,122 4.33333,150.333 230,133"/>
   </object>
   <object id="129" x="2612" y="795">
    <polygon points="0,0 -9,55 -38.3333,69.6667 194,204"/>
   </object>
-  <object id="130" x="2102" y="1337">
-   <polygon points="0,0 -77,64 -81,85 -49,87"/>
+  <object id="136" x="1893.33" y="1650.67">
+   <polygon points="-0.333333,-1.33333 -28,95.3333 -94,126.667 -81.3333,191.667 -254.667,66"/>
+  </object>
+  <object id="138" x="1382" y="2121">
+   <polygon points="0,-4.66667 -25,141 36.3333,204.667 -512,227"/>
+  </object>
+  <object id="140" x="2675.33" y="313.333">
+   <polygon points="0,0 29.3333,104 288,5.33333 40,-177.333"/>
   </object>
  </objectgroup>
  <objectgroup name="Actors">

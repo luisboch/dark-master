@@ -26,9 +26,14 @@
    H4sIAAAAAAAAA+3XMQrAIAwFULG9jVftOXuODqVLwYqagsN7EBAJGfIHMSUAAAAAAAAAAACAdZWPmp1LnJ592v3/ZvOQUaxnn0e+68zt3tYdcfatr18eYyLe7tpcxshjLfJYi92tpbzO0X9DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgJoLD5wNZ0CcAAA=
   </data>
  </layer>
- <layer name="TopLayer" width="100" height="100">
+ <layer name="TopLayer1" width="100" height="100">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3W7U3CUACF4dtuAKswiUUW0VmUjx/uoInKHoB7AA7A6QiY1EvJ8yTv/5ue9qalAAAAAAAAAAAAAIzXY1vKoq19Cnr9Fk/p2SbwZy9NKa9N7VPcj2We5Sqt08Zzre4zG3yl77S1R3W7bLBPh/Rjj+qO2eCUzunXHjdjkn/aqf/aUeiy0/yKGMZ77q8Pd9i/eRs4rvOQd78bqJnvCgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqrkAQ7c5jECcAAA=
+  </data>
+ </layer>
+ <layer name="TopLayer2" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVP7WULoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBt5RKnmQJwAAA==
   </data>
  </layer>
  <objectgroup name="Box2dLayer">
