@@ -35,6 +35,7 @@ public class StartupState implements AppState, ResourceLoader.Handler {
     private AppManager manager;
 
     private List<Runnable> tasks = new ArrayList();
+    private boolean loadFinished = false;
 
     @Override
     public void create() {
@@ -58,8 +59,12 @@ public class StartupState implements AppState, ResourceLoader.Handler {
                 font.draw(batch, updateString, 100, 100);
                 batch.end();
             }
-            
+
             changed = false;
+        }
+
+        if (loadFinished) {
+            manager.setState(new MenuState());
         }
     }
 
@@ -86,9 +91,7 @@ public class StartupState implements AppState, ResourceLoader.Handler {
                 }
             }
 
-            LOG.fine("finished...");
-
-            manager.setState(new MenuState());
+            loadFinished = true;
         }
     }
 
