@@ -243,7 +243,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
         int[] baseMap = {0, 1, 2, 3};
 
-        int[] topMap = {4};
+        int[] topMap = {4,5};
 
         batch.getProjectionMatrix().set(camera.combined);
         render.setView(camera);
