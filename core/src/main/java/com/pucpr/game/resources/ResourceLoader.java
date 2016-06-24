@@ -62,6 +62,7 @@ public class ResourceLoader {
         resources.get("audio").add("data/audio/sfx/walking/gravel.mp3");
         resources.get("audio").add("data/audio/sfx/walking/castle.mp3");
         resources.get("audio").add("data/audio/sfx/resources/get-item.mp3");
+        resources.get("audio").add("data/audio/sfx/resources/background-fase1.mp3");
     }
 
     public void load() {

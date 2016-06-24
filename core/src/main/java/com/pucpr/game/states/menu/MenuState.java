@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.pucpr.game.AppManager;
+import com.pucpr.game.GameConfig;
 import com.pucpr.game.states.game.GameState;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,6 +95,7 @@ public class MenuState implements AppState {
         }
 
         container.add(scroll).expand().fill().colspan(2);
+        GameConfig.SOUND_MANAGER.backgroundSound();
 
     }
 

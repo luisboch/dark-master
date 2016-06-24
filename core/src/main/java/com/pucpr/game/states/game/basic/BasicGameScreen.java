@@ -273,7 +273,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 //
         batch.end();
         render.render(topMap);
-
+        
 //        writeFPS();
     }
 
@@ -724,6 +724,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
             final String[] destroyObjectsArr = destroyObjects == null ? new String[]{} : destroyObjects.split(",");
             final String detroyOnEvent = object.getProperies().get("DestroyOnEvent", String.class);
             final String playGetItemSound = object.getProperies().get("PlayGetItemSound", String.class);
+//            final String playBackground = object.getProperies().get("BackgroundSound", String.class);
             final String destroyOnHit = object.getProperies().get("DestroyOnHit", String.class);
             final String gate = object.getProperies().get("Gate", String.class);
 
@@ -782,6 +783,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
 
                 }
             };
+            
 
             if (event == null || event.equals("action")) {
                 object.addAction(acc);
