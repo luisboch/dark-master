@@ -12,6 +12,7 @@ import com.pucpr.game.states.startup.StartupState;
 public class AppManager extends ApplicationAdapter {
 //	SpriteBatch batch;
 //	Texture img;
+
     private Skin skin;
     private ResourceLoader loader = new ResourceLoader();
 
@@ -21,16 +22,21 @@ public class AppManager extends ApplicationAdapter {
     public void create() {
         GameConfig.SOUND_MANAGER = new SoundManager(this);
         final StartupState startupState = new StartupState();
-        
+
         startupState.addTask(new Runnable() {
             @Override
             public void run() {
-                skin = new Skin((FileHandle) loader.getResource("data/uiskin.json"));
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        skin = new Skin((FileHandle) loader.getResource("data/uiskin.json"));
+                    }
+                });
             }
         });
-        
+
         setState(startupState);
-        
+
     }
 
     @Override

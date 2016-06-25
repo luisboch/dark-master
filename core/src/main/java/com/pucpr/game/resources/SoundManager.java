@@ -172,7 +172,7 @@ public class SoundManager {
     public void backgroundSound() {
 
         try {
-            background = manager.getResourceLoader().getSound("data/audio/sfx/resources/background-fase1-.mp3");
+            background = manager.getResourceLoader().getSound("data/audio/sfx/resources/background-fase1.mp3");
             background.loop();
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to load amibient data/audio/sfx/background-fase1, walking/running sound not found!", ex);

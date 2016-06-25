@@ -13,17 +13,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author luis
  */
 public class ResourceLoader {
-    
-    private int percent;
+
     private final Map<String, List<String>> resources = new HashMap();
     private Handler handler;
-    private final State current = new State();
+    private final State totalState = new State();
     private final State groupState = new State();
     private final State total = new State();
     private boolean loading = false;
@@ -71,14 +72,18 @@ public class ResourceLoader {
             public void run() {
                 loading = true;
                 total.quantity = 0;
+                totalState.quantity = 0;
 
                 for (String k : resources.keySet()) {
-
-                    groupState.quantity = 0;
-
                     final List<String> l = resources.get(k);
+                    for (final String s : l) {
+                        total.quantity++;
+                    }
+                }
 
-                    update(percent, k, l.size(), groupState.quantity);
+                for (String k : resources.keySet()) {
+                    groupState.quantity = 0;
+                    final List<String> l = resources.get(k);
 
                     for (final String s : l) {
                         final FileHandle file = Gdx.files.internal(s);
@@ -101,24 +106,31 @@ public class ResourceLoader {
                                 }
                             });
                         }
-                        current.quantity++;
-                        total.quantity++;
-                    }
-
-                    groupState.quantity++;
-                    int lPercent = ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
-
-                    if (lPercent != percent) {
+                        
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException ex) {
+                        }
+                        
+                        totalState.quantity++;
+                        groupState.quantity++;
+                        int lPercent = ((Float) ((totalState.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+                        if (lPercent >= 100) {
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException ex) {
+                            }
+                        }
                         update(lPercent, k, l.size(), groupState.quantity);
-                        percent = lPercent;
                     }
+
                 }
 
             }
 
         };
 
-        int lPercent = total.quantity == 0 ? 0 : ((Float) ((current.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
+        int lPercent = total.quantity == 0 ? 0 : ((Float) ((totalState.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
         update(lPercent, "Starting", 0, 0);
 
         loading = false;
@@ -129,12 +141,7 @@ public class ResourceLoader {
 
     private void update(final int percent, final String k, final int groupQty, final int groupState) {
         if (handler != null) {
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    handler.update(percent, k, groupQty, groupState);
-                }
-            });
+            handler.update(percent, k, groupQty, groupState);
         }
     }
 
@@ -162,14 +169,6 @@ public class ResourceLoader {
     private static class State {
 
         Integer quantity = 0;
-    }
-
-    public int getPercent() {
-        return percent;
-    }
-
-    public void setPercent(int percent) {
-        this.percent = percent;
     }
 
     public Map<String, FileHandle> getLoadedResources() {
