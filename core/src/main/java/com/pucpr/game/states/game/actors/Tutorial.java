@@ -81,6 +81,8 @@ public class Tutorial extends CircleObject {
 
     @Override
     protected void create() {
+        GameConfig.SOUND_MANAGER.playLevelSound(1, GameConfig.defaultMusicVolume);
+
         super.create(2.75f, false, 1.5f, BodyDef.BodyType.StaticBody);
     }
 
