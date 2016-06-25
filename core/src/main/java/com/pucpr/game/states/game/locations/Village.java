@@ -20,6 +20,7 @@ public class Village extends BasicGameScreen {
     @Override
     public void create() {
         super.create();
+        manager.setState(new Congrulations());
     }
 
     @Override
