@@ -70,7 +70,7 @@ public class ResourceLoader {
         resources.put("music", new ArrayList());
         resources.get("music").add("data/audio/music/background-fase-1.mp3");
         resources.get("music").add("data/audio/music/background-fase-2.mp3");
-//        resources.get("audio").add("data/audio/music/background-main-menu.mp3");
+        resources.get("audio").add("data/audio/music/menu.mp3");
     }
 
     public void load() {
