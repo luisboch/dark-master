@@ -5,6 +5,7 @@
  */
 package com.pucpr.game.states.game.locations;
 
+import com.pucpr.game.GameConfig;
 import com.pucpr.game.Keys;
 import com.pucpr.game.PlayerStatus;
 import com.pucpr.game.states.game.basic.BasicGameScreen;
@@ -28,6 +29,8 @@ public class RushTest extends BasicGameScreen {
         if (!PlayerStatus.isKey(Keys.RUSH_TEST_DONE)) {
             gameState.getScreenInfo().showTimeOut(30000l);
         }
+
+        GameConfig.SOUND_MANAGER.playLevelSound(2);
     }
 
     @Override

@@ -6,6 +6,7 @@
 package com.pucpr.game.resources;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -32,6 +33,7 @@ public class ResourceLoader {
 
     final Map<String, FileHandle> loadedResources = new HashMap();
     final Map<String, Sound> loadedAudios = new HashMap();
+    final Map<String, Music> loadedMusics = new HashMap();
     final Map<String, Texture> loadedTextures = new HashMap();
 
     public ResourceLoader() {
@@ -63,17 +65,25 @@ public class ResourceLoader {
         resources.get("audio").add("data/audio/sfx/walking/gravel.mp3");
         resources.get("audio").add("data/audio/sfx/walking/castle.mp3");
         resources.get("audio").add("data/audio/sfx/resources/get-item.mp3");
-        resources.get("audio").add("data/audio/sfx/resources/background-fase1.mp3");
+        
+        //Musics
+        
+        resources.put("music", new ArrayList());
+        resources.get("music").add("data/audio/music/background-fase-1.mp3");
+        resources.get("music").add("data/audio/music/background-fase-2.mp3");
+//        resources.get("audio").add("data/audio/music/background-main-menu.mp3");
     }
 
     public void load() {
         Thread t = new Thread() {
             @Override
             public void run() {
+
                 loading = true;
                 total.quantity = 0;
                 totalState.quantity = 0;
 
+                // Just count load itens
                 for (String k : resources.keySet()) {
                     final List<String> l = resources.get(k);
                     for (final String s : l) {
@@ -97,6 +107,14 @@ public class ResourceLoader {
                                     loadedAudios.put(s, Gdx.audio.newSound(file));
                                 }
                             });
+                        } else if (k.equals("music")) {
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadedMusics.put(s, Gdx.audio.newMusic(file));
+                                }
+                            });
                         } else if (k.equals("sprites")) {
 
                             Gdx.app.postRunnable(new Runnable() {
@@ -106,12 +124,12 @@ public class ResourceLoader {
                                 }
                             });
                         }
-                        
+
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException ex) {
                         }
-                        
+
                         totalState.quantity++;
                         groupState.quantity++;
                         int lPercent = ((Float) ((totalState.quantity.floatValue() / total.quantity.floatValue()) * 100)).intValue();
@@ -177,6 +195,10 @@ public class ResourceLoader {
 
     public Sound getSound(String key) {
         return loadedAudios.get(key);
+    }
+
+    public Music getMusic(String key) {
+        return loadedMusics.get(key);
     }
 
     public Object getResource(String key) {

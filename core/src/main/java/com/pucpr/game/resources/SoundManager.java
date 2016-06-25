@@ -10,6 +10,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.pucpr.game.AppManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,7 +65,12 @@ public class SoundManager {
         setMusicName(musicName, true);
     }
 
-    public void setMusicName(final String musicName, boolean looping) {
+    public void setMusicName(final String musicName, final boolean looping) {
+
+        if (this.musicName != null && this.musicName.equals(musicName)) {
+            // Trying to set same music, maybe we need to start a new sound.
+            return;
+        }
 
         this.musicName = musicName;
 
@@ -71,8 +78,8 @@ public class SoundManager {
             @Override
             public void run() {
                 stopMusic();
-                music = Gdx.audio.newMusic(Gdx.files.internal("data/music/" + musicName + ".mp3"));
-                music.setLooping(true);
+                music = manager.getResourceLoader().getMusic("data/audio/music/" + musicName + ".mp3");
+                music.setLooping(looping);
                 startMusic();
             }
         };
@@ -95,20 +102,65 @@ public class SoundManager {
 
     public synchronized void stopMusic() {
         if (music != null && music.isPlaying()) {
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    music.setVolume(music.getVolume() - 0.1f);
+                }
+            });
+
             do {
-                music.setVolume(music.getVolume() - 0.1f);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ex) {
                 }
-            } while (music.getVolume() > 0f);
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        music.setVolume(music.getVolume() - 0.1f);
+                    }
+                });
+
+            } while (music.getVolume() > 0.1f);
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+            }
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    music.setVolume(0);
+                }
+            });
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    music.stop();
+                    music.dispose();
+                }
+            });
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+            }
+
         }
     }
 
     public void startMusic() {
-        if (music != null && !music.isPlaying()) {
-            music.play();
-        }
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                if (music != null && !music.isPlaying()) {
+                    music.play();
+                }
+            }
+        });
     }
 
     public boolean isPlayFX() {
@@ -141,11 +193,11 @@ public class SoundManager {
         }
 
         if (changed) {
-            movementAudioChanged();
+            moveAudioChanged();
         }
     }
 
-    private void movementAudioChanged() {
+    private void moveAudioChanged() {
 
         if (runningWalkingSound != null) {
             runningWalkingSound.stop();
@@ -164,20 +216,13 @@ public class SoundManager {
                 runningWalkingSound = manager.getResourceLoader().getSound("data/audio/sfx/" + song + ambient + ".mp3");
                 runningWalkingSound.loop();
             } catch (Exception ex) {
-                throw new IllegalStateException("Failed to load amibient data/audio/sfx/" + song + ambient + ", walking/running sound not found!", ex);
+                throw new IllegalStateException("Failed to load ambient data/audio/sfx/" + song + ambient + ", walking/running sound not found!", ex);
             }
         }
     }
 
-    public void backgroundSound() {
-
-        try {
-            background = manager.getResourceLoader().getSound("data/audio/sfx/resources/background-fase1.mp3");
-            background.loop();
-        } catch (Exception ex) {
-            throw new IllegalStateException("Failed to load amibient data/audio/sfx/background-fase1, walking/running sound not found!", ex);
-        }
-
+    public void playLevelSound(int level) {
+        setMusicName("background-fase-" + level, true);
     }
 
     public void playGetItemSound() {
@@ -190,7 +235,7 @@ public class SoundManager {
                 getItemSound = manager.getResourceLoader().getSound("data/audio/sfx/resources/get-item.mp3");
                 getItemSound.play();
             } catch (Exception ex) {
-                throw new IllegalStateException("Failed to load amibient data/audio/sfx/resources/get-item.mp3, walking/running sound not found!", ex);
+                throw new IllegalStateException("Failed to load sound data/audio/sfx/resources/get-item.mp3!", ex);
             }
         }
     }
