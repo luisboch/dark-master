@@ -33,6 +33,7 @@ public class GameState implements AppState {
 
     private long startedChangeScreen;
     private BasicGameScreen nextGameScreen;
+    private String nextScreenGateName;
 
     @Override
     public void render() {
@@ -118,11 +119,15 @@ public class GameState implements AppState {
     }
 
     public void setScreen(BasicGameScreen screen) {
+        setScreen(screen, null);
+    }
+
+    public void setScreen(BasicGameScreen screen, String gateName) {
 
         nextGameScreen = screen;
         startedChangeScreen = System.currentTimeMillis();
         GameConfig.SOUND_MANAGER.setRunning(false);
-
+        nextScreenGateName = gateName;
         if (this.screen == null) {
             changeScreen();
         }
@@ -141,6 +146,10 @@ public class GameState implements AppState {
         screen.setGameState(this);
         screen.setStage(stage);
         screen.create();
+        
+        if (nextScreenGateName != null && !nextScreenGateName.equals("")) {
+            screen.movePlayerToGate(nextScreenGateName);
+        }
         nextGameScreen = null;
 
     }

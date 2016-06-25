@@ -747,11 +747,7 @@ public class BasicGameScreen implements GameScreenState, InputProcessor, Contact
                     if (nextScreen != null && !nextScreen.isEmpty()) {
 
                         final BasicGameScreen screen = Util.loadScreen(nextScreen);
-                        gameState.setScreen(screen);
-                        
-                        if (gate != null && !gate.equals("")) {
-                            screen.movePlayerToGate(gate);
-                        }
+                        gameState.setScreen(screen, gate);
                     }
 
                     if (detroyOnEvent != null && detroyOnEvent.equalsIgnoreCase("true")) {
