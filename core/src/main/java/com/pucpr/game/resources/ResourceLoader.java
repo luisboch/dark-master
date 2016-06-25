@@ -33,7 +33,6 @@ public class ResourceLoader {
 
     final Map<String, FileHandle> loadedResources = new HashMap();
     final Map<String, Sound> loadedAudios = new HashMap();
-    final Map<String, Music> loadedMusics = new HashMap();
     final Map<String, Texture> loadedTextures = new HashMap();
 
     public ResourceLoader() {
@@ -105,14 +104,6 @@ public class ResourceLoader {
                                 @Override
                                 public void run() {
                                     loadedAudios.put(s, Gdx.audio.newSound(file));
-                                }
-                            });
-                        } else if (k.equals("music")) {
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadedMusics.put(s, Gdx.audio.newMusic(file));
                                 }
                             });
                         } else if (k.equals("sprites")) {
@@ -197,8 +188,13 @@ public class ResourceLoader {
         return loadedAudios.get(key);
     }
 
-    public Music getMusic(String key) {
-        return loadedMusics.get(key);
+    /**
+     * Return new audio based on resource key.
+     * @param key
+     * @return 
+     */
+    public Sound getMusic(String key) {
+        return Gdx.audio.newSound(loadedResources.get(key));
     }
 
     public Object getResource(String key) {

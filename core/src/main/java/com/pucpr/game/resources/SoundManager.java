@@ -8,10 +8,7 @@ package com.pucpr.game.resources;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.pucpr.game.AppManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -31,8 +28,8 @@ public class SoundManager {
 
     private String ambient = "house";
 
-    private Music music;
-
+    private Sound music;
+    private long musicId;
     private Sound runningWalkingSound;
     private Sound getItemSound;
     private Sound background;
@@ -79,8 +76,7 @@ public class SoundManager {
             public void run() {
                 stopMusic();
                 music = manager.getResourceLoader().getMusic("data/audio/music/" + musicName + ".mp3");
-                music.setLooping(looping);
-                startMusic();
+                startMusic(looping);
             }
         };
 
@@ -91,24 +87,12 @@ public class SoundManager {
         return playMusic;
     }
 
-    public void setPlayMusic(boolean playMusic) {
-        this.playMusic = playMusic;
-        if (!playMusic) {
-            stopMusic();
-        } else {
-            startMusic();
-        }
-    }
-
     public synchronized void stopMusic() {
-        if (music != null && music.isPlaying()) {
 
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    music.setVolume(music.getVolume() - 0.1f);
-                }
-            });
+        if (music != null) {
+            final float volLoss = 0.2f;
+            float currVol = 1f;
+            music.setVolume(musicId, currVol -= volLoss);
 
             do {
                 try {
@@ -116,48 +100,34 @@ public class SoundManager {
                 } catch (InterruptedException ex) {
                 }
 
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        music.setVolume(music.getVolume() - 0.1f);
-                    }
-                });
+                music.setVolume(musicId, currVol -= volLoss);
 
-            } while (music.getVolume() > 0.1f);
+            } while (currVol > volLoss);
 
             try {
                 Thread.sleep(200);
             } catch (InterruptedException ex) {
             }
 
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    music.setVolume(0);
-                }
-            });
+            music.setVolume(musicId, 0);
 
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    music.stop();
-                    music.dispose();
-                }
-            });
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-            }
+            music.stop();
+            music.dispose();
 
+            music = null;
         }
     }
 
-    public void startMusic() {
+    public void startMusic(final boolean loop) {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                if (music != null && !music.isPlaying()) {
-                    music.play();
+                if (music != null) {
+                    if (!loop) {
+                        musicId = music.play();
+                    } else {
+                        musicId = music.loop();
+                    }
                 }
             }
         });
