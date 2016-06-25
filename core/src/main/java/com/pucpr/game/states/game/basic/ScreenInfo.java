@@ -89,8 +89,6 @@ public class ScreenInfo extends BasicAppState {
             table.pad(0).defaults().expandX().space(0);
             container.setWidth(200f);
             container.setHeight(50f);
-//        container.setX(0 - (Gdx.graphics.getWidth() / 2) + 60);
-//        container.setY((Gdx.graphics.getWidth() / 2) - 20);
 
             final Stage stage = gameState.getStage();
 
@@ -171,10 +169,8 @@ public class ScreenInfo extends BasicAppState {
         table.setHeight(Gdx.graphics.getWidth());
         table.pad(0).defaults().expandX().space(0);
 
-//        container.setDebug(true, true);
         container.setWidth(Gdx.graphics.getWidth());
         container.setHeight(Gdx.graphics.getHeight());
-//        container.setDebug(true, true);
 
         table.setWidth(Gdx.graphics.getWidth());
         table.setHeight(Gdx.graphics.getHeight());

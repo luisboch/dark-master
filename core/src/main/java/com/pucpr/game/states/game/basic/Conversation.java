@@ -159,7 +159,6 @@ public class Conversation {
             table.setWidth(150);
             table.setHeight(100);
             table.pad(0).defaults().expandX().space(0);
-            container.setDebug(true, true);
             container.setWidth(250f);
             container.setHeight(100f);
             container.setX((Gdx.graphics.getWidth() / 2) -100);

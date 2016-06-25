@@ -38,10 +38,8 @@ public class RushTest extends BasicGameScreen {
         super.render();
 
         if (!PlayerStatus.isKey(Keys.RUSH_TEST_DONE) && gameState.getScreenInfo().isTimeOver()) {
-
             final TutorialScreen prevScreen = new TutorialScreen();
-            gameState.setScreen(prevScreen);
-            prevScreen.movePlayerToGate(TutorialScreen.GATE_2);
+            gameState.setScreen(prevScreen, TutorialScreen.GATE_2);
         }
 
     }

@@ -50,6 +50,11 @@ public class AboutState implements AppState, InputProcessor {
         table.add(label).expandX().fillX();
         label = new Label("Luis Carlos Boch", manager.getSkin());
         table.add(label).expandX().fillX();
+        table.row();
+        label = new Label("Progrador", manager.getSkin());
+        table.add(label).expandX().fillX();
+        label = new Label("Felipe Alan Belini Rocha", manager.getSkin());
+        table.add(label).expandX().fillX();
 
         container.add(scroll).expand().fill().colspan(2);
     }
