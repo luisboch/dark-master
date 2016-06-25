@@ -31,6 +31,9 @@ public class GameState implements AppState {
     private Stage stage = new Stage();
     private int slowVelocityCtrl = 0;
 
+    private long startedChangeScreen;
+    private BasicGameScreen nextGameScreen;
+
     @Override
     public void render() {
         final boolean skipFrame = GameConfig.skipFrames ? slowVelocityCtrl != GameConfig.skipFramesQty : false;
@@ -48,7 +51,13 @@ public class GameState implements AppState {
         if (!skipFrame) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            if (screen != null) {
+            if (nextGameScreen != null) {
+
+                if (System.currentTimeMillis() - startedChangeScreen > GameConfig.waitScreenToChange) {
+                    changeScreen();
+                }
+
+            } else if (screen != null) {
                 screen.render();
             }
 
@@ -74,7 +83,7 @@ public class GameState implements AppState {
 
         if (screenInfo == null) {
             screenInfo = new ScreenInfo(this, manager);
-            
+
         }
 
         loadCurrentScreen();
@@ -109,17 +118,30 @@ public class GameState implements AppState {
     }
 
     public void setScreen(BasicGameScreen screen) {
-        
+
+        nextGameScreen = screen;
+        startedChangeScreen = System.currentTimeMillis();
+        GameConfig.SOUND_MANAGER.setRunning(false);
+
+        if (this.screen == null) {
+            changeScreen();
+        }
+
+    }
+
+    private void changeScreen() {
+
         if (this.screen != null) {
             this.screen.close();
         }
-        
+
         this.screenInfo.hideTimeOut();
-        this.screen = screen;
+        this.screen = nextGameScreen;
         screen.setManager(manager);
         screen.setGameState(this);
         screen.setStage(stage);
         screen.create();
+        nextGameScreen = null;
 
     }
 

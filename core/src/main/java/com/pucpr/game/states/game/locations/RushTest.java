@@ -30,7 +30,7 @@ public class RushTest extends BasicGameScreen {
             gameState.getScreenInfo().showTimeOut(30000l);
         }
 
-        GameConfig.SOUND_MANAGER.playLevelSound(2);
+        GameConfig.SOUND_MANAGER.playLevelSound(2, GameConfig.defaultMusicVolume);
     }
 
     @Override

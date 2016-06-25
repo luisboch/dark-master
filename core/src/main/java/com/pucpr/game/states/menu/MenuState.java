@@ -95,7 +95,7 @@ public class MenuState implements AppState {
         }
 
         container.add(scroll).expand().fill().colspan(2);
-        GameConfig.SOUND_MANAGER.playLevelSound(1);
+        GameConfig.SOUND_MANAGER.playLevelSound(1, GameConfig.defaultMusicVolume);
     }
 
     @Override

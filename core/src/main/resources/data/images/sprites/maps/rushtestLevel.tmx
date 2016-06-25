@@ -206,7 +206,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Actors">
-  <object id="3" name="Player" x="1490.79" y="2303.94" width="42.6667" height="46.6667"/>
+  <object id="3" name="Player" x="1535.79" y="2381.44" width="19.1667" height="28.1667"/>
   <object id="35" name="TreeTrunk1" x="1549.5" y="1526.5" width="2.5" height="28">
    <properties>
     <property name="DestroyOnHit" value="true"/>
@@ -260,6 +260,6 @@
  </objectgroup>
  <objectgroup name="Gates">
   <object id="132" name="Gate2" x="2077.5" y="478.333" width="18.5" height="26"/>
-  <object id="135" name="Gate1" x="1510.42" y="2331.33" width="18.5" height="18.6667"/>
+  <object id="135" name="Gate1" x="1534.92" y="2384.83" width="18.5" height="18.6667"/>
  </objectgroup>
 </map>

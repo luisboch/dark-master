@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.pucpr.game.AppManager;
+import com.pucpr.game.GameConfig;
 
 /**
  *
@@ -59,10 +60,10 @@ public class SoundManager {
     }
 
     public void setMusicName(String musicName) {
-        setMusicName(musicName, true);
+        setMusicName(musicName, true, GameConfig.defaultMusicVolume);
     }
 
-    public void setMusicName(final String musicName, final boolean looping) {
+    public void setMusicName(final String musicName, final boolean looping, final float volume) {
 
         if (this.musicName != null && this.musicName.equals(musicName)) {
             // Trying to set same music, maybe we need to start a new sound.
@@ -76,7 +77,7 @@ public class SoundManager {
             public void run() {
                 stopMusic();
                 music = manager.getResourceLoader().getMusic("data/audio/music/" + musicName + ".mp3");
-                startMusic(looping);
+                startMusic(looping, volume);
             }
         };
 
@@ -91,7 +92,7 @@ public class SoundManager {
 
         if (music != null) {
             final float volLoss = 0.2f;
-            float currVol = 1f;
+            float currVol = GameConfig.defaultMusicVolume;
             music.setVolume(musicId, currVol -= volLoss);
 
             do {
@@ -118,15 +119,15 @@ public class SoundManager {
         }
     }
 
-    public void startMusic(final boolean loop) {
+    public void startMusic(final boolean loop, final float volume) {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
                 if (music != null) {
                     if (!loop) {
-                        musicId = music.play();
+                        musicId = music.play(volume);
                     } else {
-                        musicId = music.loop();
+                        musicId = music.loop(volume);
                     }
                 }
             }
@@ -191,8 +192,8 @@ public class SoundManager {
         }
     }
 
-    public void playLevelSound(int level) {
-        setMusicName("background-fase-" + level, true);
+    public void playLevelSound(int level, float volume) {
+        setMusicName("background-fase-" + level, true, volume);
     }
 
     public void playGetItemSound() {

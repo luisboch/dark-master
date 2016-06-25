@@ -22,4 +22,7 @@ public class GameConfig {
     public static final boolean showDebug = false;
     public static final int skipFramesQty = 60;
     public static final boolean skipFrames = false;
+    public static long waitScreenToChange = 1500;
+    public static float defaultMusicVolume = 0.3f;
+
 }
